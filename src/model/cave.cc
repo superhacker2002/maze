@@ -24,10 +24,9 @@ void s21::Cave::SetSettings(size_t rows, size_t cols, int birth_limit,
 // }
 
 
-
 void s21::Cave::InitializeCave_() {
-  for (size_t i = 0; i < m_cave_.GetRows(); ++i)
-    for (size_t j = 0; j < m_cave_.GetCols(); ++j) {
+  for (int i = 0; i < m_cave_.GetRows(); ++i)
+    for (int j = 0; j < m_cave_.GetCols(); ++j) {
       int random = GetRandomNumber_(0, 100);
       if (random <= m_birth_chance_)
         m_cave_(i, j) = kALIVE;
@@ -66,11 +65,7 @@ bool s21::Cave::Transform() {
 }
 
 void s21::Cave::TransformCycle() {
-  while (Transform()) {
-    // s21::Matrix<bool> prev_cave = m_cave_;
-    // Transform();
-    // if (prev_cave == m_cave_) break;
-  }
+  while (Transform()) {}
 }
 
 int s21::Cave::GetAliveNeighboursCount_(int i, int j) {
