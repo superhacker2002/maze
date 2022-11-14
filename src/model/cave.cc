@@ -27,19 +27,18 @@ void s21::Cave::SetSettings(size_t rows, size_t cols, int birth_limit,
 void s21::Cave::InitializeCave_() {
   for (int i = 0; i < m_cave_.GetRows(); ++i)
     for (int j = 0; j < m_cave_.GetCols(); ++j) {
-      int random = GetRandomNumber_(0, 100);
-      if (random <= m_birth_chance_)
+      if (GetRandomNumber_() <= m_birth_chance_)
         m_cave_(i, j) = kALIVE;
       else
         m_cave_(i, j) = kDEAD;
     }
 }
 
-int s21::Cave::GetRandomNumber_(int min, int max) {
+int s21::Cave::GetRandomNumber_() {
   std::mt19937 engine;
   std::random_device device;
   engine.seed(device());
-  int num = engine() % max - min;
+  int num = engine() % 100 - 0;
   return num;
 }
 
@@ -65,6 +64,7 @@ bool s21::Cave::Transform() {
 }
 
 void s21::Cave::TransformCycle() {
+  // пока поле меняется, запускаем трансформацию
   while (Transform()) {}
 }
 

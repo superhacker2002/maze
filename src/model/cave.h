@@ -27,7 +27,7 @@ class Cave {
     void InitializeCave_();
     void GetInitializedCaveFromFile_(const std::string& file_path);
     int GetAliveNeighboursCount_(int i, int j);
-    static int GetRandomNumber_(int min, int max);
+    static int GetRandomNumber_();
 
 
 };  // class Cave
