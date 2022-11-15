@@ -20,3 +20,8 @@ leaks: build
 
 docker:
 	cd ../materials/build && bash run.sh
+
+style_test:
+	cp ../materials/linters/.clang-format .
+	clang-format -n model/*.cc model/*.h helpers/*.h
+	rm -rf .clang-format

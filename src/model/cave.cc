@@ -21,7 +21,7 @@ void s21::Cave::GetCaveFromFile(const std::string& file_path) {
   m_cave_ref_ = s21::Matrix<bool>::VectorToMatrix(cave);
 }
 
-void s21::Cave::InitializeCave_() {
+void s21::Cave::InitializeCave() {
   for (int i = 0; i < m_cave_.get()->GetRows(); ++i)
     for (int j = 0; j < m_cave_.get()->GetCols(); ++j) {
       if (GetRandomNumber_() <= m_birth_chance_)

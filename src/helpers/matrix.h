@@ -25,7 +25,7 @@ class Matrix {
   //  Methods for filling matrix
 
   static double GenerateRandomNumber(double min, double max) {
-    double random = (double) rand() / RAND_MAX;
+    double random = (double)rand() / RAND_MAX;
     return min + random * (max - min);
   }
 
@@ -196,7 +196,7 @@ class Matrix {
   }
 
   static Matrix VectorToMatrix(const std::vector<T>& other) {
-    Matrix matrix(sqrt(other.size()),sqrt(other.size()));
+    Matrix matrix(sqrt(other.size()), sqrt(other.size()));
     auto it = other.begin();
     for (int i = 0; i < matrix.rows_; ++i)
       for (int j = 0; j < matrix.columns_; ++j) matrix.matrix_[i][j] = *(it++);
