@@ -12,21 +12,25 @@ constexpr bool kDEAD = false;
 namespace s21 {
 class Cave {
   public:
+    using  __limits = std::pair<int, int>;
+    #define __birth_limit first
+    #define __death_limit second
+
+  private:
     s21::Matrix<bool> m_cave_;  // матрица представляющая пещеру
-    int m_birth_limit_;  // лимит соседей для зарождения
-    int m_death_limit_;  // лимит соседей для смерти
-    int m_birth_chance_;  // шанс живой клетки при инициализации
+    __limits m_limits_;  // {лимит соседей для зарождения, лимит соседей для смерти}
+    int m_birth_chance_;  // шанс живой клетки при инициализации [0-100]%
 
   public:
     Cave() { ; }
-    void SetSettings(size_t rows, size_t cols, int birth_limit, int death_limit, int birth_chance);
+    void SetSettings(size_t rows, size_t cols, __limits limit, int birth_chance);
     void GetCaveFromFile(const std::string& file_path);
     bool Transform();
     void TransformCycle();
+    void OutputCave() { m_cave_.OutputMatrix(); }
 
-  public:
+  private:
     void InitializeCave_();
-    
     int GetAliveNeighboursCount_(int i, int j);
     static int GetRandomNumber_();
 

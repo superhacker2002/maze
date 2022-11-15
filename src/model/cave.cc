@@ -1,13 +1,11 @@
 #include "cave.h"
 
 
-void s21::Cave::SetSettings(size_t rows, size_t cols, int birth_limit,
-                              int death_limit, int birth_chance) {
+void s21::Cave::SetSettings(size_t rows, size_t cols, s21::Cave::__limits limit, int birth_chance) {
   m_cave_.SetSize(rows, cols);
-  m_birth_limit_ = birth_limit;
-  m_death_limit_ = death_limit;
+  m_limits_ = limit;
   m_birth_chance_ = birth_chance;
-  // InitializeCave_();
+  InitializeCave_();
 //   m_cave_ = s21::Matrix<bool>::VectorToMatrix({
 
 //   });
@@ -56,10 +54,10 @@ bool s21::Cave::Transform() {
   for (int i = 0; i < m_cave_.GetRows(); ++i) {
     for (int j = 0; j < m_cave_.GetCols(); ++j) {
       int alive_count = GetAliveNeighboursCount_(i, j);
-      if (m_cave_(i, j) == kALIVE && alive_count < m_death_limit_) {
+      if (m_cave_(i, j) == kALIVE && alive_count < m_limits_.__death_limit) {
         tmp_cave(i, j) = kDEAD;
         changed = true;
-      } else if (m_cave_(i, j) == kDEAD && alive_count > m_birth_limit_) {
+      } else if (m_cave_(i, j) == kDEAD && alive_count > m_limits_.__birth_limit) {
         tmp_cave(i, j) = kALIVE;
         changed = true;
       } else {
