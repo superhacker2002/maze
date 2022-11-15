@@ -7,21 +7,29 @@ void s21::Cave::SetSettings(size_t rows, size_t cols, int birth_limit,
   m_birth_limit_ = birth_limit;
   m_death_limit_ = death_limit;
   m_birth_chance_ = birth_chance;
-  InitializeCave_();
+  // InitializeCave_();
 //   m_cave_ = s21::Matrix<bool>::VectorToMatrix({
 
 //   });
 }
 
-// void s21::Cave::GetInitializedCaveFromFile_(const std::string& file_path) {
-//   std::fstream file;
-//   file.open(file_path);
-//   std::string buffer;
-//   if (file.is_open()) {
-//     getline(file, buffer);
-
-//   }
-// }
+void s21::Cave::GetCaveFromFile(const std::string& file_path) {
+  std::string buffer;
+  std::vector<bool> cave;
+  std::fstream file;
+  file.open(file_path);
+  if (file.is_open()) {
+    while (getline(file, buffer)) {
+      while (buffer.size() > 0) {
+        cave.push_back(stoi(buffer));
+        buffer.erase(0, buffer.find_first_of(' ') + 1);
+      }
+    }
+  }
+  cave.erase(cave.begin());
+  cave.erase(cave.begin());
+  m_cave_ = s21::Matrix<bool>::VectorToMatrix(cave);
+}
 
 
 void s21::Cave::InitializeCave_() {

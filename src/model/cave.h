@@ -20,12 +20,13 @@ class Cave {
   public:
     Cave() { ; }
     void SetSettings(size_t rows, size_t cols, int birth_limit, int death_limit, int birth_chance);
+    void GetCaveFromFile(const std::string& file_path);
     bool Transform();
     void TransformCycle();
 
   public:
     void InitializeCave_();
-    void GetInitializedCaveFromFile_(const std::string& file_path);
+    
     int GetAliveNeighboursCount_(int i, int j);
     static int GetRandomNumber_();
 
