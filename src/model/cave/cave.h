@@ -6,7 +6,7 @@
 #include <memory>
 #include <random>
 
-#include "../helpers/matrix.h"
+#include "../../helpers/matrix.h"
 
 constexpr bool kALIVE = true;
 constexpr bool kDEAD = false;
@@ -21,7 +21,7 @@ class Cave {
 #define m_cave_ref_ (*m_cave_)
 
  private:
-  __mtrx_ptr m_cave_;  // умный указатель на матрицу представляющая пещеру
+  __mtrx_ptr m_cave_;  // умный указатель на матрицу, представляющую пещеру
   __limits m_limits_;  // {зарождения, смерти}
   int m_birth_chance_;  // шанс живой клетки при инициализации [0-100]%
 

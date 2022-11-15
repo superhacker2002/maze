@@ -1,6 +1,6 @@
 SRC:=model/cave.cc
 CC:=gcc
-COMP_FLAGS:=-lstdc++ -std=c++17 -Wall -Werror -Wextra
+COMP_FLAGS:=-lstdc++ -std=c++17 -Wall -Werror -Wextra -lm
 DEBUG_FLAGS:=-g
 
 clean:
