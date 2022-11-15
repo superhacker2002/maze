@@ -16,7 +16,7 @@ void s21::Cave::InitializeCave_() {
       else
         m_cave_ref_(i, j) = kDEAD;
     }
-}
+          }
 
 bool s21::Cave::Transform() {
   bool changed = false;
