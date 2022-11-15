@@ -1,5 +1,5 @@
-#ifndef SRC_MODEL_CAVE_H_
-#define SRC_MODEL_CAVE_H_
+#ifndef SRC_MODEL_CAVE_CAVE_H_
+#define SRC_MODEL_CAVE_CAVE_H_
 
 #include <ctime>
 #include <fstream>
@@ -21,7 +21,7 @@ class Cave {
 #define m_cave_ref_ (*m_cave_)
 
  private:
-  __mtrx_ptr m_cave_;  // умный указатель на матрицу, представляющую пещеру
+  __mtrx_ptr m_cave_;  // указатель на матрицу, представляющую пещеру
   __limits m_limits_;  // {зарождения, смерти}
   int m_birth_chance_;  // шанс живой клетки при инициализации [0-100]%
 
@@ -40,4 +40,4 @@ class Cave {
 
 };  // class Cave
 }  // namespace s21
-#endif  // SRC_MODEL_CAVE_H_
+#endif  // SRC_MODEL_CAVE_CAVE_H_

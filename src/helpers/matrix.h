@@ -1,5 +1,6 @@
 #ifndef SRC_HELPERS_MATRIX_H_
 #define SRC_HELPERS_MATRIX_H_
+
 #include <math.h>
 #include <stdlib.h>
 

@@ -1,4 +1,4 @@
-#include "model/cave.h"
+#include "cave.h"
 
 int main() {
   // s21::Cave cave1(500, 500, {2, 5}, 10);  // красиво копетс
