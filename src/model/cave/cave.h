@@ -32,12 +32,12 @@ class Cave {
   bool Transform();
   void TransformCycle();
   void OutputCave() { m_cave_->OutputMatrix(); }
-  void InitializeCave();
 
  private:
   int GetAliveNeighboursCount_(int i, int j);
   s21::Matrix<bool> GetCaveFromFile_(const std::string& file_path);
   static int GetRandomNumber_();
+  void InitializeCave_();
 
 };  // class Cave
 }  // namespace s21

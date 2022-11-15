@@ -1,12 +1,14 @@
 #include "cave.h"
 
 s21::Cave::Cave(size_t rows, size_t cols, __limits limit, int birth_chance)
-    : m_cave_(std::make_unique<s21::Matrix<bool>>(rows, cols)), m_limits_(limit), m_birth_chance_(birth_chance) { ; }
+    : m_cave_(std::make_unique<s21::Matrix<bool>>(rows, cols)), m_limits_(limit), m_birth_chance_(birth_chance) {
+  InitializeCave_();
+}
 
 s21::Cave::Cave(const std::string& file_path, __limits limit)
     : m_cave_(std::make_unique<s21::Matrix<bool>>(GetCaveFromFile_(file_path))), m_limits_(limit) { ; }
 
-void s21::Cave::InitializeCave() {
+void s21::Cave::InitializeCave_() {
   for (int i = 0; i < m_cave_.get()->GetRows(); ++i)
     for (int j = 0; j < m_cave_.get()->GetCols(); ++j) {
       if (GetRandomNumber_() <= m_birth_chance_)
