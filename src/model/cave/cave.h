@@ -27,8 +27,8 @@ class Cave {
 
  public:
   Cave(size_t rows, size_t cols, __limits limit, int birth_chance);
+  Cave(const std::string& file_path, __limits limit);
   ~Cave() = default;
-  void GetCaveFromFile(const std::string& file_path);
   bool Transform();
   void TransformCycle();
   void OutputCave() { m_cave_->OutputMatrix(); }
@@ -36,6 +36,7 @@ class Cave {
 
  private:
   int GetAliveNeighboursCount_(int i, int j);
+  s21::Matrix<bool> GetCaveFromFile_(const std::string& file_path);
   static int GetRandomNumber_();
 
 };  // class Cave

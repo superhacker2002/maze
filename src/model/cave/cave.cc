@@ -3,23 +3,8 @@
 s21::Cave::Cave(size_t rows, size_t cols, __limits limit, int birth_chance)
     : m_cave_(std::make_unique<s21::Matrix<bool>>(rows, cols)), m_limits_(limit), m_birth_chance_(birth_chance) { ; }
 
-void s21::Cave::GetCaveFromFile(const std::string& file_path) {
-  std::string buffer;
-  std::vector<bool> cave;
-  std::fstream file;
-  file.open(file_path);
-  if (file.is_open()) {
-    while (getline(file, buffer)) {
-      while (buffer.size() > 0) {
-        cave.push_back(stoi(buffer));
-        buffer.erase(0, buffer.find_first_of(' ') + 1);
-      }
-    }
-  }
-  cave.erase(cave.begin());
-  cave.erase(cave.begin());
-  m_cave_ref_ = s21::Matrix<bool>::VectorToMatrix(cave);
-}
+s21::Cave::Cave(const std::string& file_path, __limits limit)
+    : m_cave_(std::make_unique<s21::Matrix<bool>>(GetCaveFromFile_(file_path))), m_limits_(limit) { ; }
 
 void s21::Cave::InitializeCave() {
   for (int i = 0; i < m_cave_.get()->GetRows(); ++i)
@@ -29,14 +14,6 @@ void s21::Cave::InitializeCave() {
       else
         m_cave_ref_(i, j) = kDEAD;
     }
-}
-
-int s21::Cave::GetRandomNumber_() {
-  std::mt19937 engine;
-  std::random_device device;
-  engine.seed(device());
-  int num = engine() % 100 - 0;
-  return num;
 }
 
 bool s21::Cave::Transform() {
@@ -80,4 +57,30 @@ int s21::Cave::GetAliveNeighboursCount_(int i, int j) {
     }
   }
   return counter;
+}
+
+s21::Matrix<bool> s21::Cave::GetCaveFromFile_(const std::string& file_path) {
+  std::string buffer;
+  std::vector<bool> cave;
+  std::fstream file;
+  file.open(file_path);
+  if (file.is_open()) {
+    while (getline(file, buffer)) {
+      while (buffer.size() > 0) {
+        cave.push_back(stoi(buffer));
+        buffer.erase(0, buffer.find_first_of(' ') + 1);
+      }
+    }
+  }
+  cave.erase(cave.begin());
+  cave.erase(cave.begin());
+  return s21::Matrix<bool>::VectorToMatrix(cave);
+}
+
+int s21::Cave::GetRandomNumber_() {
+  std::mt19937 engine;
+  std::random_device device;
+  engine.seed(device());
+  int num = engine() % 100 - 0;
+  return num;
 }
