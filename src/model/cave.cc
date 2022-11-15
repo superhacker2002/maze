@@ -1,15 +1,7 @@
 #include "cave.h"
 
-
-void s21::Cave::SetSettings(size_t rows, size_t cols, s21::Cave::__limits limit, int birth_chance) {
-  m_cave_.SetSize(rows, cols);
-  m_limits_ = limit;
-  m_birth_chance_ = birth_chance;
-  InitializeCave_();
-//   m_cave_ = s21::Matrix<bool>::VectorToMatrix({
-
-//   });
-}
+s21::Cave::Cave(size_t rows, size_t cols, __limits limit, int birth_chance)
+    : m_cave_(std::make_unique<s21::Matrix<bool>>(rows, cols)), m_limits_(limit), m_birth_chance_(birth_chance) { ; }
 
 void s21::Cave::GetCaveFromFile(const std::string& file_path) {
   std::string buffer;
@@ -26,17 +18,16 @@ void s21::Cave::GetCaveFromFile(const std::string& file_path) {
   }
   cave.erase(cave.begin());
   cave.erase(cave.begin());
-  m_cave_ = s21::Matrix<bool>::VectorToMatrix(cave);
+  m_cave_ref_ = s21::Matrix<bool>::VectorToMatrix(cave);
 }
 
-
 void s21::Cave::InitializeCave_() {
-  for (int i = 0; i < m_cave_.GetRows(); ++i)
-    for (int j = 0; j < m_cave_.GetCols(); ++j) {
+  for (int i = 0; i < m_cave_.get()->GetRows(); ++i)
+    for (int j = 0; j < m_cave_.get()->GetCols(); ++j) {
       if (GetRandomNumber_() <= m_birth_chance_)
-        m_cave_(i, j) = kALIVE;
+        m_cave_ref_(i, j) = kALIVE;
       else
-        m_cave_(i, j) = kDEAD;
+        m_cave_ref_(i, j) = kDEAD;
     }
 }
 
@@ -50,22 +41,22 @@ int s21::Cave::GetRandomNumber_() {
 
 bool s21::Cave::Transform() {
   bool changed = false;
-  s21::Matrix<bool> tmp_cave(m_cave_.GetRows(), m_cave_.GetCols());
-  for (int i = 0; i < m_cave_.GetRows(); ++i) {
-    for (int j = 0; j < m_cave_.GetCols(); ++j) {
+  s21::Matrix<bool> tmp_cave(m_cave_.get()->GetRows(), m_cave_.get()->GetCols());
+  for (int i = 0; i < m_cave_.get()->GetRows(); ++i) {
+    for (int j = 0; j < m_cave_.get()->GetCols(); ++j) {
       int alive_count = GetAliveNeighboursCount_(i, j);
-      if (m_cave_(i, j) == kALIVE && alive_count < m_limits_.__death_limit) {
+      if (m_cave_ref_(i, j) == kALIVE && alive_count < m_limits_.__death_limit) {
         tmp_cave(i, j) = kDEAD;
         changed = true;
-      } else if (m_cave_(i, j) == kDEAD && alive_count > m_limits_.__birth_limit) {
+      } else if (m_cave_ref_(i, j) == kDEAD && alive_count > m_limits_.__birth_limit) {
         tmp_cave(i, j) = kALIVE;
         changed = true;
       } else {
-        tmp_cave(i, j) = m_cave_(i, j);
+        tmp_cave(i, j) = m_cave_ref_(i, j);
       }
     }
   }
-  m_cave_ = tmp_cave;
+  m_cave_ref_ = tmp_cave;
   return changed;
 }
 
@@ -80,7 +71,7 @@ int s21::Cave::GetAliveNeighboursCount_(int i, int j) {
     for (int buf_j = j - 1; buf_j < j + 2; ++buf_j) {
       if (buf_i != i || buf_j != j) {
         try {
-          if (m_cave_(buf_i, buf_j) == kALIVE)
+          if (m_cave_ref_(buf_i, buf_j) == kALIVE)
             counter++;
         } catch (std::out_of_range& err) {  // если клетки нет, считаем ее живой
           counter++;

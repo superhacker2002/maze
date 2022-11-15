@@ -17,3 +17,6 @@ debug:
 
 leaks: build
 	leaks -atExit -- ./a.out
+
+docker:
+	cd ../materials/build && bash run.sh
