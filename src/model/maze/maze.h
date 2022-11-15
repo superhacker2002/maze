@@ -6,27 +6,28 @@
 #include "../../helpers/matrix.h"
 
 /*
-первое значенине из пары ячейки матрицы : 
+первое значение из пары ячейки матрицы:
   true - справа от ячейки есть стенка
   false - справа от ячейки нет стенки
 
-второе значенине из пары ячейки матрицы:
+второе значение из пары ячейки матрицы:
   true - снизу от ячейки есть стенка
   false - снизу от ячейки нет стенки
 */
 
 namespace s21 {
-class Maze {
- public:
-  using __mtrx_ptr = std::unique_ptr<s21::Matrix<std::pair<bool, bool>>>;
 #define right_wall first
 #define bottom_wall second
 
+class Maze {
+ public:
+  using MatrixPtr = std::unique_ptr<s21::Matrix<std::pair<bool, bool>>>;
+  using MazeMatrix = s21::Matrix<std::pair<bool, bool>>;
+  Maze(const std::string& file_path);
+  MazeMatrix getMazeFromFile(const std::string& file_path);
 
  private:
-  __mtrx_ptr m_maze_;  // указатель на матрицу, представляющую лабиринт
-
-
+  MatrixPtr m_maze_;  // указатель на матрицу, представляющую лабиринт
 
 
 };  // class Maze
