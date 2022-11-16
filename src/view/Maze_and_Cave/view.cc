@@ -1,17 +1,62 @@
 #include "view.h"
 #include "ui_view.h"
 
-namespace s21 {
+s21::View::View(QWidget *parent)
+    : QMainWindow(parent) , m_ui_(new s21::Ui::View),
+    m_scene_(new QGraphicsScene), m_pen_(new QPen(Qt::SolidPattern, 2)),
+    m_controller_(new s21::Controller) {
 
-View::View(QWidget *parent)
-    : QMainWindow(parent) , ui(new Ui::View) {
-    ui->setupUi(this);
+  m_ui_->setupUi(this);
+  m_ui_->draw_area->setScene(m_scene_);
+  m_ui_->draw_area->setStyleSheet("background-color:white;");
+  ConnectButtons_();
 }
 
-View::~View()
-{
-    delete ui;
+void s21::View::FlipCave_() {
+  m_controller_->FlipCave();
+  PaintCave_();
 }
 
+void s21::View::CaveInit_() {
+  m_controller_->GetRandomCave(
+    m_ui_->rows_spinbox->value(), 
+    m_ui_->cols_spinbox->value(),
+    {
+      m_ui_->birth_spinbox->value(),
+      m_ui_->death_spinbox->value(),
+    },
+    m_ui_->birth_chance_spinbox->value()
+    );
+  PaintCave_();
+}
 
-} // namespace s21
+void s21::View::TransformCave_() {
+  m_controller_->TransformOnce();
+  PaintCave_();
+}
+
+void s21::View::PaintCave_() {
+
+  ClearDrawArea_();
+  int rows = m_controller_->GetRows();
+  int cols = m_controller_->GetCols();
+  int x_size = 500 / rows;
+  int y_size = 500 / cols;
+
+  for (int x = -rows / 2, i = 0; i < rows; ++i, ++x)
+    for (int y = -cols / 2, j = 0; j < cols; ++j, ++y)
+      if (m_controller_->GetValue(i, j))
+        m_scene_->addRect(x * x_size, y * y_size, x_size, y_size, *m_pen_, Qt::SolidPattern);
+}
+
+s21::View::~View() {
+  delete m_ui_;
+  delete m_scene_;
+  delete m_controller_;
+}
+
+void s21::View::ConnectButtons_() {
+  connect(m_ui_->transform_cave_button, SIGNAL(clicked()), this, SLOT(TransformCave_()));
+  connect(m_ui_->create_cave_button, SIGNAL(clicked()), this, SLOT(CaveInit_()));
+  connect(m_ui_->flip_cave_button, SIGNAL(clicked()), this, SLOT(FlipCave_()));
+}

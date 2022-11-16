@@ -203,6 +203,15 @@ class Matrix {
       for (int j = 0; j < matrix.columns_; ++j) matrix.matrix_[i][j] = *(it++);
     return matrix;
   }
+  void Transpose() {
+    Matrix<T> res_matrix(this->columns_, this->rows_);
+    if (!IsNull_(*this, res_matrix)) {
+      for (int i = 0; i < this->rows_; i++)
+        for (int j = 0; j < this->columns_; j++)
+          res_matrix.matrix_[j][i] = this->matrix_[i][j];
+    }
+    *this = res_matrix;
+  }
 
   // Internal methods
  private:
