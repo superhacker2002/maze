@@ -23,7 +23,7 @@ class View : public QMainWindow {
     QPen* m_pen_;
     s21::Controller* m_controller_;
 
-    void ClearDrawArea_() { m_scene_->clear(); }
+    void ClearDrawArea_();
     void PaintCave_();
     void ConnectButtons_();
 
