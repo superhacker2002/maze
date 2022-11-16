@@ -18,23 +18,30 @@
 namespace s21 {
 //#define right_wall first
 //#define bottom_wall second
+struct  walls {
+    bool right_wall;
+    bool bottom_wall;
+};
 
 class Maze {
  public:
-  using MatrixPtr = std::unique_ptr<s21::Matrix<std::pair<bool, bool>>>;
-  using MazeMatrix = s21::Matrix<std::pair<bool, bool>>;
+  using MatrixPtr = std::unique_ptr<s21::Matrix<walls>>;
+  using MazeMatrix = s21::Matrix<walls>;
+
   explicit Maze(const std::string& file_path);
+  void outputMaze();
+
+ private:
   MazeMatrix getMazeFromFile(const std::string& file_path);
   std::pair<int, int> getMazeSize(std::fstream& file);
   MazeMatrix fillMazeMatrix(const std::string &file_path);
-  void fillRightWall(std::fstream& file, std::vector<std::pair<bool, bool>>& maze);
-  void fillBottomWall(std::fstream& file, std::vector<std::pair<bool, bool>>& maze);
-  void outputMaze();
+  void fillRightWall(std::fstream& file, std::vector<walls>& maze);
+  void fillBottomWall(std::fstream& file, std::vector<walls>& maze);
+
   void getError() const;
- private:
+
   MatrixPtr m_maze_;  // указатель на матрицу, представляющую лабиринт
   bool reading_error_;
-
 
 };  // class Maze
 }  // namespace s21

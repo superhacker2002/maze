@@ -16,12 +16,6 @@ s21::Maze::MazeMatrix s21::Maze::getMazeFromFile(const std::string& file_path) {
     } else {
         size = getMazeSize(file);
     }
-    try {
-        getError();
-    } catch (...) {
-        std::cout << "Parsing failed";
-    }
-
     s21::Maze::MazeMatrix maze_matrix(size.first, size.second);
     file.close();
     return maze_matrix;
@@ -52,32 +46,37 @@ std::pair<int, int> s21::Maze::getMazeSize(std::fstream& file) {
 }
 
 s21::Maze::MazeMatrix s21::Maze::fillMazeMatrix(const std::string& file_path) {
-    std::vector<std::pair<bool, bool>> maze;
+    std::vector<walls> maze;
     std::string buffer;
     std::fstream file(file_path);
+
     getline(file, buffer);
     buffer = "";
     fillRightWall(file, maze);
+
     getline(file, buffer);
     fillBottomWall(file, maze);
-    auto maze_matrix = s21::Matrix<std::pair<bool, bool>>::VectorToMatrix(maze);
+
+    auto maze_matrix = s21::Matrix<s21::walls>::VectorToMatrix(maze);
     return maze_matrix;
 }
 
-void s21::Maze::fillRightWall(std::fstream& file, std::vector<std::pair<bool, bool>>& maze) {
+void s21::Maze::fillRightWall(std::fstream& file, std::vector<s21::walls>& maze) {
     std::string buffer;
     for (size_t i = 0; i < m_maze_->GetRows(); ++i) {
         if (getline(file, buffer)) {
             while (!buffer.empty()) {
                 int state = stoi(buffer);
+                s21::walls cell_walls;
                 if (state == 0) {
-                    maze.emplace_back(std::make_pair(false, false));
+                    cell_walls.right_wall = false;
                 } else if (state == 1) {
-                    maze.emplace_back(std::make_pair(true, false));
+                    cell_walls.right_wall = true;
                 } else {
                     reading_error_ = true;
                 }
                 if (state == 0 || state == 1) {
+                    maze.emplace_back(cell_walls);
                     if (buffer.size() == 1) {
                         buffer.erase(0, 1);
                     } else {
@@ -91,7 +90,7 @@ void s21::Maze::fillRightWall(std::fstream& file, std::vector<std::pair<bool, bo
     }
 }
 
-void s21::Maze::fillBottomWall(std::fstream& file, std::vector<std::pair<bool, bool>>& maze) {
+void s21::Maze::fillBottomWall(std::fstream& file, std::vector<s21::walls>& maze) {
     std::string buffer;
     auto cell = maze.begin();
     for (size_t i = 0; i < m_maze_->GetRows(); ++i) {
@@ -100,7 +99,7 @@ void s21::Maze::fillBottomWall(std::fstream& file, std::vector<std::pair<bool, b
             if (!buffer.empty()) {
                 int state = stoi(buffer);
                 if (state == 1) {
-                    (*cell).second = true;
+                    (*cell).bottom_wall = true;
                 } else if (state != 0) {
                     reading_error_ = true;
                 }
@@ -121,19 +120,24 @@ void s21::Maze::outputMaze() {
     std::cout << "- - - - - - -\n";
     for (size_t i = 0; i < m_maze_->GetRows(); ++i) {
         for (size_t j = 0; j < m_maze_->GetCols(); ++j) {
-            if (j == 0) std::cout << "|";
-            bool right_wall = ((*(m_maze_.get()))(i, j)).first;
-            bool bottom_wall = ((*(m_maze_.get()))(i, j)).second;
-            if (bottom_wall) std::cout << "_";
-            else std::cout << " ";
-            if (right_wall) std::cout << " |";
-            else if (bottom_wall && right_wall) std::cout << "|";
-            else std::cout << "  ";
+            if (j == 0) {
+                std::cout << "|";
+            }
+            bool right_wall = ((*(m_maze_.get()))(i, j)).right_wall;
+            bool bottom_wall = ((*(m_maze_.get()))(i, j)).bottom_wall;
+            if (bottom_wall) {
+                std::cout << "_";
+            } else {
+                std::cout << " ";
+            }
+            if (right_wall) {
+                std::cout << " |";
+            } else {
+                std::cout << "  ";
+            }
         }
         std::cout << "\n";
-
     }
-
 }
 
 
