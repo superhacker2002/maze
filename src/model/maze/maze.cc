@@ -22,25 +22,23 @@ void s21::Maze::getError() const {
 s21::Maze::MazeMatrix s21::Maze::getMazeFromFile(const std::string& file_path) {
     std::fstream file;
     file.open(file_path);
-    std::pair<int, int> size;
     if (!file.is_open()) {
         m_reading_error_ = true;
         getError();
     }
-    size = getMazeSize(file);
-    s21::Maze::MazeMatrix maze_matrix(size.first, size.second);
+    getMazeSize(file);
+    s21::Maze::MazeMatrix maze_matrix(rows_, cols_);
     file.close();
     return maze_matrix;
 }
 
-std::pair<int, int> s21::Maze::getMazeSize(std::fstream& file) {
+void s21::Maze::getMazeSize(std::fstream& file) {
     std::string buffer;
-    int rows, cols;
     if (getline(file, buffer)) {
         try {
-            rows = stoi(buffer);
+            rows_ = stoi(buffer);
             buffer.erase(0, buffer.find_first_of(' ') + 1);
-            cols = stoi(buffer);
+            cols_ = stoi(buffer);
         } catch (...) {
             m_reading_error_ = true;
         }
@@ -48,7 +46,6 @@ std::pair<int, int> s21::Maze::getMazeSize(std::fstream& file) {
         m_reading_error_ = true;
     }
     getError();
-    return std::make_pair(rows, cols);
 }
 
 s21::Maze::MazeMatrix s21::Maze::fillMazeMatrix(const std::string& file_path) {
@@ -71,11 +68,9 @@ s21::Maze::MazeMatrix s21::Maze::fillMazeMatrix(const std::string& file_path) {
 
 void s21::Maze::fillRightWall(std::fstream& file, std::vector<s21::walls>& maze) {
     std::string buffer;
-    size_t rows = m_maze_->GetRows();
-    size_t cols = m_maze_->GetCols();
-    for (size_t i = 0; i < rows; ++i) {
+    for (size_t i = 0; i < rows_; ++i) {
         if (getline(file, buffer) && !buffer.empty()) {
-             for (size_t j = 0; j < cols; ++j) {
+             for (size_t j = 0; j < cols_; ++j) {
                 int state = stoi(buffer);
                 s21::walls cell_walls {};
                 cell_walls.right_wall = isWall(state);
@@ -108,11 +103,9 @@ void s21::Maze::removePrevState(std::string& buffer) {
 void s21::Maze::fillBottomWall(std::fstream& file, std::vector<s21::walls>& maze) {
     std::string buffer;
     auto cell = maze.begin();
-    size_t rows = m_maze_->GetRows();
-    size_t cols = m_maze_->GetCols();
-    for (size_t i = 0; i < rows; ++i) {
+    for (size_t i = 0; i < rows_; ++i) {
         if (getline(file, buffer) && !buffer.empty()) {
-            for (size_t j = 0; j < cols; ++j) {
+            for (size_t j = 0; j < cols_; ++j) {
                 int state = stoi(buffer);
                 (*cell).bottom_wall = isWall(state);
                 removePrevState(buffer);
@@ -127,11 +120,9 @@ void s21::Maze::fillBottomWall(std::fstream& file, std::vector<s21::walls>& maze
 
 void s21::Maze::outputMaze() {
     std::cout << "- - - - - - -\n";
-    size_t rows = m_maze_->GetRows();
-    size_t cols = m_maze_->GetCols();
 
-    for (size_t i = 0; i < rows; ++i) {
-        for (size_t j = 0; j < cols; ++j) {
+    for (size_t i = 0; i < rows_; ++i) {
+        for (size_t j = 0; j < cols_; ++j) {
             if (j == 0) {
                 std::cout << "|";
             }
