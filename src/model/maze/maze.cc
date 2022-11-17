@@ -24,10 +24,10 @@ s21::Maze::Maze(const std::string& file_path)
  */
 s21::Maze::Maze(int rows, int cols)
     : m_maze_(s21::Maze::MazeMatrix(rows, cols)),
+    m_reading_error_(false),
     m_rows_(rows),
     m_cols_(cols),
-    m_counter_(1),
-    m_reading_error_(false) {
+    m_counter_(1) {
     generateMaze();
 }
 
