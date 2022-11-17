@@ -12,6 +12,8 @@ SOURCES += \
     ../../controller/controller.cc \
     ../../model/cave/cave.cc \
     ../../model/maze/maze.cc \
+    ../../model/maze/maze_from_file.cc \
+    ../../model/maze/maze_generation.cc \
     main.cpp \
     view.cc
 
