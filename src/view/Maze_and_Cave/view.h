@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QPen>
+#include <QFileDialog>
 
 #include "../../controller/controller.h"
 
@@ -26,11 +27,15 @@ class View : public QMainWindow {
     void ClearDrawArea_();
     void PaintCave_();
     void ConnectButtons_();
+    
+    void PaintMaze_();
 
   private slots:
     void TransformCave_();
     void CaveInit_();
     void FlipCave_();
+
+    void MazeInit_();
 };
 } // namespace s21
 #endif // SRC_VIEW_VIEW_H_

@@ -39,6 +39,16 @@ void s21::View::CaveInit_() {
   PaintCave_();
 }
 
+void s21::View::MazeInit_() {
+  QString filepath = QFileDialog::getOpenFileName(0, "Выбрать файл", "", "*.txt");
+  if (filepath != "") {
+    m_controller_->GetMazeFromFile(filepath.toStdString());
+    PaintMaze_();
+  } else {
+    ClearDrawArea_();
+  }
+}
+
 void s21::View::TransformCave_() {
   m_controller_->TransformOnce();
   PaintCave_();
@@ -46,13 +56,34 @@ void s21::View::TransformCave_() {
 
 void s21::View::PaintCave_() {
   ClearDrawArea_();
-  int rows = m_controller_->GetRows();
-  int cols = m_controller_->GetCols();
+  int rows = m_controller_->GetCaveRows();
+  int cols = m_controller_->GetCaveCols();
   int x_size = 500 / rows, y_size = 500 / cols;
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
-      if (m_controller_->GetValue(i, j))
+      if (m_controller_->GetPixel(i, j))
         m_scene_->addRect(i * x_size, j * y_size, x_size, y_size, *m_pen_, Qt::SolidPattern);
+    }
+  }
+}
+
+void s21::View::PaintMaze_() {
+  ClearDrawArea_();
+  int rows = m_controller_->GetMazeRows();
+  int cols = m_controller_->GetMazeCols();
+  int x_size = 500 / rows, y_size = 500 / cols;
+  for (int i = 0; i < rows; ++i) {
+    for (int j = 0; j < cols; ++j) {
+      if (m_controller_->GetWall(i, j).bottom_wall) {
+        int x = j * x_size;
+        int y = (i + 1) * y_size;
+        m_scene_->addLine(x, y, x + x_size, y, *m_pen_);  
+      }
+      if (m_controller_->GetWall(i, j).right_wall) {
+        int x = (j + 1) * x_size;
+        int y = i * y_size;
+        m_scene_->addLine(x, y, x, y + y_size);
+      }
     }
   }
 }
@@ -67,4 +98,5 @@ void s21::View::ConnectButtons_() {
   connect(m_ui_->transform_cave_button, SIGNAL(clicked()), this, SLOT(TransformCave_()));
   connect(m_ui_->create_cave_button, SIGNAL(clicked()), this, SLOT(CaveInit_()));
   connect(m_ui_->flip_cave_button, SIGNAL(clicked()), this, SLOT(FlipCave_()));
+  connect(m_ui_->maze_file_button, SIGNAL(clicked()), this, SLOT(MazeInit_()));
 }

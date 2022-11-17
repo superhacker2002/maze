@@ -5,3 +5,7 @@ void s21::Controller::GetRandomCave(size_t rows, size_t cols,
   m_cave_ = std::make_unique<s21::Cave>(rows, cols, limit, birth_chance);
 }
 
+void s21::Controller::GetMazeFromFile(const std::string& file_path) {
+  m_maze_ = std::make_unique<s21::Maze>(file_path);
+}
+

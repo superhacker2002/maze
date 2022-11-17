@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     ../../controller/controller.cc \
     ../../model/cave/cave.cc \
+    ../../model/maze/maze.cc \
     main.cpp \
     view.cc
 
@@ -18,6 +19,7 @@ HEADERS += \
     ../../controller/controller.h \
     ../../helpers/matrix.h \
     ../../model/cave/cave.h \
+    ../../model/maze/maze.h \
     view.h
 
 FORMS += \
