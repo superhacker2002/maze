@@ -26,7 +26,7 @@ s21::Maze::Maze(int rows, int cols)
     : m_maze_(std::make_unique<s21::Maze::MazeMatrix>(rows, cols)),
     rows_(rows),
     cols_(cols),
-    counter_(0),
+    counter_(1),
     reading_error_(false) {
     generateMaze();
 }
@@ -166,20 +166,20 @@ void s21::Maze::checkBottomWall(int row) {
 int s21::Maze::calculateBottomWalls(int element, int row) {
     int count_bottom_walls = 0;
     for (int i = 0; i < cols_; i++) {
-        if (side_line_[i] == element && !((*(m_maze_.get()))(row, i)).right_wall) {
+        if (side_line_[i] == element && !((*(m_maze_.get()))(row, i)).bottom_wall) {
             count_bottom_walls++;
         }
     }
     return count_bottom_walls;
 }
 
-/**
+/**`
  * Prepares new line of maze matrix.
  * @param row
  */
 void s21::Maze::prepareNewLine(int row) {
     for (int i = 0; i < cols_; i++) {
-        if (((*(m_maze_.get()))(row, i)).right_wall) {
+        if (((*(m_maze_.get()))(row, i)).bottom_wall) {
             side_line_[i] = kEmpty;
         }
     }
@@ -201,9 +201,9 @@ void s21::Maze::checkEndLine() {
             ((*(m_maze_.get()))(rows_ - 1, i)).right_wall = false;
             mergeSet(i, side_line_[i]);
         }
-        ((*(m_maze_.get()))(rows_ - 1, i)).right_wall = true;
+        ((*(m_maze_.get()))(rows_ - 1, i)).bottom_wall = true;
     }
-    ((*(m_maze_.get()))(rows_ - 1, cols_ - 1)).right_wall = true;
+    ((*(m_maze_.get()))(rows_ - 1, cols_ - 1)).bottom_wall = true;
 }
 
 /**
