@@ -20,6 +20,7 @@ struct  walls {
     bool right_wall;
     bool bottom_wall;
 };
+constexpr int kEmpty = 0;
 
 class Maze {
  public:
@@ -34,20 +35,36 @@ class Maze {
   walls GetValue(int i, int j) { return (*m_maze_.get())(i, j); }
 
  private:
+  void generateMaze();
+
+  void fillEmptyValues();
+  void assignUniqueSet();
+  void addRightWall(int row);
+  void mergeSet(int index, int element);
+  void addBottomWall(int row);
+  int calculateUniqueSet(int element);
+  void checkBottomWall(int row);
+  int calculateBottomWalls(int element, int row);
+  void prepareNewLine(int row);
+
   MazeMatrix getMazeFromFile(const std::string& file_path);
+
   void getMazeSize(std::fstream& file);
   MazeMatrix fillMazeMatrix(const std::string &file_path);
   void fillRightWall(std::fstream& file, std::vector<walls>& maze);
+  void fillBottomWall(std::fstream& file, std::vector<walls>& maze);
   bool isWall(const int& state);
   void removePrevState(std::string& buffer);
-  void fillBottomWall(std::fstream& file, std::vector<walls>& maze);
 
   void getError() const;
   
   bool m_reading_error_;
   MatrixPtr m_maze_;  // указатель на матрицу, представляющую лабиринт
-  size_t rows_;
-  size_t cols_;
+  int rows_;
+  int cols_;
+  std::vector<int> side_line_;
+  int counter_;
+  bool reading_error_;
 
 };  // class Maze
 }  // namespace s21
