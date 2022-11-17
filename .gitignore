@@ -6,6 +6,7 @@
 CMakeLists.txt
 cmake-build-debug
 .gitignore
+build*
 
 # Object files
 *.o
