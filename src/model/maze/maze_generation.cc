@@ -10,7 +10,7 @@ bool randomBool() {
  */
 void s21::Maze::generateMaze() {
     fillEmptyValues();
-    for (int i = 0; i < rows_ - 1; ++i) {
+    for (int i = 0; i < m_rows_ - 1; ++i) {
         assignUniqueSet();
         addRightWall(i);
         addBottomWall(i);
@@ -24,8 +24,8 @@ void s21::Maze::generateMaze() {
  * Initializes row with "empty" cells.
  */
 void s21::Maze::fillEmptyValues() {
-    for (int i = 0; i < cols_; i++) {
-        side_line_.push_back(kEMPTY);
+    for (int i = 0; i < m_cols_; i++) {
+        m_side_line_.push_back(kEmpty);
     }
 }
 
@@ -34,10 +34,10 @@ void s21::Maze::fillEmptyValues() {
  * to each cell in a row.
  */
 void s21::Maze::assignUniqueSet() {
-    for (int i = 0; i < cols_; i++) {
-        if (side_line_[i] == kEMPTY) {
-            side_line_[i] = counter_;
-            ++counter_;
+    for (int i = 0; i < m_cols_; i++) {
+        if (m_side_line_[i] == kEmpty) {
+            m_side_line_[i] = m_counter_;
+            ++m_counter_;
         }
     }
 }
@@ -49,17 +49,17 @@ void s21::Maze::assignUniqueSet() {
  * @param row Specifies what row should be processed.
  */
 void s21::Maze::addRightWall(int row) {
-    for (int i = 0; i < cols_ - 1; i++) {
+    for (int i = 0; i < m_cols_ - 1; i++) {
         bool choice = randomBool();
         // либо рандомно, либо если ячейки принадлежат к одному множеству ставим правую стенку
-        if (choice || side_line_[i] == side_line_[i + 1]) {
+        if (choice || m_side_line_[i] == m_side_line_[i + 1]) {
             (m_maze_(row, i)).right_wall = true;
         } else {
-            mergeSet(i, side_line_[i]);
+            mergeSet(i, m_side_line_[i]);
         }
     }
     // Добавление правой стенки в последнюю ячейку
-    (m_maze_(row, cols_ - 1)).right_wall = true;
+    (m_maze_(row, m_cols_ - 1)).right_wall = true;
 }
 
 /**
@@ -71,10 +71,10 @@ void s21::Maze::addRightWall(int row) {
  * to cells that will be merged into required set)
  */
 void s21::Maze::mergeSet(int index, int element) {
-    int mutableSet = side_line_[index + 1];
-    for (int j = 0; j < cols_; j++) {
-        if (side_line_[j] == mutableSet) {
-            side_line_[j] = element;
+    int mutableSet = m_side_line_[index + 1];
+    for (int j = 0; j < m_cols_; j++) {
+        if (m_side_line_[j] == mutableSet) {
+            m_side_line_[j] = element;
         }
     }
 }
@@ -87,10 +87,10 @@ void s21::Maze::mergeSet(int index, int element) {
  * maze should be processed.
  */
 void s21::Maze::addBottomWall(int row) {
-    for (int i = 0; i < cols_; i++) {
+    for (int i = 0; i < m_cols_; i++) {
         bool choice = randomBool();
         // множество должно иметь более одной ячейки для предотвращения замкнутости
-        if (calculateUniqueSet(side_line_[i]) != 1 && choice) {
+        if (calculateUniqueSet(m_side_line_[i]) != 1 && choice) {
             (m_maze_(row, i)).bottom_wall = true;
         }
     }
@@ -104,8 +104,8 @@ void s21::Maze::addBottomWall(int row) {
  */
 int s21::Maze::calculateUniqueSet(int element) {
     int count_unique_set = 0;
-    for (int i = 0; i < cols_; i++) {
-        if (side_line_[i] == element) {
+    for (int i = 0; i < m_cols_; i++) {
+        if (m_side_line_[i] == element) {
             count_unique_set++;
         }
     }
@@ -119,8 +119,8 @@ int s21::Maze::calculateUniqueSet(int element) {
  * @param row Row number where we count cells.
  */
 void s21::Maze::checkBottomWall(int row) {
-    for (int i = 0; i < cols_; i++) {
-        if (calculateBottomWalls(side_line_[i], row) == 0) {
+    for (int i = 0; i < m_cols_; i++) {
+        if (calculateBottomWalls(m_side_line_[i], row) == 0) {
             (m_maze_(row, i)).bottom_wall = false;
         }
     }
@@ -134,8 +134,8 @@ void s21::Maze::checkBottomWall(int row) {
  */
 int s21::Maze::calculateBottomWalls(int element, int row) {
     int count_bottom_walls = 0;
-    for (int i = 0; i < cols_; i++) {
-        if (side_line_[i] == element && !(m_maze_(row, i)).bottom_wall) {
+    for (int i = 0; i < m_cols_; i++) {
+        if (m_side_line_[i] == element && !(m_maze_(row, i)).bottom_wall) {
             count_bottom_walls++;
         }
     }
@@ -147,16 +147,16 @@ int s21::Maze::calculateBottomWalls(int element, int row) {
  * @param row
  */
 void s21::Maze::prepareNewLine(int row) {
-    for (int i = 0; i < cols_; i++) {
+    for (int i = 0; i < m_cols_; i++) {
         if ((m_maze_(row, i)).bottom_wall) {
-            side_line_[i] = kEMPTY;
+            m_side_line_[i] = kEmpty;
         }
     }
 }
 
 void s21::Maze::addEndLine() {
     assignUniqueSet();
-    addRightWall(rows_ - 1);
+    addRightWall(m_rows_ - 1);
     checkEndLine();
 }
 
@@ -165,12 +165,12 @@ void s21::Maze::addEndLine() {
  * to maze matrix.
  */
 void s21::Maze::checkEndLine() {
-    for (int i = 0; i < cols_ - 1; i++) {
-        if (side_line_[i] != side_line_[i + 1]) {
-            (m_maze_(rows_ - 1, i)).right_wall = false;
-            mergeSet(i, side_line_[i]);
+    for (int i = 0; i < m_cols_ - 1; i++) {
+        if (m_side_line_[i] != m_side_line_[i + 1]) {
+            (m_maze_(m_rows_ - 1, i)).right_wall = false;
+            mergeSet(i, m_side_line_[i]);
         }
-        (m_maze_(rows_ - 1, i)).bottom_wall = true;
+        (m_maze_(m_rows_ - 1, i)).bottom_wall = true;
     }
-    (m_maze_(rows_ - 1, cols_ -1)).bottom_wall = true;
+    (m_maze_(m_rows_ - 1, m_cols_ -1)).bottom_wall = true;
 }

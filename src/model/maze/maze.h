@@ -1,10 +1,7 @@
 #ifndef SRC_MODEL_MAZE_MAZE_H_
 #define SRC_MODEL_MAZE_MAZE_H_
 
-#include <memory>
-
 #include "../../helpers/matrix.h"
-
 
 namespace s21 {
 struct  walls {
@@ -50,12 +47,12 @@ class Maze {
 
   void getError() const;
   
-  bool reading_error_;
+  bool m_reading_error_;
   MazeMatrix m_maze_;  // указатель на матрицу, представляющую лабиринт
-  int rows_;
-  int cols_;
-  std::vector<int> side_line_;
-  int counter_;
+  int m_rows_;
+  int m_cols_;
+  std::vector<int> m_side_line_;
+  int m_counter_;
 
 };  // class Maze
 }  // namespace s21
