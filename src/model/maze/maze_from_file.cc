@@ -16,7 +16,7 @@ s21::Maze::MazeMatrix s21::Maze::getMazeFromFile(const std::string& file_path) {
         getError();
     }
     getMazeSize(file);
-    s21::Maze::MazeMatrix maze_matrix(rows_, cols_);
+    s21::Maze::MazeMatrix maze_matrix(m_rows_, m_cols_);
     file.close();
     return maze_matrix;
 }
@@ -33,9 +33,9 @@ void s21::Maze::getMazeSize(std::fstream& file) {
     std::string buffer;
     if (getline(file, buffer)) {
         try {
-            rows_ = stoi(buffer);
+            m_rows_ = stoi(buffer);
             buffer.erase(0, buffer.find_first_of(' ') + 1);
-            cols_ = stoi(buffer);
+            m_cols_ = stoi(buffer);
         } catch (...) {
             m_reading_error_ = true;
         }
@@ -82,9 +82,9 @@ s21::Maze::MazeMatrix s21::Maze::fillMazeMatrix(const std::string& file_path) {
  */
 void s21::Maze::fillRightWall(std::fstream& file, std::vector<s21::walls>& maze) {
     std::string buffer;
-    for (int i = 0; i < rows_; ++i) {
+    for (int i = 0; i < m_rows_; ++i) {
         if (getline(file, buffer) && !buffer.empty()) {
-            for (int j = 0; j < cols_; ++j) {
+            for (int j = 0; j < m_cols_; ++j) {
                 int state = stoi(buffer);
                 s21::walls cell_walls {};
                 cell_walls.right_wall = isWall(state);
@@ -129,9 +129,9 @@ void s21::Maze::removePrevState(std::string& buffer) {
 void s21::Maze::fillBottomWall(std::fstream& file, std::vector<s21::walls>& maze) {
     std::string buffer;
     auto cell = maze.begin();
-    for (int i = 0; i < rows_; ++i) {
+    for (int i = 0; i < m_rows_; ++i) {
         if (getline(file, buffer) && !buffer.empty()) {
-            for (int j = 0; j < cols_; ++j) {
+            for (int j = 0; j < m_cols_; ++j) {
                 int state = stoi(buffer);
                 (*cell).bottom_wall = isWall(state);
                 removePrevState(buffer);

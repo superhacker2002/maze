@@ -6,7 +6,7 @@
  * @param file_path Path to file to read maze from.
  */
 s21::Maze::Maze(const std::string& file_path)
-    : reading_error_(false),
+    : m_reading_error_(false),
     m_maze_(getMazeFromFile(file_path)) {
     try {
         m_maze_ = fillMazeMatrix(file_path);
@@ -24,10 +24,10 @@ s21::Maze::Maze(const std::string& file_path)
  */
 s21::Maze::Maze(int rows, int cols)
     : m_maze_(s21::Maze::MazeMatrix(rows, cols)),
-    rows_(rows),
-    cols_(cols),
-    counter_(1),
-    reading_error_(false) {
+    m_rows_(rows),
+    m_cols_(cols),
+    m_counter_(1),
+    m_reading_error_(false) {
     generateMaze();
 }
 
@@ -50,8 +50,8 @@ void s21::Maze::getError() const {
 void s21::Maze::outputMaze() {
     std::cout << " - - - - - - - - \n";
 
-    for (int i = 0; i < rows_; ++i) {
-        for (int j = 0; j < cols_; ++j) {
+    for (int i = 0; i < m_rows_; ++i) {
+        for (int j = 0; j < m_cols_; ++j) {
             if (j == 0) {
                 std::cout << "|";
             }
