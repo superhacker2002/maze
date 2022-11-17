@@ -5,16 +5,8 @@ s21::View::View(QWidget *parent)
     : QMainWindow(parent) , m_ui_(new s21::Ui::View),
     m_scene_(new QGraphicsScene), m_pen_(new QPen(Qt::SolidPattern, 2)),
     m_controller_(new s21::Controller) {
-
   m_ui_->setupUi(this);
-  m_ui_->draw_area->setScene(m_scene_);
-  m_ui_->draw_area->centerOn(0, 0);
-  m_scene_->setSceneRect(0, 0, 498, 498);
-
-  m_ui_->draw_area->setStyleSheet("background-color:white;");
-  m_ui_->draw_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  m_ui_->draw_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  ConnectButtons_();
+  StartSettings_();  
 }
 
 void s21::View::ClearDrawArea_() {
@@ -99,4 +91,14 @@ void s21::View::ConnectButtons_() {
   connect(m_ui_->create_cave_button, SIGNAL(clicked()), this, SLOT(CaveInit_()));
   connect(m_ui_->flip_cave_button, SIGNAL(clicked()), this, SLOT(FlipCave_()));
   connect(m_ui_->maze_file_button, SIGNAL(clicked()), this, SLOT(MazeInit_()));
+}
+
+void s21::View::StartSettings_() {
+  m_ui_->draw_area->setScene(m_scene_);
+  m_ui_->draw_area->centerOn(0, 0);
+  m_scene_->setSceneRect(0, 0, 498, 498);
+  m_ui_->draw_area->setStyleSheet("background-color:white;");
+  m_ui_->draw_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  m_ui_->draw_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  ConnectButtons_();
 }
