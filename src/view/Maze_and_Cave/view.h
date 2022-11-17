@@ -24,11 +24,17 @@ class View : public QMainWindow {
     QPen* m_pen_;
     s21::Controller* m_controller_;
 
+    void StartSettings_();
+
+
+
     void ClearDrawArea_();
     void PaintCave_();
     void ConnectButtons_();
     
     void PaintMaze_();
+
+
 
   private slots:
     void TransformCave_();
