@@ -45,6 +45,8 @@ class Maze {
   void checkBottomWall(int row);
   int calculateBottomWalls(int element, int row);
   void prepareNewLine(int row);
+  void addEndLine();
+  void checkEndLine();
 
   MazeMatrix getMazeFromFile(const std::string& file_path);
 

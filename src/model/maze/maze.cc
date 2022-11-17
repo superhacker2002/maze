@@ -48,6 +48,7 @@ void s21::Maze::generateMaze() {
         checkBottomWall(i);
         prepareNewLine(i);
     }
+    addEndLine();
 }
 
 /**
@@ -184,6 +185,27 @@ void s21::Maze::prepareNewLine(int row) {
     }
 }
 
+void s21::Maze::addEndLine() {
+    assignUniqueSet();
+    addRightWall(rows_ - 1);
+    checkEndLine();
+}
+
+/**
+ * Checks all conditions for adding an and line
+ * to maze matrix.
+ */
+void s21::Maze::checkEndLine() {
+    for (int i = 0; i < cols_ - 1; i++) {
+        if (side_line_[i] != side_line_[i + 1]) {
+            ((*(m_maze_.get()))(rows_ - 1, i)).right_wall = false;
+            mergeSet(i, side_line_[i]);
+        }
+        ((*(m_maze_.get()))(rows_ - 1, i)).right_wall = true;
+    }
+    ((*(m_maze_.get()))(rows_ - 1, cols_ - 1)).right_wall = true;
+}
+
 /**
  * Indicates if error occurred while program was running
  * and throw an exception.
@@ -197,7 +219,7 @@ void s21::Maze::getError() const {
 /**
  * Creates maze matrix of the size that was
  * provided in the first line in the file.
- * If no size was notreceived writed an error.
+ * If no size was not received writes an error.
  * @param file_path Path to file we read from.
  * @return Matrix of the size received from file.
  */
@@ -338,7 +360,7 @@ void s21::Maze::fillBottomWall(std::fstream& file, std::vector<s21::walls>& maze
 }
 
 void s21::Maze::outputMaze() {
-    std::cout << "- - - - - - -\n";
+    std::cout << "- - - - - - - - \n";
 
     for (int i = 0; i < rows_; ++i) {
         for (int j = 0; j < cols_; ++j) {
