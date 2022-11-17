@@ -13,6 +13,11 @@ void s21::View::ClearDrawArea_() {
   m_scene_->clear();
 }
 
+void s21::View::PaintBorders_() {
+  m_scene_->addLine(10, 10, 10, 500, *m_pen_);
+  m_scene_->addLine(10, 10, 500, 10, *m_pen_);
+}
+
 void s21::View::FlipCave_() {
   m_controller_->FlipCave();
   PaintCave_();
@@ -66,20 +71,25 @@ void s21::View::PaintCave_() {
 
 void s21::View::PaintMaze_() {
   ClearDrawArea_();
+  PaintBorders_();
   int rows = m_controller_->GetMazeRows();
   int cols = m_controller_->GetMazeCols();
   int x_size = 500 / rows, y_size = 500 / cols;
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       if (m_controller_->GetWall(i, j).bottom_wall) {
-        int x = j * x_size;
-        int y = (i + 1) * y_size;
-        m_scene_->addLine(x, y, x + x_size, y, *m_pen_);  
+        int x1 = (j * x_size) == 0 ? 10 : j * x_size;
+        int y1 = ((i + 1) * y_size) == 0 ? 10 : (i + 1) * y_size;
+        int x2 = x1 + x_size == 0 ? 10 : x1 + x_size;
+        int y2 = y1;
+        m_scene_->addLine(x1, y1, x2, y2, *m_pen_);  
       }
       if (m_controller_->GetWall(i, j).right_wall) {
-        int x = (j + 1) * x_size;
-        int y = i * y_size;
-        m_scene_->addLine(x, y, x, y + y_size);
+        int x1 = (j + 1) * x_size == 0 ? 10 : (j + 1) * x_size;
+        int y1 = i * y_size == 0 ? 10 : i * y_size;
+        int x2 = x1;
+        int y2 = y1 + y_size == 0 ? 10 : y1 + y_size;
+        m_scene_->addLine(x1, y1, x2, y2);
       }
     }
   }
@@ -100,7 +110,7 @@ void s21::View::ConnectButtons_() {
 void s21::View::StartSettings_() {
   m_ui_->draw_area->setScene(m_scene_.get());
   m_ui_->draw_area->centerOn(0, 0);
-  m_scene_->setSceneRect(10, 10, 510, 510);
+  m_scene_->setSceneRect(0, 0, 510, 510);
   m_ui_->draw_area->setStyleSheet("background-color:white;");
   m_ui_->draw_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_ui_->draw_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
