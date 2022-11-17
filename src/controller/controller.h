@@ -7,17 +7,17 @@
 namespace s21 {
 class Controller {
   public:
-    using __cave_ptr = std::unique_ptr<Cave>;
-    using __maze_ptr = std::unique_ptr<Maze>;
+    using CavePtr = std::unique_ptr<Cave>;
+    using MazePtr = std::unique_ptr<Maze>;
 
   private:
-    __cave_ptr m_cave_;
-    __maze_ptr m_maze_;
+    CavePtr m_cave_;
+    MazePtr m_maze_;
 
   public:
     Controller() {;}
     ~Controller() = default;
-    void GetRandomCave(size_t rows, size_t cols, s21::Cave::__limits limit, int birth_chance);
+    void GetRandomCave(size_t rows, size_t cols, s21::Cave::Limits limit, int birth_chance);
     int GetCaveRows() { return m_cave_.get()->GetRows(); }
     int GetCaveCols() { return m_cave_.get()->GetCols(); }
     bool GetPixel(int i, int j) { return m_cave_.get()->GetValue(i, j); }

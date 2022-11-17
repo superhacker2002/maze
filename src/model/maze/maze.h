@@ -22,6 +22,13 @@ class Maze {
   walls GetValue(int i, int j);
 
  private:
+  bool m_reading_error_;
+  MazeMatrix m_maze_;  // указатель на матрицу, представляющую лабиринт
+  int m_rows_;
+  int m_cols_;
+  std::vector<int> m_side_line_;
+  int m_counter_;
+
   void generateMaze();
 
   void fillEmptyValues();
@@ -46,14 +53,6 @@ class Maze {
   void removePrevState(std::string& buffer);
 
   void getError() const;
-  
-  bool m_reading_error_;
-  MazeMatrix m_maze_;  // указатель на матрицу, представляющую лабиринт
-  int m_rows_;
-  int m_cols_;
-  std::vector<int> m_side_line_;
-  int m_counter_;
-
 };  // class Maze
 }  // namespace s21
 
