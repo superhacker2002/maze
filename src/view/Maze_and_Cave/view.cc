@@ -48,9 +48,7 @@ void s21::View::PaintCave_() {
   ClearDrawArea_();
   int rows = m_controller_->GetRows();
   int cols = m_controller_->GetCols();
-
   int x_size = 500 / rows, y_size = 500 / cols;
-
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       if (m_controller_->GetValue(i, j))
