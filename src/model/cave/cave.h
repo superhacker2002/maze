@@ -34,7 +34,7 @@ class Cave {
   void OutputCave() { m_cave_->OutputMatrix(); }
   int GetRows() { return m_cave_ref_.GetRows(); }
   int GetCols() { return m_cave_ref_.GetCols(); }
-  bool& GetValue(int i, int j) { return m_cave_ref_(i, j); }
+  bool GetValue(int i, int j) { return m_cave_ref_(i, j); }
   void FlipCave() { m_cave_ref_.Transpose(); }
 
  private:

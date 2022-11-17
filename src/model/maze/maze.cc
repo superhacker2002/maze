@@ -11,7 +11,7 @@ s21::Maze::Maze(const std::string& file_path)
     try {
         *(m_maze_.get()) = fillMazeMatrix(file_path);
     } catch (...) {
-        reading_error_ = true;
+        m_reading_error_ = true;
         getError();
     }
 }
@@ -211,7 +211,7 @@ void s21::Maze::checkEndLine() {
  * and throw an exception.
  */
 void s21::Maze::getError() const {
-    if (reading_error_) {
+    if (m_reading_error_) {
         throw std::invalid_argument("Parsing failed.");
     }
 }
@@ -227,7 +227,7 @@ s21::Maze::MazeMatrix s21::Maze::getMazeFromFile(const std::string& file_path) {
     std::fstream file;
     file.open(file_path);
     if (!file.is_open()) {
-        reading_error_ = true;
+        m_reading_error_ = true;
         getError();
     }
     getMazeSize(file);
@@ -252,10 +252,10 @@ void s21::Maze::getMazeSize(std::fstream& file) {
             buffer.erase(0, buffer.find_first_of(' ') + 1);
             cols_ = stoi(buffer);
         } catch (...) {
-            reading_error_ = true;
+            m_reading_error_ = true;
         }
     } else {
-        reading_error_ = true;
+        m_reading_error_ = true;
     }
     getError();
 }
@@ -307,7 +307,7 @@ void s21::Maze::fillRightWall(std::fstream& file, std::vector<s21::walls>& maze)
                 removePrevState(buffer);
             }
         } else {
-            reading_error_ = true;
+            m_reading_error_ = true;
         }
     }
     getError();
@@ -315,7 +315,7 @@ void s21::Maze::fillRightWall(std::fstream& file, std::vector<s21::walls>& maze)
 
 bool s21::Maze::isWall(const int& state) {
     if (!(state == 0 || state == 1)) {
-        reading_error_ = true;
+        m_reading_error_ = true;
         getError();
     }
     return state == 1;
@@ -353,7 +353,7 @@ void s21::Maze::fillBottomWall(std::fstream& file, std::vector<s21::walls>& maze
                 ++cell;
             }
         } else {
-            reading_error_ = true;
+            m_reading_error_ = true;
         }
     }
     getError();

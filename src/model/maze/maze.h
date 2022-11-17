@@ -16,8 +16,6 @@
 */
 
 namespace s21 {
-//#define right_wall first
-//#define bottom_wall second
 struct  walls {
     bool right_wall;
     bool bottom_wall;
@@ -32,6 +30,9 @@ class Maze {
   explicit Maze(const std::string& file_path);
   explicit Maze(int rows, int cols);
   void outputMaze();
+  int GetRows() { return m_maze_.get()->GetRows(); }
+  int GetCols() { return m_maze_.get()->GetCols(); }
+  walls GetValue(int i, int j) { return (*m_maze_.get())(i, j); }
 
  private:
   void generateMaze();
@@ -58,7 +59,8 @@ class Maze {
   void removePrevState(std::string& buffer);
 
   void getError() const;
-
+  
+  bool m_reading_error_;
   MatrixPtr m_maze_;  // указатель на матрицу, представляющую лабиринт
   int rows_;
   int cols_;

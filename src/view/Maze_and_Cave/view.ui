@@ -24,12 +24,38 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="maze_tab">
      <attribute name="title">
       <string>Maze</string>
      </attribute>
+     <widget class="QPushButton" name="maze_file_button">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>30</y>
+        <width>100</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Choose file</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="draw_maze_button">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>30</y>
+        <width>100</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Draw maze</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="cave_tab">
      <attribute name="title">
