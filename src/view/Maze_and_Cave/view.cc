@@ -78,8 +78,8 @@ void s21::View::PaintMaze_() {
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       if (m_controller_->GetWall(i, j).bottom_wall) {
-        int x1 = (j * x_size) == 0 ? 10 : j * x_size;
-        int y1 = ((i + 1) * y_size) == 0 ? 10 : (i + 1) * y_size;
+        int x1 = j * x_size == 0 ? 10 : j * x_size;
+        int y1 = (i + 1) * y_size == 0 ? 10 : (i + 1) * y_size;
         int x2 = x1 + x_size == 0 ? 10 : x1 + x_size;
         int y2 = y1;
         m_scene_->addLine(x1, y1, x2, y2, *m_pen_);  
@@ -89,7 +89,7 @@ void s21::View::PaintMaze_() {
         int y1 = i * y_size == 0 ? 10 : i * y_size;
         int x2 = x1;
         int y2 = y1 + y_size == 0 ? 10 : y1 + y_size;
-        m_scene_->addLine(x1, y1, x2, y2);
+        m_scene_->addLine(x1, y1, x2, y2, *m_pen_);
       }
     }
   }
