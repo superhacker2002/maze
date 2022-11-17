@@ -27,6 +27,7 @@ class Controller {
 
 
     void GetMazeFromFile(const std::string& file_path);
+    void GenerateMaze(int rows, int cols);
     int GetMazeRows() { return m_maze_.get()->GetRows(); }
     int GetMazeCols() { return  m_maze_.get()->GetCols(); }
     walls GetWall(int i, int j) { return m_maze_.get()->GetValue(i, j); }

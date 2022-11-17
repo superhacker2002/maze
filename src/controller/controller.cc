@@ -9,3 +9,7 @@ void s21::Controller::GetMazeFromFile(const std::string& file_path) {
   m_maze_ = std::make_unique<s21::Maze>(file_path);
 }
 
+void s21::Controller::GenerateMaze(int rows, int cols) {
+    m_maze_ = std::make_unique<s21::Maze>(rows, cols);
+}
+

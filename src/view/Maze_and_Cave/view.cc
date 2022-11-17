@@ -41,6 +41,11 @@ void s21::View::MazeInit_() {
   }
 }
 
+void s21::View::RandomMaze_() {
+    m_controller_->GenerateMaze(m_ui_->maze_rows->value(), m_ui_->maze_cols->value());
+    PaintMaze_();
+}
+
 void s21::View::TransformCave_() {
   m_controller_->TransformOnce();
   PaintCave_();
@@ -91,6 +96,7 @@ void s21::View::ConnectButtons_() {
   connect(m_ui_->create_cave_button, SIGNAL(clicked()), this, SLOT(CaveInit_()));
   connect(m_ui_->flip_cave_button, SIGNAL(clicked()), this, SLOT(FlipCave_()));
   connect(m_ui_->maze_file_button, SIGNAL(clicked()), this, SLOT(MazeInit_()));
+  connect(m_ui_->random_maze_button, SIGNAL(clicked()), this, SLOT(RandomMaze_()));
 }
 
 void s21::View::StartSettings_() {

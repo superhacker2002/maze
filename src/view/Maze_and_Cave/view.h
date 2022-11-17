@@ -42,6 +42,7 @@ class View : public QMainWindow {
     void FlipCave_();
 
     void MazeInit_();
+    void RandomMaze_();
 };
 } // namespace s21
 #endif // SRC_VIEW_VIEW_H_
