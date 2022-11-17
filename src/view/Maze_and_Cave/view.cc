@@ -7,7 +7,10 @@ s21::View::View(QWidget *parent)
     m_controller_(new s21::Controller) {
 
   m_ui_->setupUi(this);
-  // m_ui_->draw_area->setScene(m_scene_);
+  m_ui_->draw_area->setScene(m_scene_);
+  m_ui_->draw_area->centerOn(0, 0);
+  m_scene_->setSceneRect(0, 0, 498, 498);
+
   m_ui_->draw_area->setStyleSheet("background-color:white;");
   m_ui_->draw_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_ui_->draw_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -16,7 +19,6 @@ s21::View::View(QWidget *parent)
 
 void s21::View::ClearDrawArea_() {
   m_scene_->clear();
-  
 }
 
 void s21::View::FlipCave_() {
@@ -48,16 +50,13 @@ void s21::View::PaintCave_() {
   int cols = m_controller_->GetCols();
 
   int x_size = 500 / rows, y_size = 500 / cols;
-  for (int x = -rows / 2, i = 0; i < rows; ++i, ++x)
-    for (int y = -cols / 2, j = 0; j < cols; ++j, ++y)
+
+  for (int i = 0; i < rows; ++i) {
+    for (int j = 0; j < cols; ++j) {
       if (m_controller_->GetValue(i, j))
-        m_scene_->addRect(
-          x * x_size, y * y_size,
-          x_size * 0.95, y_size * 0.95,
-          *m_pen_, Qt::SolidPattern
-        );
-  m_scene_->sceneRect().moveTo(0,0);
-  m_ui_->draw_area->setScene(m_scene_);
+        m_scene_->addRect(i * x_size, j * y_size, x_size, y_size, *m_pen_, Qt::SolidPattern);
+    }
+  }
 }
 
 s21::View::~View() {
