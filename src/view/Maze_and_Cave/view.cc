@@ -100,9 +100,10 @@ void s21::View::ConnectButtons_() {
 void s21::View::StartSettings_() {
   m_ui_->draw_area->setScene(m_scene_.get());
   m_ui_->draw_area->centerOn(0, 0);
-  m_scene_->setSceneRect(0, 0, 498, 498);
+  m_scene_->setSceneRect(10, 10, 510, 510);
   m_ui_->draw_area->setStyleSheet("background-color:white;");
   m_ui_->draw_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_ui_->draw_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  m_ui_->draw_area->setAlignment(Qt::AlignTop | Qt::AlignLeft);
   ConnectButtons_();
 }
