@@ -64,7 +64,6 @@ class Maze {
   int cols_;
   std::vector<int> side_line_;
   int counter_;
-  bool reading_error_;
 
 };  // class Maze
 }  // namespace s21

@@ -6,7 +6,7 @@
  * @param file_path Path to file to read maze from.
  */
 s21::Maze::Maze(const std::string& file_path)
-    : reading_error_(false),
+    : m_reading_error_(false),
     m_maze_(std::make_unique<s21::Maze::MazeMatrix>(getMazeFromFile(file_path))) {
     try {
         *(m_maze_.get()) = fillMazeMatrix(file_path);

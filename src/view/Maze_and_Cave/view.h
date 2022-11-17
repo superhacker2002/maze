@@ -20,21 +20,18 @@ class View : public QMainWindow {
 
   private:
     Ui::View* m_ui_;
-    QGraphicsScene* m_scene_;
-    QPen* m_pen_;
-    s21::Controller* m_controller_;
+    std::unique_ptr<QGraphicsScene> m_scene_;
+    std::unique_ptr<QPen> m_pen_;
+    std::unique_ptr<s21::Controller> m_controller_;
 
+    // common
     void StartSettings_();
-
-
-
     void ClearDrawArea_();
-    void PaintCave_();
     void ConnectButtons_();
-    
+    // cave
+    void PaintCave_();
+    // maze
     void PaintMaze_();
-
-
 
   private slots:
     void TransformCave_();
