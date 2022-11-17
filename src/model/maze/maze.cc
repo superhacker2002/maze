@@ -5,7 +5,7 @@ s21::Maze::Maze(const std::string& file_path)
     : m_maze_(std::make_unique<s21::Maze::MazeMatrix>(getMazeFromFile(file_path))),
       reading_error_(false) {
     try {
-        *(m_maze_.get()) = std::move(fillMazeMatrix(file_path));
+        *(m_maze_.get()) = fillMazeMatrix(file_path);
     } catch (...) {
         reading_error_ = true;
         getError();
@@ -77,7 +77,7 @@ void s21::Maze::fillRightWall(std::fstream& file, std::vector<s21::walls>& maze)
              for (size_t j = 0; j < cols; ++j) {
                 int state = stoi(buffer);
                 s21::walls cell_walls {};
-                cell_walls.right_wall = isRightWall(buffer, state);
+                cell_walls.right_wall = isWall(state);
                 maze.emplace_back(cell_walls);
                 removePrevState(buffer);
             }
@@ -88,7 +88,7 @@ void s21::Maze::fillRightWall(std::fstream& file, std::vector<s21::walls>& maze)
     getError();
 }
 
-bool s21::Maze::isRightWall(const std::string& buffer, const int& state) {
+bool s21::Maze::isWall(const int& state) {
     if (!(state == 0 || state == 1)) {
         reading_error_ = true;
         getError();
@@ -110,32 +110,27 @@ void s21::Maze::fillBottomWall(std::fstream& file, std::vector<s21::walls>& maze
     size_t rows = m_maze_->GetRows();
     size_t cols = m_maze_->GetCols();
     for (size_t i = 0; i < rows; ++i) {
-        getline(file, buffer);
-        for (size_t j = 0; j < cols; ++j) {
-            if (!buffer.empty()) {
+        if (getline(file, buffer) && !buffer.empty()) {
+            for (size_t j = 0; j < cols; ++j) {
                 int state = stoi(buffer);
-                if (state == 1) {
-                    (*cell).bottom_wall = true;
-                } else if (state != 0) {
-                    reading_error_ = true;
-                }
-                if (state == 0 || state == 1) {
-                    if (buffer.size() == 1) {
-                        buffer.erase(0, 1);
-                    } else {
-                        buffer.erase(0, buffer.find_first_of(' ') + 1);
-                    }
-                }
+                (*cell).bottom_wall = isWall(state);
+                removePrevState(buffer);
+                ++cell;
             }
-            ++cell;
+        } else {
+            reading_error_ = true;
         }
     }
+    getError();
 }
 
 void s21::Maze::outputMaze() {
     std::cout << "- - - - - - -\n";
-    for (size_t i = 0; i < m_maze_->GetRows(); ++i) {
-        for (size_t j = 0; j < m_maze_->GetCols(); ++j) {
+    size_t rows = m_maze_->GetRows();
+    size_t cols = m_maze_->GetCols();
+
+    for (size_t i = 0; i < rows; ++i) {
+        for (size_t j = 0; j < cols; ++j) {
             if (j == 0) {
                 std::cout << "|";
             }

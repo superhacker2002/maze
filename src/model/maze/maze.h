@@ -36,7 +36,7 @@ class Maze {
   std::pair<int, int> getMazeSize(std::fstream& file);
   MazeMatrix fillMazeMatrix(const std::string &file_path);
   void fillRightWall(std::fstream& file, std::vector<walls>& maze);
-  bool isRightWall(const std::string& buffer, const int& state);
+  bool isWall(const int& state);
   void removePrevState(std::string& buffer);
   void fillBottomWall(std::fstream& file, std::vector<walls>& maze);
 
