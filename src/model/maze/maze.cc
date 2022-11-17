@@ -27,7 +27,7 @@ s21::Maze::Maze(int rows, int cols)
     rows_(rows),
     cols_(cols),
     counter_(1),
-    reading_error_(false) {
+    m_reading_error_(false) {
     generateMaze();
 }
 

@@ -3,8 +3,8 @@
 
 s21::View::View(QWidget *parent)
     : QMainWindow(parent) , m_ui_(new s21::Ui::View),
-    m_scene_(std::make_unique<QGraphicsScene>), m_pen_(std::make_unique<QPen>(Qt::SolidPattern, 2)),
-    m_controller_(std::make_unique<s21::Controller>) {
+    m_scene_(std::make_unique<QGraphicsScene>()), m_pen_(std::make_unique<QPen>(Qt::SolidPattern, 2)),
+    m_controller_(std::make_unique<s21::Controller>()) {
   m_ui_->setupUi(this);
   StartSettings_();  
 }
@@ -87,8 +87,6 @@ void s21::View::PaintMaze_() {
 
 s21::View::~View() {
   delete m_ui_;
-  delete m_scene_;
-  delete m_controller_;
 }
 
 void s21::View::ConnectButtons_() {
@@ -100,7 +98,7 @@ void s21::View::ConnectButtons_() {
 }
 
 void s21::View::StartSettings_() {
-  m_ui_->draw_area->setScene(m_scene_);
+  m_ui_->draw_area->setScene(m_scene_.get());
   m_ui_->draw_area->centerOn(0, 0);
   m_scene_->setSceneRect(0, 0, 498, 498);
   m_ui_->draw_area->setStyleSheet("background-color:white;");

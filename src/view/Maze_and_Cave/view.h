@@ -20,6 +20,7 @@ class View : public QMainWindow {
 
   private:
     Ui::View* m_ui_;
+    // std::unique_ptr<Ui::View> m_ui_;
     std::unique_ptr<QGraphicsScene> m_scene_;
     std::unique_ptr<QPen> m_pen_;
     std::unique_ptr<s21::Controller> m_controller_;
