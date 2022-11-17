@@ -25,7 +25,7 @@ void s21::Maze::generateMaze() {
  */
 void s21::Maze::fillEmptyValues() {
     for (int i = 0; i < cols_; i++) {
-        side_line_.push_back(kEmpty);
+        side_line_.push_back(kEMPTY);
     }
 }
 
@@ -35,7 +35,7 @@ void s21::Maze::fillEmptyValues() {
  */
 void s21::Maze::assignUniqueSet() {
     for (int i = 0; i < cols_; i++) {
-        if (side_line_[i] == kEmpty) {
+        if (side_line_[i] == kEMPTY) {
             side_line_[i] = counter_;
             ++counter_;
         }
@@ -149,7 +149,7 @@ int s21::Maze::calculateBottomWalls(int element, int row) {
 void s21::Maze::prepareNewLine(int row) {
     for (int i = 0; i < cols_; i++) {
         if ((m_maze_(row, i)).bottom_wall) {
-            side_line_[i] = kEmpty;
+            side_line_[i] = kEMPTY;
         }
     }
 }

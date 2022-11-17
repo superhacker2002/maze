@@ -11,7 +11,7 @@ struct  walls {
     bool right_wall;  // стенка справа от ячейки
     bool bottom_wall;  // стенка снизу от ячейки
 };
-constexpr int kEmpty = 0;
+constexpr int kEMPTY = 0;
 
 class Maze {
  public:
