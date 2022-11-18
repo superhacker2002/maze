@@ -1,5 +1,4 @@
 #include "maze.h"
-#include <fstream>
 
 /**
  * Constructor for initializing maze from file.

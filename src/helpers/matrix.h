@@ -128,6 +128,13 @@ class Matrix {
 
   // Main methods
 
+  const T at(const int& i, const int& j) const {
+    if (i >= this->rows_ || j >= this->columns_ || i < 0 || j < 0)
+      throw std::out_of_range("Out of range");
+    return this->matrix_[i][j];
+  }
+
+
   void SetRows(int new_rows) {
     if (new_rows <= 0) throw std::out_of_range("Out of range");
     if (new_rows != this->rows_) {

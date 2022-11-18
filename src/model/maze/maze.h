@@ -2,6 +2,7 @@
 #define SRC_MODEL_MAZE_MAZE_H_
 
 #include "../../helpers/matrix.h"
+#include "fstream"
 
 namespace s21 {
 struct  walls {
@@ -21,6 +22,8 @@ class Maze {
   int GetCols();
   walls GetValue(int i, int j);
 
+  friend std::ofstream& operator<<(std::ofstream& file, const Maze& maze);
+
  private:
   bool m_reading_error_;
   MazeMatrix m_maze_;  // указатель на матрицу, представляющую лабиринт
@@ -33,15 +36,16 @@ class Maze {
 
   void fillEmptyValues();
   void assignUniqueSet();
-  void addRightWall(int row);
+  void addRightWalls(int row);
   void mergeSet(int index, int element);
-  void addBottomWall(int row);
+  void addBottomWalls(int row);
   int calculateUniqueSet(int element);
   void checkBottomWall(int row);
   int calculateBottomWalls(int element, int row);
   void prepareNewLine(int row);
   void addEndLine();
   void checkEndLine();
+  void writeMazeToFile();
 
   MazeMatrix getMazeFromFile(const std::string& file_path);
 
@@ -51,7 +55,6 @@ class Maze {
   void fillBottomWall(std::fstream& file, std::vector<walls>& maze);
   bool isWall(const int& state);
   void removePrevState(std::string& buffer);
-
   void getError() const;
 };  // class Maze
 }  // namespace s21
