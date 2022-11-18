@@ -54,6 +54,7 @@ void hasWall(bool is_wall, std::string &maze_str) {
     }
 }
 
+<<<<<<< HEAD
 /**
  * Operator that allows to write maze in file
  * that was defined by user in specific format.
@@ -109,8 +110,32 @@ std::ofstream &operator<<(std::ofstream &file, const Maze &maze) {
 //        std::cout << "\n";
 //    }
 //}
+
+s21::Maze::AnswerData s21::Maze::GetAnswer(std::pair<int, int> p1, std::pair<int, int> p2) {
+  AnswerData data;
+  return data;
+}
+
+// s21::Maze::AnswerData s21::Maze::GetAnswer(std::pair<int, int> p1, std::pair<int, int> p2) {
+//   AnswerData data;
+//   p1.first;
+//   p2.first;
+//   data.push_back(kBOTTOM);
+//   data.push_back(kBOTTOM);
+//   data.push_back(kBOTTOM);
+//   data.push_back(kBOTTOM);
+
+//   data.push_back(kRIGHT);
+//   data.push_back(kRIGHT);
+//   data.push_back(kRIGHT);
+
+//   data.push_back(kBOTTOM);
+//   data.push_back(kBOTTOM);
+
+//   data.push_back(kRIGHT);
+//   data.push_back(kBOTTOM);
+//   data.push_back(kLEFT);
+
+//   return data;
+// }
 }  // namespace s21
-
-
-
-
