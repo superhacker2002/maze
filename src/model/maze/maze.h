@@ -5,14 +5,21 @@
 
 namespace s21 {
 struct  walls {
-    bool right_wall;  // стенка справа от ячейки
-    bool bottom_wall;  // стенка снизу от ячейки
+  bool right_wall;  // стенка справа от ячейки
+  bool bottom_wall;  // стенка снизу от ячейки
+};
+enum directions {
+  kLEFT,
+  kRIGHT,
+  kTOP,
+  kBOTTOM
 };
 constexpr int kEMPTY = 0;
 
 class Maze {
  public:
   using MazeMatrix = s21::Matrix<walls>;
+  using AnswerData = std::vector<float>;
 
   explicit Maze(const std::string& file_path);
   explicit Maze(int rows, int cols);
@@ -20,6 +27,7 @@ class Maze {
   int GetRows();
   int GetCols();
   walls GetValue(int i, int j);
+  AnswerData GetAnswer(std::pair<int, int> point1, std::pair<int, int> point2);
 
  private:
   void generateMaze();

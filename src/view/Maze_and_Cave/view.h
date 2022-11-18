@@ -34,6 +34,7 @@ class View : public QMainWindow {
     // maze
     void PaintMaze_();
     void PaintBorders_();
+    std::vector<QLineF> GetAnswer_();
 
   private slots:
     void TransformCave_();
@@ -42,6 +43,7 @@ class View : public QMainWindow {
 
     void MazeInit_();
     void RandomMaze_();
+    void PaintAnswer_();
 };
 } // namespace s21
 #endif // SRC_VIEW_VIEW_H_

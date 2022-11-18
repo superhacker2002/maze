@@ -24,6 +24,7 @@ class Controller {
     void TransformOnce() { m_cave_.get()->Transform(); }
     void TransformTillEnd() { m_cave_.get()->TransformCycle(); }
     void FlipCave() { m_cave_.get()->FlipCave(); }
+    bool DoesCaveExist() { return m_cave_ != nullptr; }
 
 
     void GetMazeFromFile(const std::string& file_path);
@@ -31,6 +32,8 @@ class Controller {
     int GetMazeRows() { return m_maze_.get()->GetRows(); }
     int GetMazeCols() { return  m_maze_.get()->GetCols(); }
     walls GetWall(int i, int j) { return m_maze_.get()->GetValue(i, j); }
+    s21::Maze::AnswerData GetAnswer(std::pair<int, int> p1, std::pair<int, int> p2) { return m_maze_->GetAnswer(p1, p2); }
+    bool DoesMazeExist() { return m_maze_ != nullptr; }
 
 };  // class Controller
 }  // namespace s21

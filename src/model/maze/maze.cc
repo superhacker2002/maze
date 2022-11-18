@@ -73,6 +73,34 @@ void s21::Maze::outputMaze() {
     }
 }
 
+s21::Maze::AnswerData s21::Maze::GetAnswer(std::pair<int, int> p1, std::pair<int, int> p2) {
+  AnswerData data;
+  
+  
 
+  return data;
+}
 
+// s21::Maze::AnswerData s21::Maze::GetAnswer(std::pair<int, int> p1, std::pair<int, int> p2) {
+//   AnswerData data;
+//   p1.first;
+//   p2.first;
+//   data.push_back(kBOTTOM);
+//   data.push_back(kBOTTOM);
+//   data.push_back(kBOTTOM);
+//   data.push_back(kBOTTOM);
+
+//   data.push_back(kRIGHT);
+//   data.push_back(kRIGHT);
+//   data.push_back(kRIGHT);
+
+//   data.push_back(kBOTTOM);
+//   data.push_back(kBOTTOM);
+
+//   data.push_back(kRIGHT);
+//   data.push_back(kBOTTOM);
+//   data.push_back(kLEFT);
+
+//   return data;
+// }
 

@@ -6,7 +6,7 @@ s21::View::View(QWidget *parent)
     m_scene_(std::make_unique<QGraphicsScene>()), m_pen_(std::make_unique<QPen>(Qt::SolidPattern, 2)),
     m_controller_(std::make_unique<s21::Controller>()) {
   m_ui_->setupUi(this);
-  StartSettings_();  
+  StartSettings_();
 }
 
 void s21::View::ClearDrawArea_() {
@@ -25,7 +25,7 @@ void s21::View::FlipCave_() {
 
 void s21::View::CaveInit_() {
   m_controller_->GetRandomCave(
-    m_ui_->rows_spinbox->value(), 
+    m_ui_->rows_spinbox->value(),
     m_ui_->cols_spinbox->value(),
     {
       m_ui_->birth_spinbox->value(),
@@ -82,7 +82,7 @@ void s21::View::PaintMaze_() {
         int y1 = (i + 1) * y_size == 0 ? 10 : (i + 1) * y_size;
         int x2 = x1 + x_size == 0 ? 10 : x1 + x_size;
         int y2 = y1;
-        m_scene_->addLine(x1, y1, x2, y2, *m_pen_);  
+        m_scene_->addLine(x1, y1, x2, y2, *m_pen_);
       }
       if (m_controller_->GetWall(i, j).right_wall) {
         int x1 = (j + 1) * x_size == 0 ? 10 : (j + 1) * x_size;
@@ -92,6 +92,48 @@ void s21::View::PaintMaze_() {
         m_scene_->addLine(x1, y1, x2, y2, *m_pen_);
       }
     }
+  }
+}
+
+std::vector<QLineF> s21::View::GetAnswer_() {
+  std::vector<QLineF> lines;
+  int x_size = 500 / m_controller_->GetMazeRows();
+  int y_size = 500 / m_controller_->GetMazeCols();
+  float x1 = (m_ui_->x1_spinbox->value() + 0.5);
+  float y1 = (m_ui_->y1_spinbox->value() + 0.5);
+  float x2 = (m_ui_->x2_spinbox->value() + 0.5);
+  float y2 = (m_ui_->y2_spinbox->value() + 0.5);
+  s21::Maze::AnswerData data = m_controller_->GetAnswer({x1, y1}, {x2, y2});
+  x1 *= x_size, y1 *= y_size;
+  for (auto it = data.begin(); it != data.end(); ++it) {
+    if (*it == kLEFT) {
+      x2 = x1 - x_size;
+      y2 = y1;
+    } else if (*it == kRIGHT) {
+      x2 = x1 + x_size;
+      y2 = y1;
+    } else if (*it == kTOP) {
+      x2 = x1;
+      y2 = y1 - y_size;
+    } else {
+      x2 = x1;
+      y2 = y1 + y_size;
+    }
+    lines.push_back(QLineF(x1, y1, x2, y2));
+    x1 = x2, y1 = y2;
+  }
+  return lines;
+}
+
+void s21::View::PaintAnswer_() {
+  if (m_controller_->DoesMazeExist()) {
+    m_pen_->setColor(QColor::fromRgbF(1.0, 0.0, 0.0));  // red
+
+    auto lines_vec = GetAnswer_();
+    for (auto it = lines_vec.begin(); it != lines_vec.end(); ++it)
+      m_scene_->addLine(*it, *m_pen_);
+
+    m_pen_->setColor(QColor::fromRgbF(0.0, 0.0, 0.0));  // back to black  
   }
 }
 
@@ -105,6 +147,7 @@ void s21::View::ConnectButtons_() {
   connect(m_ui_->flip_cave_button, SIGNAL(clicked()), this, SLOT(FlipCave_()));
   connect(m_ui_->maze_file_button, SIGNAL(clicked()), this, SLOT(MazeInit_()));
   connect(m_ui_->random_maze_button, SIGNAL(clicked()), this, SLOT(RandomMaze_()));
+  connect(m_ui_->draw_answer_button, SIGNAL(clicked()), this, SLOT(PaintAnswer_()));
 }
 
 void s21::View::StartSettings_() {
