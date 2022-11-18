@@ -7,8 +7,8 @@ namespace s21 {
  * @param rows Rows of the cave.
  * @param cols Cols of the cave.
  * @param limit Struct with birth and death limits of the cells in cave.
- * @param birth_chance A chance of the live cell in cave at the
- * moment of initialization.
+ * @param birth_chance A chance of the cell to be "alive"
+ * at the moment of initialization.
  */
 Cave::Cave(size_t rows, size_t cols, Limits limit, int birth_chance)
     : m_cave_(Cave::CaveMatrix(rows, cols)),
