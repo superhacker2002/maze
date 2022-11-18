@@ -1,105 +1,152 @@
 #include "cave.h"
 
-s21::Cave::Cave(size_t rows, size_t cols, Limits limit, int birth_chance)
-    : m_cave_(s21::Cave::CaveMatrix(rows, cols)),
-    m_rows_(rows),
-    m_cols_(cols),
-    m_limits_(limit),
-    m_birth_chance_(birth_chance) {
-  InitializeCave_();
+namespace s21 {
+/**
+ * Constructor for initializing random cave
+ * of the specified by user size.
+ * @param rows Rows of the cave.
+ * @param cols Cols of the cave.
+ * @param limit Struct with birth and death limits of the cells in cave.
+ * @param birth_chance A chance of the live cell in cave at the
+ * moment of initialization.
+ */
+Cave::Cave(size_t rows, size_t cols, Limits limit, int birth_chance)
+    : m_cave_(Cave::CaveMatrix(rows, cols)),
+      m_rows_(rows),
+      m_cols_(cols),
+      m_limits_(limit),
+      m_birth_chance_(birth_chance) {
+    InitializeCave_();
 }
 
-s21::Cave::Cave(const std::string& file_path, Limits limit)
-    : m_cave_(s21::Cave::CaveMatrix(GetCaveFromFile_(file_path))),
-    m_rows_(m_cave_.GetRows()),
-    m_cols_(m_cave_.GetCols()),
-    m_limits_(limit) { ; }
+/**
+ * Constructor for initialization of the cave
+ * from file specified by user.
+ * @param file_path Path to the file what we read from.
+ * @param limit Struct with birth and death limits of the
+ * cells in cave.
+ */
+Cave::Cave(const std::string &file_path, Limits limit)
+    : m_cave_(Cave::CaveMatrix(GetCaveFromFile_(file_path))),
+      m_rows_(m_cave_.GetRows()),
+      m_cols_(m_cave_.GetCols()),
+      m_limits_(limit) { ; }
 
-void s21::Cave::OutputCave() { m_cave_.OutputMatrix(); }
+void Cave::OutputCave() { m_cave_.OutputMatrix(); }
 
-int s21::Cave::GetRows() { return m_cave_.GetRows(); }
+int Cave::GetRows() { return m_cave_.GetRows(); }
 
-int s21::Cave::GetCols() { return m_cave_.GetCols(); }
+int Cave::GetCols() { return m_cave_.GetCols(); }
 
-bool s21::Cave::GetValue(int i, int j) { return m_cave_(i, j); }
+bool Cave::GetValue(int i, int j) { return m_cave_(i, j); }
 
-void s21::Cave::FlipCave() { m_cave_.Transpose(); }
+void Cave::FlipCave() { m_cave_.Transpose(); }
 
-void s21::Cave::InitializeCave_() {
-  for (int i = 0; i < m_rows_; ++i)
-    for (int j = 0; j < m_cols_; ++j) {
-      if (GetRandomNumber_() <= m_birth_chance_)
-        m_cave_(i, j) = kALIVE;
-      else
-        m_cave_(i, j) = kDEAD;
-    }
-}
-
-bool s21::Cave::Transform() {
-  bool changed = false;
-  s21::Matrix<bool> tmp_cave(m_rows_, m_cols_);
-  for (int i = 0; i < m_rows_; ++i) {
-    for (int j = 0; j < m_cols_; ++j) {
-      int alive_count = GetAliveNeighboursCount_(i, j);
-      if (m_cave_(i, j) == kALIVE && alive_count < m_limits_.death_limit) {
-        tmp_cave(i, j) = kDEAD;
-        changed = true;
-      } else if (m_cave_(i, j) == kDEAD && alive_count > m_limits_.birth_limit) {
-        tmp_cave(i, j) = kALIVE;
-        changed = true;
-      } else {
-        tmp_cave(i, j) = m_cave_(i, j);
-      }
-    }
-  }
-  m_cave_ = tmp_cave;
-  return changed;
-}
-
-void s21::Cave::TransformCycle() {
-  // пока поле меняется, запускаем трансформацию
-  while (Transform()) {}
-}
-
-int s21::Cave::GetAliveNeighboursCount_(int i, int j) {
-  int counter = 0;
-  for (int buf_i = i - 1; buf_i < i + 2; ++buf_i) {
-    for (int buf_j = j - 1; buf_j < j + 2; ++buf_j) {
-      if (buf_i != i || buf_j != j) {
-        try {
-          if (m_cave_(buf_i, buf_j) == kALIVE)
-            counter++;
-        } catch (std::out_of_range& err) {  // если клетки нет, считаем ее живой
-          counter++;
+/**
+ * Filling the cave with cells states
+ * according to the randomly generated numbers.
+ * In the end the cell must be either
+ * "alive" or "dead".
+ */
+void Cave::InitializeCave_() {
+    for (int i = 0; i < m_rows_; ++i)
+        for (int j = 0; j < m_cols_; ++j) {
+            if (GetRandomNumber_() <= m_birth_chance_)
+                m_cave_(i, j) = kALIVE;
+            else
+                m_cave_(i, j) = kDEAD;
         }
-      }
-    }
-  }
-  return counter;
 }
 
-s21::Matrix<bool> s21::Cave::GetCaveFromFile_(const std::string& file_path) {
-  std::string buffer;
-  std::vector<bool> cave;
-  std::fstream file;
-  file.open(file_path);
-  if (file.is_open()) {
-    while (getline(file, buffer)) {
-      while (buffer.size() > 0) {
-        cave.push_back(stoi(buffer));
-        buffer.erase(0, buffer.find_first_of(' ') + 1);
-      }
+/**
+ * Transforms current matrix according to the
+ * cellular automation algorithm.
+ * @return True - changes in matrix occurred,
+ *         false - transformation is impossible.
+ */
+bool Cave::Transform() {
+    bool changed = false;
+    Cave::CaveMatrix tmp_cave(m_rows_, m_cols_);
+    for (int i = 0; i < m_rows_; ++i) {
+        for (int j = 0; j < m_cols_; ++j) {
+            int alive_count = GetAliveNeighboursCount_(i, j);
+            if (m_cave_(i, j) == kALIVE && alive_count < m_limits_.death_limit) {
+                tmp_cave(i, j) = kDEAD;
+                changed = true;
+            } else if (m_cave_(i, j) == kDEAD && alive_count > m_limits_.birth_limit) {
+                tmp_cave(i, j) = kALIVE;
+                changed = true;
+            } else {
+                tmp_cave(i, j) = m_cave_(i, j);
+            }
+        }
     }
-  }
-  cave.erase(cave.begin());
-  cave.erase(cave.begin());
-  return s21::Matrix<bool>::VectorToMatrix(cave);
+    m_cave_ = tmp_cave;
+    return changed;
 }
 
-int s21::Cave::GetRandomNumber_() {
-  std::mt19937 engine;
-  std::random_device device;
-  engine.seed(device());
-  int num = engine() % 100 - 0;
-  return num;
+/**
+ * Transforms current cave matrix
+ * while the transformation is allowed.
+ */
+void Cave::TransformCycle() {
+    // пока поле меняется, запускаем трансформацию
+    while (Transform()) {}
 }
+
+/**
+ * Counts "alive" neighbours of the cell in order
+ * to decide if cell must "die" or not.
+ * @param i The row where the cell is.
+ * @param j The column where the cell is.
+ * @return The number of alive neighbours.
+ */
+int Cave::GetAliveNeighboursCount_(int i, int j) {
+    int counter = 0;
+    for (int buf_i = i - 1; buf_i < i + 2; ++buf_i) {
+        for (int buf_j = j - 1; buf_j < j + 2; ++buf_j) {
+            if (buf_i != i || buf_j != j) {
+                try {
+                    if (m_cave_(buf_i, buf_j) == kALIVE)
+                        counter++;
+                } catch (std::out_of_range &err) {  // если клетки нет, считаем ее живой
+                    counter++;
+                }
+            }
+        }
+    }
+    return counter;
+}
+
+/**
+ * Filling cave matrix by receiving
+ * information from user specified file.
+ * @param file_path File function reads from.
+ * @return Cave matrix filled with data from file.
+ */
+Cave::CaveMatrix Cave::GetCaveFromFile_(const std::string &file_path) {
+    std::string buffer;
+    std::vector<bool> cave;
+    std::fstream file;
+    file.open(file_path);
+    if (file.is_open()) {
+        while (getline(file, buffer)) {
+            while (buffer.size() > 0) {
+                cave.push_back(stoi(buffer));
+                buffer.erase(0, buffer.find_first_of(' ') + 1);
+            }
+        }
+    }
+    cave.erase(cave.begin());
+    cave.erase(cave.begin());
+    return Cave::CaveMatrix::VectorToMatrix(cave);
+}
+
+int Cave::GetRandomNumber_() {
+    std::mt19937 engine;
+    std::random_device device;
+    engine.seed(device());
+    int num = engine() % 100 - 0;
+    return num;
+}
+}  // namespace s21

@@ -23,7 +23,7 @@ class Cave {
   using CaveMatrix = s21::Matrix<bool>;
 
  private:
-  CaveMatrix m_cave_;  // указатель на матрицу, представляющую пещеру
+  CaveMatrix m_cave_;  // матрица, представляющая пещеру
   Limits m_limits_;  // {зарождения, смерти}
   int m_birth_chance_;  // шанс живой клетки при инициализации [0-100]%
   int m_rows_;
