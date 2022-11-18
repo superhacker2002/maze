@@ -12,8 +12,6 @@ namespace s21 {
  */
 Cave::Cave(size_t rows, size_t cols, Limits limit, int birth_chance)
     : m_cave_(Cave::CaveMatrix(rows, cols)),
-      m_rows_(rows),
-      m_cols_(cols),
       m_limits_(limit),
       m_birth_chance_(birth_chance) {
     InitializeCave_();
@@ -28,8 +26,6 @@ Cave::Cave(size_t rows, size_t cols, Limits limit, int birth_chance)
  */
 Cave::Cave(const std::string &file_path, Limits limit)
     : m_cave_(Cave::CaveMatrix(GetCaveFromFile_(file_path))),
-      m_rows_(m_cave_.GetRows()),
-      m_cols_(m_cave_.GetCols()),
       m_limits_(limit) { ; }
 
 void Cave::OutputCave() { m_cave_.OutputMatrix(); }
@@ -49,8 +45,10 @@ void Cave::FlipCave() { m_cave_.Transpose(); }
  * "alive" or "dead".
  */
 void Cave::InitializeCave_() {
-    for (int i = 0; i < m_rows_; ++i)
-        for (int j = 0; j < m_cols_; ++j) {
+    int rows = m_cave_.GetRows();
+    int cols = m_cave_.GetCols();
+    for (int i = 0; i < rows; ++i)
+        for (int j = 0; j < cols; ++j) {
             if (GetRandomNumber_() <= m_birth_chance_)
                 m_cave_(i, j) = kALIVE;
             else
@@ -66,9 +64,11 @@ void Cave::InitializeCave_() {
  */
 bool Cave::Transform() {
     bool changed = false;
-    Cave::CaveMatrix tmp_cave(m_rows_, m_cols_);
-    for (int i = 0; i < m_rows_; ++i) {
-        for (int j = 0; j < m_cols_; ++j) {
+    int rows = m_cave_.GetRows();
+    int cols = m_cave_.GetCols();
+    Cave::CaveMatrix tmp_cave(rows, cols);
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
             int alive_count = GetAliveNeighboursCount_(i, j);
             if (m_cave_(i, j) == kALIVE && alive_count < m_limits_.death_limit) {
                 tmp_cave(i, j) = kDEAD;

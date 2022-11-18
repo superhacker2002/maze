@@ -169,12 +169,12 @@ class Matrix {
     this->SetRows(new_rows), this->SetColumns(new_cols);
   }
 
-  int GetRows() {
+  int GetRows() const {
     if (IsNull_(*this)) throw std::out_of_range("Out of range");
     return this->rows_;
   }
 
-  int GetCols() {
+  int GetCols() const {
     if (IsNull_(*this)) throw std::out_of_range("Out of range");
     return this->columns_;
   }
@@ -243,7 +243,7 @@ class Matrix {
                                                                     : true;
   }
 
-  bool IsNull_(const Matrix& matrix) {
+  bool IsNull_(const Matrix& matrix) const {
     return matrix.matrix_ != nullptr ? false : true;
   }
 

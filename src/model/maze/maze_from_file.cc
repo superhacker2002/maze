@@ -16,8 +16,8 @@ Maze::MazeMatrix Maze::getMazeFromFile(const std::string &file_path) {
         m_reading_error_ = true;
         getError();
     }
-    getMazeSize(file);
-    Maze::MazeMatrix maze_matrix(m_rows_, m_cols_);
+    auto size = getMazeSize(file);
+    Maze::MazeMatrix maze_matrix(size.first, size.second);
     file.close();
     return maze_matrix;
 }
@@ -30,13 +30,14 @@ Maze::MazeMatrix Maze::getMazeFromFile(const std::string &file_path) {
  * writes an error.
  * @param file File stream from what we read.
  */
-void Maze::getMazeSize(std::fstream &file) {
+std::pair<int, int>& Maze::getMazeSize(std::fstream &file) {
     std::string buffer;
+    std::pair<int, int> size;
     if (getline(file, buffer)) {
         try {
-            m_rows_ = stoi(buffer);
+            size.first = stoi(buffer);
             buffer.erase(0, buffer.find_first_of(' ') + 1);
-            m_cols_ = stoi(buffer);
+            size.second = stoi(buffer);
         } catch (...) {
             m_reading_error_ = true;
         }
@@ -44,6 +45,7 @@ void Maze::getMazeSize(std::fstream &file) {
         m_reading_error_ = true;
     }
     getError();
+    return size;
 }
 
 /**
@@ -83,9 +85,11 @@ Maze::MazeMatrix Maze::fillMazeMatrix(const std::string &file_path) {
  */
 void Maze::fillRightWall(std::fstream &file, std::vector<walls> &maze) {
     std::string buffer;
-    for (int i = 0; i < m_rows_; ++i) {
+    int rows = m_maze_.GetRows();
+    int cols = m_maze_.GetCols();
+    for (int i = 0; i < rows; ++i) {
         if (getline(file, buffer) && !buffer.empty()) {
-            for (int j = 0; j < m_cols_; ++j) {
+            for (int j = 0; j < cols; ++j) {
                 int state = stoi(buffer);
                 walls cell_walls{};
                 cell_walls.right_wall = isWall(state);
@@ -130,9 +134,11 @@ void Maze::removePrevState(std::string &buffer) {
 void Maze::fillBottomWall(std::fstream &file, std::vector<walls> &maze) {
     std::string buffer;
     auto cell = maze.begin();
-    for (int i = 0; i < m_rows_; ++i) {
+    int rows = m_maze_.GetRows();
+    int cols = m_maze_.GetCols();
+    for (int i = 0; i < rows; ++i) {
         if (getline(file, buffer) && !buffer.empty()) {
-            for (int j = 0; j < m_cols_; ++j) {
+            for (int j = 0; j < cols; ++j) {
                 int state = stoi(buffer);
                 (*cell).bottom_wall = isWall(state);
                 removePrevState(buffer);

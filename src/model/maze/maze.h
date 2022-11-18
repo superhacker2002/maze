@@ -56,7 +56,7 @@ class Maze {
 
   MazeMatrix getMazeFromFile(const std::string& file_path);
 
-  void getMazeSize(std::fstream& file);
+  std::pair<int, int>& getMazeSize(std::fstream& file);
   MazeMatrix fillMazeMatrix(const std::string &file_path);
   void fillRightWall(std::fstream& file, std::vector<walls>& maze);
   void fillBottomWall(std::fstream& file, std::vector<walls>& maze);

@@ -54,7 +54,6 @@ void hasWall(bool is_wall, std::string &maze_str) {
     }
 }
 
-<<<<<<< HEAD
 /**
  * Operator that allows to write maze in file
  * that was defined by user in specific format.

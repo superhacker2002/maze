@@ -26,8 +26,6 @@ class Cave {
   CaveMatrix m_cave_;  // матрица, представляющая пещеру
   Limits m_limits_;  // {зарождения, смерти}
   int m_birth_chance_;  // шанс живой клетки при инициализации [0-100]%
-  int m_rows_;
-  int m_cols_;
 
  public:
   Cave(size_t rows, size_t cols, Limits limit, int birth_chance);
