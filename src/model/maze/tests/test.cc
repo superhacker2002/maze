@@ -1,3 +1,0 @@
-#include "maze.h"
-
-TEST()

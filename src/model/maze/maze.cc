@@ -25,8 +25,6 @@ Maze::Maze(const std::string &file_path)
 Maze::Maze(int rows, int cols)
     : m_reading_error_(false),
       m_maze_(Maze::MazeMatrix(rows, cols)),
-      m_rows_(rows),
-      m_cols_(cols),
       m_counter_(1) {
     generateMaze();
 }
@@ -65,17 +63,19 @@ void hasWall(bool is_wall, std::string &maze_str) {
  */
 std::ofstream &operator<<(std::ofstream &file, const Maze &maze) {
     std::string maze_str;
-    maze_str.append(std::to_string(maze.m_rows_) + " "
-                    + std::to_string(maze.m_cols_) + "\n");
-    for (int i = 0; i < maze.m_rows_; ++i) {
-        for (int j = 0; j < maze.m_cols_; ++j) {
+    int rows = maze.m_maze_.GetRows();
+    int cols = maze.m_maze_.GetCols();
+    maze_str.append(std::to_string(rows) + " "
+                    + std::to_string(cols) + "\n");
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
             hasWall(maze.m_maze_.at(i, j).right_wall, maze_str);
         }
         maze_str.append("\n");
     }
     maze_str.append("\n");
-    for (int i = 0; i < maze.m_rows_; ++i) {
-        for (int j = 0; j < maze.m_cols_; ++j) {
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
             hasWall(maze.m_maze_.at(i, j).bottom_wall, maze_str);
         }
         maze_str.append("\n");
@@ -85,30 +85,30 @@ std::ofstream &operator<<(std::ofstream &file, const Maze &maze) {
     return file;
 }
 
-void Maze::outputMaze() {
-    std::cout << " - - - - - - - - \n";
-
-    for (int i = 0; i < m_rows_; ++i) {
-        for (int j = 0; j < m_cols_; ++j) {
-            if (j == 0) {
-                std::cout << "|";
-            }
-            bool right_wall = (m_maze_(i, j)).right_wall;
-            bool bottom_wall = (m_maze_(i, j)).bottom_wall;
-            if (bottom_wall) {
-                std::cout << "_";
-            } else {
-                std::cout << " ";
-            }
-            if (right_wall) {
-                std::cout << " |";
-            } else {
-                std::cout << "  ";
-            }
-        }
-        std::cout << "\n";
-    }
-}
+//void Maze::outputMaze() {
+//    std::cout << " - - - - - - - - \n";
+//
+//    for (int i = 0; i < m_rows_; ++i) {
+//        for (int j = 0; j < m_cols_; ++j) {
+//            if (j == 0) {
+//                std::cout << "|";
+//            }
+//            bool right_wall = (m_maze_(i, j)).right_wall;
+//            bool bottom_wall = (m_maze_(i, j)).bottom_wall;
+//            if (bottom_wall) {
+//                std::cout << "_";
+//            } else {
+//                std::cout << " ";
+//            }
+//            if (right_wall) {
+//                std::cout << " |";
+//            } else {
+//                std::cout << "  ";
+//            }
+//        }
+//        std::cout << "\n";
+//    }
+//}
 }  // namespace s21
 
 

@@ -15,6 +15,7 @@ class Maze {
  public:
   using MazeMatrix = s21::Matrix<walls>;
 
+  Maze() = default;
   explicit Maze(const std::string& file_path);
   explicit Maze(int rows, int cols);
   void outputMaze();
@@ -24,11 +25,9 @@ class Maze {
 
   friend std::ofstream& operator<<(std::ofstream& file, const Maze& maze);
 
- private:
+ protected:
   bool m_reading_error_;
-  MazeMatrix m_maze_;  // указатель на матрицу, представляющую лабиринт
-  int m_rows_;
-  int m_cols_;
+  MazeMatrix m_maze_;
   std::vector<int> m_side_line_;
   int m_counter_;
 
