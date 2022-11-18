@@ -17,7 +17,7 @@ class Controller {
   public:
     Controller() {;}
     ~Controller() = default;
-    void GetRandomCave(size_t rows, size_t cols, s21::Cave::Limits limit, int birth_chance);
+    void GetRandomCave(size_t rows, size_t cols, s21::Limits limit, int birth_chance);
     int GetCaveRows() { return m_cave_.get()->GetRows(); }
     int GetCaveCols() { return m_cave_.get()->GetCols(); }
     bool GetPixel(int i, int j) { return m_cave_.get()->GetValue(i, j); }

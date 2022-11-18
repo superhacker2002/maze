@@ -15,6 +15,16 @@ s21::Cave::Cave(const std::string& file_path, Limits limit)
     m_cols_(m_cave_.GetCols()),
     m_limits_(limit) { ; }
 
+void s21::Cave::OutputCave() { m_cave_.OutputMatrix(); }
+
+int s21::Cave::GetRows() { return m_cave_.GetRows(); }
+
+int s21::Cave::GetCols() { return m_cave_.GetCols(); }
+
+bool s21::Cave::GetValue(int i, int j) { return m_cave_(i, j); }
+
+void s21::Cave::FlipCave() { m_cave_.Transpose(); }
+
 void s21::Cave::InitializeCave_() {
   for (int i = 0; i < m_rows_; ++i)
     for (int j = 0; j < m_cols_; ++j) {
@@ -31,10 +41,10 @@ bool s21::Cave::Transform() {
   for (int i = 0; i < m_rows_; ++i) {
     for (int j = 0; j < m_cols_; ++j) {
       int alive_count = GetAliveNeighboursCount_(i, j);
-      if (m_cave_(i, j) == kALIVE && alive_count < m_limits_.__death_limit) {
+      if (m_cave_(i, j) == kALIVE && alive_count < m_limits_.death_limit) {
         tmp_cave(i, j) = kDEAD;
         changed = true;
-      } else if (m_cave_(i, j) == kDEAD && alive_count > m_limits_.__birth_limit) {
+      } else if (m_cave_(i, j) == kDEAD && alive_count > m_limits_.birth_limit) {
         tmp_cave(i, j) = kALIVE;
         changed = true;
       } else {

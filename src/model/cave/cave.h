@@ -12,12 +12,15 @@ constexpr bool kALIVE = true;
 constexpr bool kDEAD = false;
 
 namespace s21 {
+
+struct Limits {
+    int birth_limit;
+    int death_limit;
+};
+
 class Cave {
  public:
-  using Limits = std::pair<int, int>;
   using CaveMatrix = s21::Matrix<bool>;
-#define __birth_limit first
-#define __death_limit second
 
  private:
   CaveMatrix m_cave_;  // указатель на матрицу, представляющую пещеру
@@ -32,11 +35,11 @@ class Cave {
   ~Cave() = default;
   bool Transform();
   void TransformCycle();
-  void OutputCave() { m_cave_.OutputMatrix(); }
-  int GetRows() { return m_cave_.GetRows(); }
-  int GetCols() { return m_cave_.GetCols(); }
-  bool GetValue(int i, int j) { return m_cave_(i, j); }
-  void FlipCave() { m_cave_.Transpose(); }
+  void OutputCave();
+  int GetRows();
+  int GetCols();
+  bool GetValue(int i, int j);
+  void FlipCave();
 
  private:
   int GetAliveNeighboursCount_(int i, int j);
