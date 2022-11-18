@@ -33,6 +33,7 @@ class View : public QMainWindow {
     void PaintCave_();
     // maze
     void PaintMaze_();
+    void PaintBorders_();
 
   private slots:
     void TransformCave_();
