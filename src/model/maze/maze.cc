@@ -1,12 +1,13 @@
 #include "maze.h"
 
+namespace s21 {
 /**
  * Constructor for initializing maze from file.
  * @param file_path Path to file to read maze from.
  */
-s21::Maze::Maze(const std::string& file_path)
+Maze::Maze(const std::string &file_path)
     : m_reading_error_(false),
-    m_maze_(getMazeFromFile(file_path)) {
+      m_maze_(getMazeFromFile(file_path)) {
     try {
         m_maze_ = fillMazeMatrix(file_path);
     } catch (...) {
@@ -21,32 +22,70 @@ s21::Maze::Maze(const std::string& file_path)
  * @param rows Number of rows in maze.
  * @param cols Number of cells in the row in maze.
  */
-s21::Maze::Maze(int rows, int cols)
+Maze::Maze(int rows, int cols)
     : m_reading_error_(false),
-    m_maze_(s21::Maze::MazeMatrix(rows, cols)),
-    m_rows_(rows),
-    m_cols_(cols),
-    m_counter_(1) {
+      m_maze_(Maze::MazeMatrix(rows, cols)),
+      m_rows_(rows),
+      m_cols_(cols),
+      m_counter_(1) {
     generateMaze();
 }
 
-int s21::Maze::GetRows() { return m_maze_.GetRows(); }
+int Maze::GetRows() { return m_maze_.GetRows(); }
 
-int s21::Maze::GetCols() { return m_maze_.GetCols(); }
+int Maze::GetCols() { return m_maze_.GetCols(); }
 
-s21::walls s21::Maze::GetValue(int i, int j) { return m_maze_(i, j); }
+walls Maze::GetValue(int i, int j) { return m_maze_(i, j); }
 
 /**
  * Indicates if error occurred while program was running
  * and throw an exception.
  */
-void s21::Maze::getError() const {
+void Maze::getError() const {
     if (m_reading_error_) {
         throw std::invalid_argument("Parsing failed.");
     }
 }
 
-void s21::Maze::outputMaze() {
+
+void hasWall(bool is_wall, std::string &maze_str) {
+    if (is_wall) {
+        maze_str.append("1 ");
+    } else {
+        maze_str.append("0 ");
+    }
+}
+
+/**
+ * Operator that allows to write maze in file
+ * that was defined by user in specific format.
+ * @param file File stream where maze will be written.
+ * @param maze Filled maze that will be written to the file.
+ * @return ofstream with written maze.
+ */
+std::ofstream &operator<<(std::ofstream &file, const Maze &maze) {
+    std::string maze_str;
+    maze_str.append(std::to_string(maze.m_rows_) + " "
+                    + std::to_string(maze.m_cols_) + "\n");
+    for (int i = 0; i < maze.m_rows_; ++i) {
+        for (int j = 0; j < maze.m_cols_; ++j) {
+            hasWall(maze.m_maze_.at(i, j).right_wall, maze_str);
+        }
+        maze_str.append("\n");
+    }
+    maze_str.append("\n");
+    for (int i = 0; i < maze.m_rows_; ++i) {
+        for (int j = 0; j < maze.m_cols_; ++j) {
+            hasWall(maze.m_maze_.at(i, j).bottom_wall, maze_str);
+        }
+        maze_str.append("\n");
+    }
+
+    file << maze_str;
+    return file;
+}
+
+void Maze::outputMaze() {
     std::cout << " - - - - - - - - \n";
 
     for (int i = 0; i < m_rows_; ++i) {
@@ -70,6 +109,7 @@ void s21::Maze::outputMaze() {
         std::cout << "\n";
     }
 }
+}  // namespace s21
 
 
 

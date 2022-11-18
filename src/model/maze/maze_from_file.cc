@@ -1,6 +1,7 @@
 #include "maze.h"
 #include <fstream>
 
+namespace s21 {
 /**
  * Creates maze matrix of the size that was
  * provided in the first line in the file.
@@ -8,7 +9,7 @@
  * @param file_path Path to file we read from.
  * @return Matrix of the size received from file.
  */
-s21::Maze::MazeMatrix s21::Maze::getMazeFromFile(const std::string& file_path) {
+Maze::MazeMatrix Maze::getMazeFromFile(const std::string &file_path) {
     std::fstream file;
     file.open(file_path);
     if (!file.is_open()) {
@@ -16,7 +17,7 @@ s21::Maze::MazeMatrix s21::Maze::getMazeFromFile(const std::string& file_path) {
         getError();
     }
     getMazeSize(file);
-    s21::Maze::MazeMatrix maze_matrix(m_rows_, m_cols_);
+    Maze::MazeMatrix maze_matrix(m_rows_, m_cols_);
     file.close();
     return maze_matrix;
 }
@@ -29,7 +30,7 @@ s21::Maze::MazeMatrix s21::Maze::getMazeFromFile(const std::string& file_path) {
  * writes an error.
  * @param file File stream from what we read.
  */
-void s21::Maze::getMazeSize(std::fstream& file) {
+void Maze::getMazeSize(std::fstream &file) {
     std::string buffer;
     if (getline(file, buffer)) {
         try {
@@ -54,7 +55,7 @@ void s21::Maze::getMazeSize(std::fstream& file) {
  * @param file_path File name from what we read.
  * @return Filled with values maze matrix.
  */
-s21::Maze::MazeMatrix s21::Maze::fillMazeMatrix(const std::string& file_path) {
+Maze::MazeMatrix Maze::fillMazeMatrix(const std::string &file_path) {
     std::vector<walls> maze;
     std::string buffer;
     std::fstream file(file_path);
@@ -68,7 +69,7 @@ s21::Maze::MazeMatrix s21::Maze::fillMazeMatrix(const std::string& file_path) {
     fillBottomWall(file, maze);
     getError();
 
-    auto maze_matrix = s21::Matrix<s21::walls>::VectorToMatrix(maze);
+    auto maze_matrix = Matrix<walls>::VectorToMatrix(maze);
     file.close();
     return maze_matrix;
 }
@@ -80,13 +81,13 @@ s21::Maze::MazeMatrix s21::Maze::fillMazeMatrix(const std::string& file_path) {
  * @param maze Vector where we temporarily store the
  * information about right wall existence.
  */
-void s21::Maze::fillRightWall(std::fstream& file, std::vector<s21::walls>& maze) {
+void Maze::fillRightWall(std::fstream &file, std::vector<walls> &maze) {
     std::string buffer;
     for (int i = 0; i < m_rows_; ++i) {
         if (getline(file, buffer) && !buffer.empty()) {
             for (int j = 0; j < m_cols_; ++j) {
                 int state = stoi(buffer);
-                s21::walls cell_walls {};
+                walls cell_walls{};
                 cell_walls.right_wall = isWall(state);
                 maze.emplace_back(cell_walls);
                 removePrevState(buffer);
@@ -98,7 +99,7 @@ void s21::Maze::fillRightWall(std::fstream& file, std::vector<s21::walls>& maze)
     getError();
 }
 
-bool s21::Maze::isWall(const int& state) {
+bool Maze::isWall(const int &state) {
     if (!(state == 0 || state == 1)) {
         m_reading_error_ = true;
         getError();
@@ -111,7 +112,7 @@ bool s21::Maze::isWall(const int& state) {
  * to continue getting next values.
  * @param buffer
  */
-void s21::Maze::removePrevState(std::string& buffer) {
+void Maze::removePrevState(std::string &buffer) {
     if (buffer.size() == 1) {
         buffer.erase(0, 1);
     } else {
@@ -126,7 +127,7 @@ void s21::Maze::removePrevState(std::string& buffer) {
  * @param maze Vector where we temporarily store the
  * information about bottom wall existence.
  */
-void s21::Maze::fillBottomWall(std::fstream& file, std::vector<s21::walls>& maze) {
+void Maze::fillBottomWall(std::fstream &file, std::vector<walls> &maze) {
     std::string buffer;
     auto cell = maze.begin();
     for (int i = 0; i < m_rows_; ++i) {
@@ -143,3 +144,4 @@ void s21::Maze::fillBottomWall(std::fstream& file, std::vector<s21::walls>& maze
     }
     getError();
 }
+}  // namespace s21
