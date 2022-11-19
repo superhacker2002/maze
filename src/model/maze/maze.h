@@ -10,6 +10,7 @@ struct  walls {
   bool right_wall;  // стенка справа от ячейки
   bool bottom_wall;  // стенка снизу от ячейки
 };
+
 enum directions {
   kLEFT,
   kRIGHT,
