@@ -19,7 +19,6 @@ class View : public QMainWindow {
     ~View();
 
   private:
-    // Ui::View* m_ui_;
     std::unique_ptr<Ui::View> m_ui_;
     std::unique_ptr<QGraphicsScene> m_scene_;
     std::unique_ptr<QPen> m_pen_;
@@ -34,7 +33,7 @@ class View : public QMainWindow {
     // maze
     void PaintMaze_();
     void PaintBorders_();
-    std::vector<QLineF> GetAnswer_();
+    std::vector<QLineF> GetAnswer_(std::pair<int, int> p1, std::pair<int, int> p2);
 
   private slots:
     void TransformCave_();
@@ -44,6 +43,8 @@ class View : public QMainWindow {
     void MazeInit_();
     void RandomMaze_();
     void PaintAnswer_();
+
+    void onTabChanged_();
 };
 } // namespace s21
 #endif // SRC_VIEW_VIEW_H_

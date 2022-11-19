@@ -3,6 +3,7 @@
 
 #include "../../helpers/matrix.h"
 #include "fstream"
+#include <QLineF>
 
 namespace s21 {
 struct  walls {
@@ -29,7 +30,8 @@ class Maze {
   int GetRows();
   int GetCols();
   walls GetValue(int i, int j);
-  AnswerData GetAnswer(std::pair<int, int> point1, std::pair<int, int> point2);
+  std::vector<QLineF> GetAnswer(std::pair<int, int> point1, std::pair<int, int> point2);
+  std::vector<QLineF> GetDrawData();
 
   friend std::ofstream& operator<<(std::ofstream& file, const Maze& maze);
 
@@ -63,6 +65,8 @@ class Maze {
   bool isWall(const int& state);
   void removePrevState(std::string& buffer);
   void getError() const;
+  
+  
 };  // class Maze
 }  // namespace s21
 
