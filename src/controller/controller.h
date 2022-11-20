@@ -18,22 +18,24 @@ class Controller {
     Controller() {;}
     ~Controller() = default;
     void GetRandomCave(size_t rows, size_t cols, s21::Limits limit, int birth_chance);
-    int GetCaveRows() { return m_cave_.get()->GetRows(); }
-    int GetCaveCols() { return m_cave_.get()->GetCols(); }
-    bool GetPixel(int i, int j) { return m_cave_.get()->GetValue(i, j); }
-    void TransformOnce() { m_cave_.get()->Transform(); }
-    void TransformTillEnd() { m_cave_.get()->TransformCycle(); }
-    void FlipCave() { m_cave_.get()->FlipCave(); }
-    bool DoesCaveExist() { return m_cave_ != nullptr; }
+    int GetCaveRows();
+    int GetCaveCols();
+    bool GetPixel(int i, int j);
+    void TransformOnce();
+    void TransformTillEnd();
+    void FlipCave();
+    bool DoesCaveExist();
+    std::vector<QRectF> GetCaveDrawData();
 
 
     void GetMazeFromFile(const std::string& file_path);
     void GenerateMaze(int rows, int cols);
-    int GetMazeRows() { return m_maze_.get()->GetRows(); }
-    int GetMazeCols() { return  m_maze_.get()->GetCols(); }
-    walls GetWall(int i, int j) { return m_maze_.get()->GetValue(i, j); }
-    s21::Maze::AnswerData GetAnswer(std::pair<int, int> p1, std::pair<int, int> p2) { return m_maze_->GetAnswer(p1, p2); }
-    bool DoesMazeExist() { return m_maze_ != nullptr; }
+    int GetMazeRows();
+    int GetMazeCols();
+    walls GetWall(int i, int j);
+    std::vector<QLineF> GetAnswer(std::pair<int, int> p1, std::pair<int, int> p2);
+    bool DoesMazeExist();
+    std::vector<QLineF> GetMazeDrawData();
 
 };  // class Controller
 }  // namespace s21

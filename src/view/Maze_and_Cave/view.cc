@@ -9,6 +9,14 @@ s21::View::View(QWidget *parent)
   StartSettings_();
 }
 
+void s21::View::onTabChanged_() {
+  if (m_ui_->tabWidget->currentIndex() == 0) {
+    PaintMaze_();
+  } else {
+    PaintCave_();
+  }
+}
+
 void s21::View::ClearDrawArea_() {
   m_scene_->clear();
 }
@@ -19,8 +27,10 @@ void s21::View::PaintBorders_() {
 }
 
 void s21::View::FlipCave_() {
-  m_controller_->FlipCave();
-  PaintCave_();
+  if (m_controller_->DoesCaveExist()) {
+    m_controller_->FlipCave();
+    PaintCave_();  
+  }
 }
 
 void s21::View::CaveInit_() {
@@ -52,84 +62,48 @@ void s21::View::RandomMaze_() {
 }
 
 void s21::View::TransformCave_() {
+  if (m_controller_->DoesCaveExist()) {
   m_controller_->TransformOnce();
-  PaintCave_();
+    PaintCave_();
+  }
 }
 
 void s21::View::PaintCave_() {
   ClearDrawArea_();
-  int rows = m_controller_->GetCaveRows();
-  int cols = m_controller_->GetCaveCols();
-  int x_size = 500 / rows, y_size = 500 / cols;
-  for (int i = 0; i < rows; ++i) {
-    for (int j = 0; j < cols; ++j) {
-      if (m_controller_->GetPixel(i, j))
-        m_scene_->addRect(i * x_size, j * y_size, x_size, y_size, *m_pen_, Qt::SolidPattern);
-    }
+  if (m_controller_->DoesCaveExist()) {
+    auto data = m_controller_->GetCaveDrawData();
+    for (auto it : data)
+      m_scene_->addRect(it, *m_pen_, Qt::SolidPattern);  
   }
 }
 
 void s21::View::PaintMaze_() {
   ClearDrawArea_();
-  PaintBorders_();
-  int rows = m_controller_->GetMazeRows();
-  int cols = m_controller_->GetMazeCols();
-  int x_size = 500 / rows, y_size = 500 / cols;
-  for (int i = 0; i < rows; ++i) {
-    for (int j = 0; j < cols; ++j) {
-      if (m_controller_->GetWall(i, j).bottom_wall) {
-        int x1 = j * x_size == 0 ? 10 : j * x_size;
-        int y1 = (i + 1) * y_size == 0 ? 10 : (i + 1) * y_size;
-        int x2 = x1 + x_size == 0 ? 10 : x1 + x_size;
-        int y2 = y1;
-        m_scene_->addLine(x1, y1, x2, y2, *m_pen_);
-      }
-      if (m_controller_->GetWall(i, j).right_wall) {
-        int x1 = (j + 1) * x_size == 0 ? 10 : (j + 1) * x_size;
-        int y1 = i * y_size == 0 ? 10 : i * y_size;
-        int x2 = x1;
-        int y2 = y1 + y_size == 0 ? 10 : y1 + y_size;
-        m_scene_->addLine(x1, y1, x2, y2, *m_pen_);
-      }
+  if (m_controller_->DoesMazeExist()) {
+    PaintBorders_();
+    auto data = m_controller_->GetMazeDrawData();
+    for (auto it : data) {
+      m_scene_->addLine(it, *m_pen_);
     }
   }
 }
 
-std::vector<QLineF> s21::View::GetAnswer_() {
-  std::vector<QLineF> lines;
-  int x_size = 500 / m_controller_->GetMazeRows();
-  int y_size = 500 / m_controller_->GetMazeCols();
-  float x1 = (m_ui_->x1_spinbox->value() + 0.5);
-  float y1 = (m_ui_->y1_spinbox->value() + 0.5);
-  float x2 = (m_ui_->x2_spinbox->value() + 0.5);
-  float y2 = (m_ui_->y2_spinbox->value() + 0.5);
-  s21::Maze::AnswerData data = m_controller_->GetAnswer({x1, y1}, {x2, y2});
-  x1 *= x_size, y1 *= y_size;
-  for (auto it = data.begin(); it != data.end(); ++it) {
-    if (*it == kLEFT) {
-      x2 = x1 - x_size;
-      y2 = y1;
-    } else if (*it == kRIGHT) {
-      x2 = x1 + x_size;
-      y2 = y1;
-    } else if (*it == kTOP) {
-      x2 = x1;
-      y2 = y1 - y_size;
-    } else {
-      x2 = x1;
-      y2 = y1 + y_size;
-    }
-    lines.push_back(QLineF(x1, y1, x2, y2));
-    x1 = x2, y1 = y2;
-  }
-  return lines;
+std::vector<QLineF> s21::View::GetAnswer_(std::pair<int, int> p1, std::pair<int, int> p2) {
+  return m_controller_->GetAnswer(p1, p2);
 }
 
 void s21::View::PaintAnswer_() {
   if (m_controller_->DoesMazeExist()) {
     m_pen_->setColor(QColor::fromRgbF(1.0, 0.0, 0.0));  // red
 
-    auto lines_vec = GetAnswer_();
+    auto lines_vec = GetAnswer_({
+        m_ui_->x1_spinbox->value(),
+        m_ui_->y1_spinbox->value()
+      }, {
+        m_ui_->x2_spinbox->value(),
+        m_ui_->y2_spinbox->value()
+      }
+    );
     for (auto it = lines_vec.begin(); it != lines_vec.end(); ++it)
       m_scene_->addLine(*it, *m_pen_);
 
@@ -148,6 +122,7 @@ void s21::View::ConnectButtons_() {
   connect(m_ui_->maze_file_button, SIGNAL(clicked()), this, SLOT(MazeInit_()));
   connect(m_ui_->random_maze_button, SIGNAL(clicked()), this, SLOT(RandomMaze_()));
   connect(m_ui_->draw_answer_button, SIGNAL(clicked()), this, SLOT(PaintAnswer_()));
+  connect(m_ui_->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged_()));
 }
 
 void s21::View::StartSettings_() {

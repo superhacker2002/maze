@@ -5,6 +5,7 @@
 #include <fstream>
 #include <memory>
 #include <random>
+#include <QRectF>
 
 #include "../../helpers/matrix.h"
 
@@ -38,6 +39,7 @@ class Cave {
   int GetCols();
   bool GetValue(int i, int j);
   void FlipCave();
+  std::vector<QRectF> GetDrawData();
 
  private:
   int GetAliveNeighboursCount_(int i, int j);

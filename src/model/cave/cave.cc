@@ -57,6 +57,22 @@ void Cave::InitializeCave_() {
 }
 
 /**
+ * Gets pixels to paint in view class
+ * @return vector of QRectF (pixels to draw)
+ */
+std::vector<QRectF> Cave::GetDrawData() {
+  std::vector<QRectF> data;
+  int rows = m_cave_.GetRows();
+  int cols = m_cave_.GetCols();
+  int x_size = 500 / rows, y_size = 500 / cols;
+  for (int i = 0; i < rows; ++i)
+    for (int j = 0; j < cols; ++j)
+      if (m_cave_(i, j))
+        data.push_back(QRectF(i * x_size, j * y_size, x_size, y_size));
+  return data;
+}
+
+/**
  * Transforms current matrix according to the
  * cellular automation algorithm.
  * @return True - changes in matrix occurred,
@@ -121,7 +137,7 @@ int Cave::GetAliveNeighboursCount_(int i, int j) {
 /**
  * Filling cave matrix by receiving
  * information from user specified file.
- * @param file_path File function reads from.
+ * @param file_path the file function reads from.
  * @return Cave matrix filled with data from file.
  */
 Cave::CaveMatrix Cave::GetCaveFromFile_(const std::string &file_path) {
