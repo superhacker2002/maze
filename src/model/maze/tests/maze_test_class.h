@@ -9,4 +9,5 @@ class MazeTest : public s21::Maze {
   void testAddRightWalls(int row);
   void testAddBottomWalls(int row);
   int testCalculateUniqueSet(int element);
+  void testPrepareNewLine(int row);
 };

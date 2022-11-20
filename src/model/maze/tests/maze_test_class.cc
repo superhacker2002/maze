@@ -28,3 +28,7 @@ void MazeTest::testAddBottomWalls(int row) {
 int MazeTest::testCalculateUniqueSet(int element) {
     return s21::Maze::calculateUniqueSet(element);
 }
+
+void MazeTest::testPrepareNewLine(int row) {
+    s21::Maze::prepareNewLine(row);
+}

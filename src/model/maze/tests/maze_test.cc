@@ -59,6 +59,26 @@ TEST(maze_tests, add_bottom_walls) {
     }
 }
 
+TEST(maze_tests, prepare_new_line) {
+    std::vector<bool> prev_line;
+    int cols = test_maze.GetCols();
+    for (int col = 0; col < cols; ++col) {
+        prev_line.push_back(test_maze.GetValue(0, col).bottom_wall);
+    }
+
+    test_maze.testPrepareNewLine(0);
+    std::vector<int> result = test_maze.getSideLine();
+    auto prev_cell = prev_line.begin();
+    for (auto& res_cell : result) {
+        if (*prev_cell) {
+            EXPECT_EQ(res_cell, s21::kEMPTY);
+        } else {
+            EXPECT_TRUE(res_cell != s21::kEMPTY);
+        }
+        ++prev_cell;
+    }
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
