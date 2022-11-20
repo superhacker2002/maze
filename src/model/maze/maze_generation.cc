@@ -122,9 +122,10 @@ int Maze::calculateUniqueSet(int element) {
 }
 
 /**
- * Checks if the cell is the only one in
- * its set. if so, removes bottom wall from
- * the cell.
+ * Checks if the cell does not have any cells
+ * without bottom walls.
+ * if so, removes bottom wall from one cell
+ * in the set.
  * @param row Row number where we count cells.
  */
 void Maze::checkBottomWall(int row) {
@@ -137,7 +138,7 @@ void Maze::checkBottomWall(int row) {
 }
 
 /**
- * Counts right walls of the cells in the unique set.
+ * Counts bottom walls of the cells in the unique set.
  * @param element The number of set.
  * @param row The row of maze where we count walls.
  * @return The number of right walls in set.
