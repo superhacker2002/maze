@@ -29,6 +29,11 @@ Maze::Maze(int rows, int cols)
     generateMaze();
 }
 
+Maze::Maze()
+    : m_reading_error_(false),
+    m_maze_(s21::Maze::MazeMatrix(5, 5)),
+    m_counter_(1) {}
+
 int Maze::GetRows() { return m_maze_.GetRows(); }
 
 int Maze::GetCols() { return m_maze_.GetCols(); }
