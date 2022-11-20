@@ -29,6 +29,11 @@ Maze::Maze(int rows, int cols)
     generateMaze();
 }
 
+Maze::Maze()
+    : m_reading_error_(false),
+    m_maze_(s21::Maze::MazeMatrix(5, 5)),
+    m_counter_(1) {}
+
 int Maze::GetRows() { return m_maze_.GetRows(); }
 
 int Maze::GetCols() { return m_maze_.GetCols(); }
@@ -84,31 +89,6 @@ std::ofstream &operator<<(std::ofstream &file, const Maze &maze) {
     file << maze_str;
     return file;
 }
-
-// void Maze::outputMaze() {
-//    std::cout << " - - - - - - - - \n";
-
-//    for (int i = 0; i < m_rows_; ++i) {
-//        for (int j = 0; j < m_cols_; ++j) {
-//            if (j == 0) {
-//                std::cout << "|";
-//            }
-//            bool right_wall = (m_maze_(i, j)).right_wall;
-//            bool bottom_wall = (m_maze_(i, j)).bottom_wall;
-//            if (bottom_wall) {
-//                std::cout << "_";
-//            } else {
-//                std::cout << " ";
-//            }
-//            if (right_wall) {
-//                std::cout << " |";
-//            } else {
-//                std::cout << "  ";
-//            }
-//        }
-//        std::cout << "\n";
-//    }
-// }
 
 // s21::Maze::AnswerData s21::Maze::GetAnswer(std::pair<int, int> p1, std::pair<int, int> p2) {
 //   AnswerData data;

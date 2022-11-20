@@ -24,7 +24,6 @@ class Maze {
   using MazeMatrix = s21::Matrix<walls>;
   using AnswerData = std::vector<float>;
 
-  Maze() = default;
   explicit Maze(const std::string& file_path);
   explicit Maze(int rows, int cols);
   void outputMaze();
@@ -42,6 +41,7 @@ class Maze {
   std::vector<int> m_side_line_;
   int m_counter_;
 
+  Maze();
   void generateMaze();
 
   void fillEmptyValues();
@@ -59,7 +59,7 @@ class Maze {
 
   MazeMatrix getMazeFromFile(const std::string& file_path);
 
-  std::pair<int, int>& getMazeSize(std::fstream& file);
+  std::pair<int, int> getMazeSize(std::fstream& file);
   MazeMatrix fillMazeMatrix(const std::string &file_path);
   void fillRightWall(std::fstream& file, std::vector<walls>& maze);
   void fillBottomWall(std::fstream& file, std::vector<walls>& maze);

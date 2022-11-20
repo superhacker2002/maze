@@ -30,7 +30,7 @@ Maze::MazeMatrix Maze::getMazeFromFile(const std::string &file_path) {
  * writes an error.
  * @param file File stream from what we read.
  */
-std::pair<int, int>& Maze::getMazeSize(std::fstream &file) {
+std::pair<int, int> Maze::getMazeSize(std::fstream &file) {
     std::string buffer;
     std::pair<int, int> size;
     if (getline(file, buffer)) {
