@@ -90,31 +90,6 @@ std::ofstream &operator<<(std::ofstream &file, const Maze &maze) {
     return file;
 }
 
-//void Maze::outputMaze() {
-//    std::cout << " - - - - - - - - \n";
-//
-//    for (int i = 0; i < m_rows_; ++i) {
-//        for (int j = 0; j < m_cols_; ++j) {
-//            if (j == 0) {
-//                std::cout << "|";
-//            }
-//            bool right_wall = (m_maze_(i, j)).right_wall;
-//            bool bottom_wall = (m_maze_(i, j)).bottom_wall;
-//            if (bottom_wall) {
-//                std::cout << "_";
-//            } else {
-//                std::cout << " ";
-//            }
-//            if (right_wall) {
-//                std::cout << " |";
-//            } else {
-//                std::cout << "  ";
-//            }
-//        }
-//        std::cout << "\n";
-//    }
-//}
-
 s21::Maze::AnswerData s21::Maze::GetAnswer(std::pair<int, int> p1, std::pair<int, int> p2) {
   AnswerData data;
   return data;

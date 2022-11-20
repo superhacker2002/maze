@@ -21,7 +21,10 @@ void MazeTest::testAddRightWalls(int row) {
     s21::Maze::addRightWalls(row);
 }
 
-s21::Maze::MazeMatrix MazeTest::getMazeMatrix() {
-    return m_maze_;
+void MazeTest::testAddBottomWalls(int row) {
+    s21::Maze::addBottomWalls(row);
 }
 
+int MazeTest::testCalculateUniqueSet(int element) {
+    return s21::Maze::calculateUniqueSet(element);
+}

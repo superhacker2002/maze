@@ -7,5 +7,6 @@ class MazeTest : public s21::Maze {
   std::vector<int>& getSideLine();
   void testAssignUniqueSet();
   void testAddRightWalls(int row);
-  s21::Maze::MazeMatrix getMazeMatrix();
+  void testAddBottomWalls(int row);
+  int testCalculateUniqueSet(int element);
 };

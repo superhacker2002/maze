@@ -28,7 +28,6 @@ TEST(maze_tests, add_right_walls) {
     test_maze.testAddRightWalls(0);
     std::vector<int> result = test_maze.getSideLine();
     EXPECT_EQ(result.size(), 5);
-    auto maze_matrix = test_maze.getMazeMatrix();
     int row = 0;
     int cols = test_maze.GetCols();
     for (int col = 0; col < cols; ++col) {
@@ -36,6 +35,26 @@ TEST(maze_tests, add_right_walls) {
             EXPECT_FALSE(result[col] == result[col + 1]);
         } else {
             EXPECT_EQ(result[col], result[col + 1]);
+        }
+    }
+}
+
+TEST(maze_tests, add_bottom_walls) {
+    test_maze.testAddBottomWalls(0);
+    std::vector<int> result = test_maze.getSideLine();
+    EXPECT_EQ(result.size(), 5);
+    int row = 0;
+    int cols = test_maze.GetCols();
+    int cells_without_bottom = 0;
+    int prev_set_number = result[0];
+    for (int col = 0; col < cols; ++col) {
+        if (result[col] != prev_set_number || col == cols - 1) {
+            EXPECT_TRUE(cells_without_bottom >= 1);
+            cells_without_bottom = 0;
+            prev_set_number = result[col];
+        }
+        if (!test_maze.GetValue(row, col).bottom_wall) {
+            ++cells_without_bottom;
         }
     }
 }
