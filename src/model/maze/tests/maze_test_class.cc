@@ -32,3 +32,7 @@ int MazeTest::testCalculateUniqueSet(int element) {
 void MazeTest::testPrepareNewLine(int row) {
     s21::Maze::prepareNewLine(row);
 }
+
+void MazeTest::testCheckEndLine() {
+    s21::Maze::checkEndLine();
+}

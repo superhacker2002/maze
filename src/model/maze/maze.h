@@ -67,7 +67,6 @@ class Maze {
   void removePrevState(std::string& buffer);
   void getError() const;
   
-  
 };  // class Maze
 }  // namespace s21
 
