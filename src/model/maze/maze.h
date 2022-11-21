@@ -3,7 +3,7 @@
 
 #include "../../helpers/matrix.h"
 #include "fstream"
-#include <QLineF>
+//#include <QLineF>
 
 namespace s21 {
 struct  walls {
@@ -22,7 +22,6 @@ constexpr int kEMPTY = 0;
 class Maze {
  public:
   using MazeMatrix = s21::Matrix<walls>;
-  using AnswerData = std::vector<float>;
 
   explicit Maze(const std::string& file_path);
   explicit Maze(int rows, int cols);
@@ -30,8 +29,7 @@ class Maze {
   int GetRows();
   int GetCols();
   walls GetValue(int i, int j);
-  std::vector<QLineF> GetAnswer(std::pair<int, int> point1, std::pair<int, int> point2);
-  std::vector<QLineF> GetDrawData();
+//  std::vector<QLineF> GetDrawData();
 
   friend std::ofstream& operator<<(std::ofstream& file, const Maze& maze);
 
