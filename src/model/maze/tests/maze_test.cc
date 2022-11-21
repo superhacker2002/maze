@@ -10,7 +10,7 @@ TEST(maze_tests, fill_empty_values) {
     std::vector<int> result = test_maze.getSideLine();
     EXPECT_EQ(result.size(), 5);
     for (auto &val : result) {
-        EXPECT_EQ(val, 0);
+        EXPECT_EQ(val, s21::kEMPTY);
     }
 }
 
@@ -76,6 +76,15 @@ TEST(maze_tests, prepare_new_line) {
             EXPECT_TRUE(res_cell != s21::kEMPTY);
         }
         ++prev_cell;
+    }
+}
+
+TEST(maze_tests, check_end_line) {
+    test_maze.testCheckEndLine();
+    int row = test_maze.GetRows() - 1;
+    int cols = test_maze.GetCols();
+    for (int col = 0; col < cols; ++col) {
+        EXPECT_TRUE(test_maze.GetValue(row, col).bottom_wall);
     }
 }
 
