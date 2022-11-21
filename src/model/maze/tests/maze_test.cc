@@ -1,7 +1,6 @@
 #include "../maze.h"
 #include "gtest/gtest.h"
 #include "maze_test_class.h"
-#include <iostream>
 
 MazeTest test_maze(5, 5);
 
