@@ -1,4 +1,4 @@
-#include "../maze.h"
+#include "model/maze/maze.h"
 #include "gtest/gtest.h"
 #include "maze_test_class.h"
 
@@ -9,7 +9,7 @@ TEST(maze_tests, fill_empty_values) {
     std::vector<int> result = test_maze.getSideLine();
     EXPECT_EQ(result.size(), 5);
     for (auto &val : result) {
-        EXPECT_EQ(val, s21::kEMPTY);
+        EXPECT_EQ(val, s21::EMPTY);
     }
 }
 

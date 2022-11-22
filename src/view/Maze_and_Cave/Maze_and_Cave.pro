@@ -11,17 +11,21 @@ CONFIG += c++17
 SOURCES += \
     ../../controller/controller.cc \
     ../../model/cave/cave.cc \
-    ../../model/maze/maze.cc \
+    ../../model/maze/maze_public.cc \
     ../../model/maze/maze_from_file.cc \
     ../../model/maze/maze_generation.cc \
+    ../../model/maze/maze_answer.cc \
+    ../../model/maze/maze_drawing.cc \
     main.cpp \
     view.cc
 
 HEADERS += \
     ../../controller/controller.h \
-    ../../helpers/matrix.h \
+    ../../model/helpers/matrix.h \
     ../../model/cave/cave.h \
     ../../model/maze/maze.h \
+    ../../model/maze/maze_answer.h \
+    ../../model/maze/maze_drawing.h \
     view.h
 
 FORMS += \
@@ -32,7 +36,4 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-  ../../model/cave/cave1.txt \
-  ../../model/cave/cave2.txt \
-  ../../model/cave/cave3.txt
+

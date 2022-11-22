@@ -1,26 +1,25 @@
 #include "maze_answer.h"
+#include <algorithm>
 
 namespace s21 {
-    void getMazeAnswer(s21::Maze maze, Coordinates start, Coordinates end) {
+
+    std::vector<int> getMazeAnswer(s21::Maze maze, Coordinates start, Coordinates end) {
         int rows = maze.GetRows();
         int cols = maze.GetCols();
         s21::Matrix<int> distances(rows, cols);
         initializeMatrix<int> (distances, UNUSED_CELL);
 
+        s21::Matrix<Coordinates> answer_path(rows, cols);
+        Coordinates undefined_cells = {UNUSED_CELL, UNUSED_CELL};
+        initializeMatrix<Coordinates> (answer_path, undefined_cells);
+
         std::queue<Coordinates> plan;
         distances(start.x, start.y) = 0;
         plan.push(start);
 
-        AnswerData data = {plan, maze, distances};
+        AnswerData data = {plan, maze, distances, answer_path};
         findPaths(data);
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
-
-                std::cout << std::setw(2) << data.distances(i, j) << " ";
-            }
-            std::cout << "\n";
-        }
-        std::cout << data.distances(end.y, end.x);
+        return reestablishPath(data.answer_path, end);
     }
 
     void findPaths(AnswerData& data) {
@@ -40,6 +39,7 @@ namespace s21 {
             Coordinates neighbours = {nx, ny};
             if (correctCoordinates(data, current, neighbours, shift)) {
                 data.distances(ny, nx) = data.distances(current.y, current.x) + 1;
+                data.answer_path(ny, nx) = current;
                 data.plan.push({nx, ny});
             }
         }
@@ -80,6 +80,38 @@ namespace s21 {
     bool checkLeftDirection(AnswerData& data, Coordinates& current, Coordinates& next) {
         return current.x > 0 && !data.maze_matrix.GetValue(next.y, next.x).right_wall;
     }
+
+    std::vector<int> reestablishPath(s21::Matrix<Coordinates> answer_path, Coordinates& end) {
+        Coordinates current = end;
+        std::vector<Coordinates> path;
+
+        while (current.x != UNUSED_CELL && current.y != UNUSED_CELL) {
+            path.push_back(current);
+            current = answer_path(current.y, current.x);
+        }
+        std::reverse(path.begin(), path.end());
+        return normalizeAnswerPath(path);
+    }
+
+    std::vector<int> normalizeAnswerPath(std::vector<Coordinates>& path) {
+        std::vector<int> normalized_answer;
+        Coordinates prev = path[0];
+        for (int next = 1; next < path.size(); ++next) {
+            if (path[next].y > prev.y) {
+                normalized_answer.push_back(DOWN);
+            } else if (path[next].y < prev.y) {
+                normalized_answer.push_back(UP);
+            } else if (path[next].x > prev.x) {
+                normalized_answer.push_back(RIGHT);
+            } else if (path[next].x < prev.x) {
+                normalized_answer.push_back(LEFT);
+            }
+            prev = path[next];
+        }
+        return normalized_answer;
+    }
+
+
 
 
 

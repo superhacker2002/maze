@@ -58,7 +58,7 @@ std::pair<int, int> Maze::getMazeSize(std::fstream &file) {
  * @return Filled with values maze matrix.
  */
 Maze::MazeMatrix Maze::fillMazeMatrix(const std::string &file_path) {
-    std::vector<walls> maze;
+    std::vector<Walls> maze;
     std::string buffer;
     std::fstream file(file_path);
 
@@ -71,7 +71,7 @@ Maze::MazeMatrix Maze::fillMazeMatrix(const std::string &file_path) {
     fillBottomWall(file, maze);
     getError();
 
-    auto maze_matrix = Matrix<walls>::VectorToMatrix(maze);
+    auto maze_matrix = Matrix<Walls>::VectorToMatrix(maze);
     file.close();
     return maze_matrix;
 }
@@ -83,7 +83,7 @@ Maze::MazeMatrix Maze::fillMazeMatrix(const std::string &file_path) {
  * @param maze Vector where we temporarily store the
  * information about right wall existence.
  */
-void Maze::fillRightWall(std::fstream &file, std::vector<walls> &maze) {
+void Maze::fillRightWall(std::fstream &file, std::vector<Walls> &maze) {
     std::string buffer;
     int rows = m_maze_.GetRows();
     int cols = m_maze_.GetCols();
@@ -91,7 +91,7 @@ void Maze::fillRightWall(std::fstream &file, std::vector<walls> &maze) {
         if (getline(file, buffer) && !buffer.empty()) {
             for (int j = 0; j < cols; ++j) {
                 int state = stoi(buffer);
-                walls cell_walls{};
+                Walls cell_walls{};
                 cell_walls.right_wall = isWall(state);
                 maze.emplace_back(cell_walls);
                 removePrevState(buffer);
@@ -131,7 +131,7 @@ void Maze::removePrevState(std::string &buffer) {
  * @param maze Vector where we temporarily store the
  * information about bottom wall existence.
  */
-void Maze::fillBottomWall(std::fstream &file, std::vector<walls> &maze) {
+void Maze::fillBottomWall(std::fstream &file, std::vector<Walls> &maze) {
     std::string buffer;
     auto cell = maze.begin();
     int rows = m_maze_.GetRows();

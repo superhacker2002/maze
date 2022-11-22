@@ -1,35 +1,20 @@
 #ifndef SRC_MODEL_MAZE_MAZE_H_
 #define SRC_MODEL_MAZE_MAZE_H_
 
-#include "../../helpers/matrix.h"
+#include "../helpers/data_structures.h"
 #include "fstream"
-//#include <QLineF>
 
 namespace s21 {
-struct  walls {
-  bool right_wall;  // стенка справа от ячейки
-  bool bottom_wall;  // стенка снизу от ячейки
-};
-
-enum directions {
-  kLEFT,
-  kRIGHT,
-  kTOP,
-  kBOTTOM
-};
-constexpr int kEMPTY = 0;
-
 class Maze {
  public:
-  using MazeMatrix = s21::Matrix<walls>;
+  using MazeMatrix = s21::Matrix<Walls>;
 
   explicit Maze(const std::string& file_path);
   explicit Maze(int rows, int cols);
   void outputMaze();
   int GetRows();
   int GetCols();
-  walls GetValue(int i, int j);
-//  std::vector<QLineF> GetDrawData();
+  Walls GetValue(int i, int j);
 
   friend std::ofstream& operator<<(std::ofstream& file, const Maze& maze);
 
@@ -59,8 +44,8 @@ class Maze {
 
   std::pair<int, int> getMazeSize(std::fstream& file);
   MazeMatrix fillMazeMatrix(const std::string &file_path);
-  void fillRightWall(std::fstream& file, std::vector<walls>& maze);
-  void fillBottomWall(std::fstream& file, std::vector<walls>& maze);
+  void fillRightWall(std::fstream& file, std::vector<Walls>& maze);
+  void fillBottomWall(std::fstream& file, std::vector<Walls>& maze);
   bool isWall(const int& state);
   void removePrevState(std::string& buffer);
   void getError() const;

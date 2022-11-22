@@ -3,6 +3,7 @@
 
 #include "../model/cave/cave.h"
 #include "../model/maze/maze.h"
+#include "../model/maze/maze_drawing.h"
 
 namespace s21 {
 class Controller {
@@ -24,7 +25,7 @@ class Controller {
     void TransformOnce();
     void TransformTillEnd();
     void FlipCave();
-    bool DoesCaveExist();
+    bool CaveExists();
     std::vector<QRectF> GetCaveDrawData();
 
 
@@ -32,9 +33,9 @@ class Controller {
     void GenerateMaze(int rows, int cols);
     int GetMazeRows();
     int GetMazeCols();
-    walls GetWall(int i, int j);
+    Walls GetWall(int i, int j);
     std::vector<QLineF> GetAnswer(std::pair<int, int> p1, std::pair<int, int> p2);
-    bool DoesMazeExist();
+    bool MazeExists();
     std::vector<QLineF> GetMazeDrawData();
 
 };  // class Controller

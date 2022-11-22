@@ -5,19 +5,15 @@
 #include <fstream>
 #include <memory>
 #include <random>
+#include "../helpers/data_structures.h"
 #include <QRectF>
 
-#include "../../helpers/matrix.h"
-
-constexpr bool kALIVE = true;
-constexpr bool kDEAD = false;
+#include "../helpers/matrix.h"
 
 namespace s21 {
 
-struct Limits {
-    int birth_limit;
-    int death_limit;
-};
+constexpr bool kALIVE = true;
+constexpr bool kDEAD = false;
 
 class Cave {
  public:

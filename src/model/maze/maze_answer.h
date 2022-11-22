@@ -2,31 +2,15 @@
 #define SRC_MODEL_MAZE_MAZE_ANSWER_H_
 
 #include "maze.h"
-#include <queue>
-#include <array>
 
 namespace s21 {
-    struct Coordinates {
-        int x;
-        int y;
-    };
-
     struct AnswerData {
         std::queue<Coordinates> plan;
-        s21::Maze maze_matrix;
+        Maze maze_matrix;
         Matrix<int> distances;
+        Matrix<Coordinates> answer_path;
     };
-
-    constexpr int UNUSED_CELL = -1;
-    constexpr std::array<Coordinates, 4> DELTA = {{ {0, -1}, {0, 1}, {1, 0}, {-1, 0} }};
-    enum Directions {
-        UP = 0,
-        DOWN,
-        RIGHT,
-        LEFT
-    };
-
-    void getMazeAnswer(s21::Maze maze, Coordinates start, Coordinates end);
+    std::vector<int> getMazeAnswer(s21::Maze maze, Coordinates start, Coordinates end);
     bool correctCoordinates(AnswerData& data, Coordinates& current, Coordinates& next, int shift);
     void findPaths(AnswerData& data);
     void changeNeighboursCoordinates(AnswerData& data, Coordinates& current);
@@ -34,6 +18,8 @@ namespace s21 {
     bool checkUpDirection(AnswerData& data, Coordinates& current, Coordinates& next);
     bool checkRightDirection(AnswerData& data, Coordinates& current, Coordinates& next, int cols);
     bool checkLeftDirection(AnswerData& data, Coordinates& current, Coordinates& next);
+    std::vector<int> reestablishPath(s21::Matrix<Coordinates> answer_path, Coordinates& end);
+    std::vector<int> normalizeAnswerPath(std::vector<Coordinates>& path);
 
     template <class T>
     void initializeMatrix(s21::Matrix<T>& matrix, T value) {

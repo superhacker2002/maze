@@ -27,9 +27,9 @@ void s21::View::PaintBorders_() {
 }
 
 void s21::View::FlipCave_() {
-  if (m_controller_->DoesCaveExist()) {
+  if (m_controller_->CaveExists()) {
     m_controller_->FlipCave();
-    PaintCave_();  
+    PaintCave_();
   }
 }
 
@@ -62,15 +62,15 @@ void s21::View::RandomMaze_() {
 }
 
 void s21::View::TransformCave_() {
-  if (m_controller_->DoesCaveExist()) {
-  m_controller_->TransformOnce();
+  if (m_controller_->CaveExists()) {
+    m_controller_->TransformOnce();
     PaintCave_();
   }
 }
 
 void s21::View::PaintCave_() {
   ClearDrawArea_();
-  if (m_controller_->DoesCaveExist()) {
+  if (m_controller_->CaveExists()) {
     auto data = m_controller_->GetCaveDrawData();
     for (auto it : data)
       m_scene_->addRect(it, *m_pen_, Qt::SolidPattern);  
@@ -79,8 +79,8 @@ void s21::View::PaintCave_() {
 
 void s21::View::PaintMaze_() {
   ClearDrawArea_();
-  if (m_controller_->DoesMazeExist()) {
-    PaintBorders_();
+  if (m_controller_->MazeExists()) {
+//    PaintBorders_();
     auto data = m_controller_->GetMazeDrawData();
     for (auto it : data) {
       m_scene_->addLine(it, *m_pen_);
@@ -93,7 +93,7 @@ std::vector<QLineF> s21::View::GetAnswer_(std::pair<int, int> p1, std::pair<int,
 }
 
 void s21::View::PaintAnswer_() {
-  if (m_controller_->DoesMazeExist()) {
+  if (m_controller_->MazeExists()) {
     m_pen_->setColor(QColor::fromRgbF(1.0, 0.0, 0.0));  // red
 
     auto lines_vec = GetAnswer_({
