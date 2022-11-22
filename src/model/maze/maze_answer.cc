@@ -16,9 +16,15 @@ namespace s21 {
         plan.push(start);
 
         AnswerData data = {plan, maze, used_cells, distances};
-        std::cout << distances(end.y, end.x) << std::endl;
-
         findPaths(data);
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+
+                std::cout << std::setw(2) << data.distances(i, j) << " ";
+            }
+            std::cout << "\n";
+        }
+        std::cout << data.distances(end.y, end.x);
     }
 
     void findPaths(AnswerData& data) {
