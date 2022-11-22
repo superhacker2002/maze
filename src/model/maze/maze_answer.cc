@@ -16,26 +16,19 @@ namespace s21 {
         plan.push(start);
 
         AnswerData data = {plan, maze, used_cells, distances};
-        std::cout << distances(end.x, end.y) << std::endl;
-        for (int row = 0; row < rows; ++row) {
-            for (int col = 0; col < cols; ++col) {
-                std::cout << distances(row, col) << " ";
-            }
-            std::cout << "\n";
-        }
+        std::cout << distances(end.y, end.x) << std::endl;
+
         findPaths(data);
     }
 
     void findPaths(AnswerData& data) {
         while (!data.plan.empty()) {
             int x = data.plan.front().x;
-            data.plan.pop();
             int y = data.plan.front().y;
             data.plan.pop();
             Coordinates current = {x, y};
-            changeNeighboursCoordinates(current, data);
+            changeNeighboursCoordinates(data, current);
         }
-
     }
 
     void changeNeighboursCoordinates(AnswerData& data, Coordinates& current) {
@@ -44,8 +37,8 @@ namespace s21 {
             int ny = current.y + DELTA[shift].y;
             Coordinates neighbours = {nx, ny};
             if (correctCoordinates(data, current, neighbours, shift)) {
-                data.distances(nx, ny) = data.distances(current.x, current.y) + 1;
-                data.used_cells(nx, ny) = true;
+                data.distances(ny, nx) = data.distances(current.y, current.x) + 1;
+                data.used_cells(ny, nx) = true;
                 data.plan.push({nx, ny});
             }
         }
@@ -64,23 +57,27 @@ namespace s21 {
         } else if (shift == LEFT) {
             is_correct = checkLeftDirection(data, current, next);
         }
+        if (is_correct && data.used_cells(next.y, next.x)) {
+            is_correct = false;
+        }
+
         return is_correct;
     }
 
     bool checkDownDirection(AnswerData& data, Coordinates& current, Coordinates& next, int rows) {
-        return current.y < rows && !data.maze_matrix.GetValue(current.x, current.y).bottom_wall;
+        return current.y < rows - 1 && !data.maze_matrix.GetValue(current.y, current.x).bottom_wall;
     }
 
     bool checkUpDirection(AnswerData& data, Coordinates& current, Coordinates& next) {
-        return current.y > 0 && !data.maze_matrix.GetValue(next.x, next.y).bottom_wall;
+        return current.y > 0 && !data.maze_matrix.GetValue(next.y, next.x).bottom_wall;
     }
 
     bool checkRightDirection(AnswerData& data, Coordinates& current, Coordinates& next, int cols) {
-        return current.x < cols && !data.maze_matrix.GetValue(current.x, current.y).right_wall;
+        return current.x < cols - 1 && !data.maze_matrix.GetValue(current.y, current.x).right_wall;
     }
 
     bool checkLeftDirection(AnswerData& data, Coordinates& current, Coordinates& next) {
-        return current.x > 0 && !data.maze_matrix.GetValue(next.x, next.y).right_wall;
+        return current.x > 0 && !data.maze_matrix.GetValue(next.y, next.x).right_wall;
     }
 
 
