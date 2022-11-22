@@ -58,6 +58,8 @@ void s21::View::MazeInit_() {
 
 void s21::View::RandomMaze_() {
     m_controller_->GenerateMaze(m_ui_->maze_rows->value(), m_ui_->maze_cols->value());
+    m_ui_->x2_spinbox->setMaximum(m_ui_->maze_cols->value() - 1);
+    m_ui_->y2_spinbox->setMaximum(m_ui_->maze_rows->value() - 1);
     PaintMaze_();
 }
 
@@ -80,7 +82,7 @@ void s21::View::PaintCave_() {
 void s21::View::PaintMaze_() {
   ClearDrawArea_();
   if (m_controller_->MazeExists()) {
-//    PaintBorders_();
+    PaintBorders_();
     auto data = m_controller_->GetMazeDrawData();
     for (auto it : data) {
       m_scene_->addLine(it, *m_pen_);
@@ -93,9 +95,9 @@ std::vector<QLineF> s21::View::GetAnswer_(std::pair<int, int> p1, std::pair<int,
 }
 
 void s21::View::PaintAnswer_() {
+
   if (m_controller_->MazeExists()) {
     m_pen_->setColor(QColor::fromRgbF(1.0, 0.0, 0.0));  // red
-
     auto lines_vec = GetAnswer_({
         m_ui_->x1_spinbox->value(),
         m_ui_->y1_spinbox->value()
@@ -104,8 +106,9 @@ void s21::View::PaintAnswer_() {
         m_ui_->y2_spinbox->value()
       }
     );
-    for (auto it = lines_vec.begin(); it != lines_vec.end(); ++it)
-      m_scene_->addLine(*it, *m_pen_);
+    for (auto& line : lines_vec) {
+      m_scene_->addLine(line, *m_pen_);
+    }
 
     m_pen_->setColor(QColor::fromRgbF(0.0, 0.0, 0.0));  // back to black  
   }

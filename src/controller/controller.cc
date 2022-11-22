@@ -39,7 +39,6 @@ std::vector<QRectF> s21::Controller::GetCaveDrawData() {
   return m_cave_->GetDrawData();
 }
 
-
 // Maze
 void s21::Controller::GetMazeFromFile(const std::string& file_path) {
   m_maze_ = std::make_unique<s21::Maze>(file_path);
