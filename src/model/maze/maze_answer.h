@@ -14,10 +14,10 @@ namespace s21 {
     struct AnswerData {
         std::queue<Coordinates> plan;
         s21::Maze maze_matrix;
-        Matrix<bool> used_cells;
         Matrix<int> distances;
     };
 
+    constexpr int UNUSED_CELL = -1;
     constexpr std::array<Coordinates, 4> DELTA = {{ {0, -1}, {0, 1}, {1, 0}, {-1, 0} }};
     enum Directions {
         UP = 0,

@@ -5,17 +5,13 @@ namespace s21 {
         int rows = maze.GetRows();
         int cols = maze.GetCols();
         s21::Matrix<int> distances(rows, cols);
-        initializeMatrix<int> (distances, -1);
-
-        s21::Matrix<bool> used_cells(rows, cols);
-        initializeMatrix<bool> (used_cells, false);
+        initializeMatrix<int> (distances, UNUSED_CELL);
 
         std::queue<Coordinates> plan;
         distances(start.x, start.y) = 0;
-        used_cells(start.x, start.y) = true;
         plan.push(start);
 
-        AnswerData data = {plan, maze, used_cells, distances};
+        AnswerData data = {plan, maze, distances};
         findPaths(data);
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
@@ -44,7 +40,6 @@ namespace s21 {
             Coordinates neighbours = {nx, ny};
             if (correctCoordinates(data, current, neighbours, shift)) {
                 data.distances(ny, nx) = data.distances(current.y, current.x) + 1;
-                data.used_cells(ny, nx) = true;
                 data.plan.push({nx, ny});
             }
         }
@@ -63,7 +58,7 @@ namespace s21 {
         } else if (shift == LEFT) {
             is_correct = checkLeftDirection(data, current, next);
         }
-        if (is_correct && data.used_cells(next.y, next.x)) {
+        if (is_correct && data.distances(next.y, next.x) != UNUSED_CELL) {
             is_correct = false;
         }
 
