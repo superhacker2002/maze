@@ -34,9 +34,9 @@ Maze::Maze()
     m_maze_(s21::Maze::MazeMatrix(5, 5)),
     m_counter_(1) {}
 
-int Maze::GetRows() { return m_maze_.GetRows(); }
+int Maze::GetRows() const { return m_maze_.GetRows(); }
 
-int Maze::GetCols() { return m_maze_.GetCols(); }
+int Maze::GetCols() const { return m_maze_.GetCols(); }
 
 Walls Maze::GetValue(int i, int j) { return m_maze_(i, j); }
 

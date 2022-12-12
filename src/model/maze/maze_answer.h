@@ -10,7 +10,7 @@ namespace s21 {
         Matrix<int> distances;
         Matrix<Coordinates> answer_path;
     };
-    std::vector<int> getMazeAnswer(s21::Maze maze, Coordinates start, Coordinates end);
+    std::vector<int> getMazeAnswer(const s21::Maze& maze, Coordinates start, Coordinates end);
     bool correctCoordinates(AnswerData& data, Coordinates& current, Coordinates& next, int shift);
     void findPaths(AnswerData& data);
     void changeNeighboursCoordinates(AnswerData& data, Coordinates& current);

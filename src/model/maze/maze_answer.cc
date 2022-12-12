@@ -3,7 +3,7 @@
 
 namespace s21 {
 
-    std::vector<int> getMazeAnswer(s21::Maze maze, Coordinates start, Coordinates end) {
+    std::vector<int> getMazeAnswer(const s21::Maze& maze, Coordinates start, Coordinates end) {
         int rows = maze.GetRows();
         int cols = maze.GetCols();
         s21::Matrix<int> distances(rows, cols);

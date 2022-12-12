@@ -19,11 +19,12 @@ class Controller {
     Controller() {;}
     ~Controller() = default;
     void GetRandomCave(size_t rows, size_t cols, s21::Limits limit, int birth_chance);
+    void GetCaveFromFile(const std::string& file_path, s21::Limits limit);
     int GetCaveRows();
     int GetCaveCols();
     bool GetPixel(int i, int j);
-    void TransformOnce();
-    void TransformTillEnd();
+    bool TransformOnce();
+    // void TransformTillEnd(unsigned int sleep_time);
     void FlipCave();
     bool CaveExists();
     std::vector<QRectF> GetCaveDrawData();

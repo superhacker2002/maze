@@ -29,7 +29,7 @@ class Cave {
   Cave(const std::string& file_path, Limits limit);
   ~Cave() = default;
   bool Transform();
-  void TransformCycle();
+  void TransformCycle(unsigned int sleep_time);
   void OutputCave();
   int GetRows();
   int GetCols();

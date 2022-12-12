@@ -46,6 +46,22 @@ void s21::View::CaveInit_() {
   PaintCave_();
 }
 
+void s21::View::GetCaveFromFile_() {
+    QString filepath = QFileDialog::getOpenFileName(0, "Выбрать файл", "", "*.txt");
+    if (filepath != "") {
+        m_controller_->GetCaveFromFile(
+            filepath.toStdString(),
+            {
+                m_ui_->birth_spinbox->value(),
+                m_ui_->death_spinbox->value()
+            }
+        );
+      PaintCave_();
+    } else {
+      ClearDrawArea_();
+    }
+}
+
 void s21::View::MazeInit_() {
   QString filepath = QFileDialog::getOpenFileName(0, "Выбрать файл", "", "*.txt");
   if (filepath != "") {
@@ -64,10 +80,10 @@ void s21::View::RandomMaze_() {
 }
 
 void s21::View::TransformCave_() {
-  if (m_controller_->CaveExists()) {
-    m_controller_->TransformOnce();
-    PaintCave_();
-  }
+    if (m_controller_->CaveExists()) {
+        m_controller_->TransformOnce();
+        PaintCave_();
+    }
 }
 
 void s21::View::PaintCave_() {
@@ -82,7 +98,7 @@ void s21::View::PaintCave_() {
 void s21::View::PaintMaze_() {
   ClearDrawArea_();
   if (m_controller_->MazeExists()) {
-    PaintBorders_();
+//    PaintBorders_();
     auto data = m_controller_->GetMazeDrawData();
     for (auto it : data) {
       m_scene_->addLine(it, *m_pen_);
@@ -95,7 +111,7 @@ std::vector<QLineF> s21::View::GetAnswer_(std::pair<int, int> p1, std::pair<int,
 }
 
 void s21::View::PaintAnswer_() {
-
+  PaintMaze_();
   if (m_controller_->MazeExists()) {
     m_pen_->setColor(QColor::fromRgbF(1.0, 0.0, 0.0));  // red
     auto lines_vec = GetAnswer_({
@@ -120,18 +136,20 @@ s21::View::~View() {
 
 void s21::View::ConnectButtons_() {
   connect(m_ui_->transform_cave_button, SIGNAL(clicked()), this, SLOT(TransformCave_()));
+  connect(m_ui_->transform_cave_cycle_button, SIGNAL(clicked()), this, SLOT(TransformCave_()));
   connect(m_ui_->create_cave_button, SIGNAL(clicked()), this, SLOT(CaveInit_()));
   connect(m_ui_->flip_cave_button, SIGNAL(clicked()), this, SLOT(FlipCave_()));
   connect(m_ui_->maze_file_button, SIGNAL(clicked()), this, SLOT(MazeInit_()));
   connect(m_ui_->random_maze_button, SIGNAL(clicked()), this, SLOT(RandomMaze_()));
   connect(m_ui_->draw_answer_button, SIGNAL(clicked()), this, SLOT(PaintAnswer_()));
   connect(m_ui_->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged_()));
+  connect(m_ui_->choose_cave_file_button, SIGNAL(clicked()), this, SLOT(GetCaveFromFile_()));
 }
 
 void s21::View::StartSettings_() {
   m_ui_->draw_area->setScene(m_scene_.get());
-  m_ui_->draw_area->centerOn(0, 0);
-  m_scene_->setSceneRect(0, 0, 510, 510);
+//  m_ui_->draw_area->centerOn(0, 0);
+//  m_scene_->setSceneRect(0, 0, 510, 510);
   m_ui_->draw_area->setStyleSheet("background-color:white;");
   m_ui_->draw_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_ui_->draw_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

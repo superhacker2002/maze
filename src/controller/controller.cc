@@ -7,6 +7,10 @@ void s21::Controller::GetRandomCave(size_t rows, size_t cols,
   m_cave_ = std::make_unique<s21::Cave>(rows, cols, limit, birth_chance);
 }
 
+void s21::Controller::GetCaveFromFile(const std::string& file_path, s21::Limits limit) {
+  m_cave_ = std::make_unique<s21::Cave>(file_path, limit);
+}
+
 int s21::Controller::GetCaveRows() {
   return m_cave_->GetRows();
 }
@@ -19,13 +23,13 @@ bool s21::Controller::GetPixel(int i, int j) {
   return m_cave_->GetValue(i, j);
 }
 
-void s21::Controller::TransformOnce() {
-  m_cave_->Transform();
+bool s21::Controller::TransformOnce() {
+  return m_cave_->Transform();
 }
 
-void s21::Controller::TransformTillEnd() {
-  m_cave_->TransformCycle();
-}
+// void s21::Controller::TransformTillEnd(unsigned int sleep_time) {
+//   m_cave_->TransformCycle(sleep_time);
+// }
 
 void s21::Controller::FlipCave() {
   m_cave_->FlipCave();

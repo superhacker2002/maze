@@ -12,8 +12,8 @@ class Maze {
   explicit Maze(const std::string& file_path);
   explicit Maze(int rows, int cols);
   void outputMaze();
-  int GetRows();
-  int GetCols();
+  int GetRows() const;
+  int GetCols() const;
   Walls GetValue(int i, int j);
 
   friend std::ofstream& operator<<(std::ofstream& file, const Maze& maze);

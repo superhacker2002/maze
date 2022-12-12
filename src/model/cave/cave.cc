@@ -105,7 +105,7 @@ bool Cave::Transform() {
  * Transforms current cave matrix
  * while the transformation is allowed.
  */
-void Cave::TransformCycle() {
+void Cave::TransformCycle(unsigned int sleep_time) {
     // пока поле меняется, запускаем трансформацию
     while (Transform()) {}
 }

@@ -13,7 +13,10 @@ std::vector<QLineF> GetAnswerDrawData(s21::Maze maze, std::vector<int>& answer,
   if (x1 == 0) {
       x1 = start.x + 0.5;
   }
-  x1 *= x_size, y1 += y_size;
+  if (y1 == 0) {
+      y1 = start.y + 0.5;
+  }
+  x1 *= x_size, y1 *= y_size;
   for (auto& direction : answer) {
     if (direction == LEFT) {
       x2 = x1 - x_size;
@@ -41,20 +44,20 @@ std::vector<QLineF> GetMazeDrawData(s21::Maze& maze) {
   int x_size = 500 / rows, y_size = 500 / cols;
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
-      if (maze.GetValue(i, j).bottom_wall) {
-        int x1 = j * x_size == 0 ? 10 : j * x_size;
-        int y1 = (i + 1) * y_size == 0 ? 10 : (i + 1) * y_size;
-        int x2 = x1 + x_size == 0 ? 10 : x1 + x_size;
-        int y2 = y1;
-        data.push_back(QLineF(x1, y1, x2, y2));
-      }
-      if (maze.GetValue(i, j).right_wall) {
-        int x1 = (j + 1) * x_size == 0 ? 10 : (j + 1) * x_size;
-        int y1 = i * y_size == 0 ? 10 : i * y_size;
-        int x2 = x1;
-        int y2 = y1 + y_size == 0 ? 10 : y1 + y_size;
-        data.push_back(QLineF(x1, y1, x2, y2));
-      }
+        if (maze.GetValue(i, j).bottom_wall) {
+          int x1 = j * x_size;
+          int y1 = (i + 1) * y_size;
+          int x2 = x1 + x_size;
+          int y2 = y1;
+          data.push_back(QLineF(x1, y1, x2, y2));
+        }
+        if (maze.GetValue(i, j).right_wall) {
+          int x1 = (j + 1) * x_size;
+          int y1 = i * y_size;
+          int x2 = x1;
+          int y2 = y1 + y_size;
+          data.push_back(QLineF(x1, y1, x2, y2));
+        }
     }
   }
   return data;

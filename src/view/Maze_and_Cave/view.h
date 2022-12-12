@@ -37,6 +37,7 @@ class View : public QMainWindow {
 
   private slots:
     void TransformCave_();
+    void GetCaveFromFile_();
     void CaveInit_();
     void FlipCave_();
 

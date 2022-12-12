@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="maze_tab">
      <attribute name="title">
@@ -379,6 +379,51 @@
        <string>Flip Cave</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="choose_cave_file_button">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>130</y>
+        <width>100</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Choose File</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="sleep_time">
+      <property name="geometry">
+       <rect>
+        <x>285</x>
+        <y>134</y>
+        <width>71</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="suffix">
+       <string>  ms</string>
+      </property>
+      <property name="maximum">
+       <number>10000</number>
+      </property>
+      <property name="value">
+       <number>10</number>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="transform_cave_cycle_button">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>130</y>
+        <width>141</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Transform Cave Cycle</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QGraphicsView" name="draw_area">
@@ -386,8 +431,8 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>510</width>
-      <height>510</height>
+      <width>500</width>
+      <height>500</height>
      </rect>
     </property>
    </widget>
