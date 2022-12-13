@@ -80,10 +80,21 @@ void s21::View::RandomMaze_() {
 }
 
 void s21::View::TransformCave_() {
-    if (m_controller_->CaveExists()) {
+    QPushButton* button = (QPushButton*)sender();
+    if (button == m_ui_->transform_cave_button && m_controller_->CaveExists()) {
         m_controller_->TransformOnce();
         PaintCave_();
+    } else if (m_controller_->CaveExists()) {
+        m_timer_ = std::make_unique<QTimer>();
+        connect(m_timer_.get(), SIGNAL(timeout()), this, SLOT(TransformCycling_()));
+        m_timer_->start(m_ui_->sleep_time->value());
     }
+}
+
+void s21::View::TransformCycling_() {
+    if (!m_controller_->TransformOnce())
+        m_timer_->stop();
+    PaintCave_();
 }
 
 void s21::View::PaintCave_() {

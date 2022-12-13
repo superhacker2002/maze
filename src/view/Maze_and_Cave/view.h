@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QPen>
 #include <QFileDialog>
+#include <QTimer>
 
 #include "../../controller/controller.h"
 
@@ -23,6 +24,7 @@ class View : public QMainWindow {
     std::unique_ptr<QGraphicsScene> m_scene_;
     std::unique_ptr<QPen> m_pen_;
     std::unique_ptr<s21::Controller> m_controller_;
+    std::unique_ptr<QTimer> m_timer_;
 
     // common
     void StartSettings_();
@@ -30,6 +32,7 @@ class View : public QMainWindow {
     void ConnectButtons_();
     // cave
     void PaintCave_();
+
     // maze
     void PaintMaze_();
     void PaintBorders_();
@@ -40,6 +43,7 @@ class View : public QMainWindow {
     void GetCaveFromFile_();
     void CaveInit_();
     void FlipCave_();
+    void TransformCycling_();
 
     void MazeInit_();
     void RandomMaze_();
