@@ -1,5 +1,5 @@
 #include "maze.h"
-#include "maze_answer.h"
+#include "answer/maze_answer.h"
 
 int main() {
     s21::Maze maze("maze1.txt");

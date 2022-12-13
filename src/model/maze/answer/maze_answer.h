@@ -1,7 +1,7 @@
 #ifndef SRC_MODEL_MAZE_MAZE_ANSWER_H_
 #define SRC_MODEL_MAZE_MAZE_ANSWER_H_
 
-#include "maze.h"
+#include "../maze.h"
 
 namespace s21 {
     struct AnswerData {

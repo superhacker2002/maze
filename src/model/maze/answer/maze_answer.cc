@@ -2,7 +2,6 @@
 #include <algorithm>
 
 namespace s21 {
-
     std::vector<int> getMazeAnswer(const s21::Maze& maze, Coordinates start, Coordinates end) {
         int rows = maze.GetRows();
         int cols = maze.GetCols();

@@ -42,7 +42,7 @@ Walls Maze::GetValue(int i, int j) { return m_maze_(i, j); }
 
 /**
  * Indicates if error occurred while program was running
- * and throw an exception.
+ * and throws an exception.
  */
 void Maze::getError() const {
     if (m_reading_error_) {
