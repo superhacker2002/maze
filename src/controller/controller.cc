@@ -61,8 +61,8 @@ s21::Walls s21::Controller::GetWall(int i, int j) {
 }
 
 std::vector<QLineF> s21::Controller::GetAnswer(std::pair<int, int> p1, std::pair<int, int> p2) {
-  s21::Coordinates start = {p1.first, p1.second};
-  s21::Coordinates end = {p2.first, p2.second};
+  s21::Coordinates start = {p1.second, p1.first};
+  s21::Coordinates end = {p2.second, p2.first};
   auto answer = s21::getMazeAnswer(*m_maze_, start, end);
   return s21::GetAnswerDrawData(*m_maze_, answer, start, end);
 }
