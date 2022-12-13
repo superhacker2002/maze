@@ -27,10 +27,6 @@ bool s21::Controller::TransformOnce() {
   return m_cave_->Transform();
 }
 
-// void s21::Controller::TransformTillEnd(unsigned int sleep_time) {
-//   m_cave_->TransformCycle(sleep_time);
-// }
-
 void s21::Controller::FlipCave() {
   m_cave_->FlipCave();
 }
@@ -77,4 +73,12 @@ bool s21::Controller::MazeExists() {
 
 std::vector<QLineF> s21::Controller::GetMazeDrawData() {
   return s21::GetMazeDrawData(*m_maze_);
+}
+
+void s21::Controller::SaveMaze(const std::string& file_path) {
+  std::ofstream file;
+  file.open(file_path, std::ios_base::out);
+  if (file.is_open() && MazeExists()) {
+    file << *m_maze_.get();
+  }
 }

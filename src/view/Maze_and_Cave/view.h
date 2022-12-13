@@ -44,6 +44,7 @@ class View : public QMainWindow {
     void MazeInit_();
     void RandomMaze_();
     void PaintAnswer_();
+    void SaveMaze_();
 
     void onTabChanged_();
 };

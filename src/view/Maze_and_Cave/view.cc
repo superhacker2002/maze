@@ -130,6 +130,13 @@ void s21::View::PaintAnswer_() {
   }
 }
 
+void s21::View::SaveMaze_() {
+QString str = QFileDialog::getSaveFileName(0, "Сохранить файл как", "", "*.txt");
+    if (!str.isEmpty()) {
+        m_controller_->SaveMaze(str.toStdString());
+    }
+}
+
 s21::View::~View() {
   ;
 }
@@ -144,6 +151,7 @@ void s21::View::ConnectButtons_() {
   connect(m_ui_->draw_answer_button, SIGNAL(clicked()), this, SLOT(PaintAnswer_()));
   connect(m_ui_->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged_()));
   connect(m_ui_->choose_cave_file_button, SIGNAL(clicked()), this, SLOT(GetCaveFromFile_()));
+  connect(m_ui_->save_maze_button, SIGNAL(clicked()), this, SLOT(SaveMaze_()));
 }
 
 void s21::View::StartSettings_() {

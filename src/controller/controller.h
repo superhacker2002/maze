@@ -24,7 +24,6 @@ class Controller {
     int GetCaveCols();
     bool GetPixel(int i, int j);
     bool TransformOnce();
-    // void TransformTillEnd(unsigned int sleep_time);
     void FlipCave();
     bool CaveExists();
     std::vector<QRectF> GetCaveDrawData();
@@ -38,6 +37,7 @@ class Controller {
     std::vector<QLineF> GetAnswer(std::pair<int, int> p1, std::pair<int, int> p2);
     bool MazeExists();
     std::vector<QLineF> GetMazeDrawData();
+    void SaveMaze(const std::string& file_path);
 
 };  // class Controller
 }  // namespace s21
