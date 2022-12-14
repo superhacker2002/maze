@@ -6,20 +6,11 @@ std::vector<QLineF> GetAnswerDrawData(s21::Maze maze, std::vector<int>& answer,
   std::vector<QLineF> lines;
   int x_size = 500 / maze.GetRows();
   int y_size = 500 / maze.GetCols();
-  float x1;
-  float y1;
-  float x2 = end.x * 1.5;
-  float y2 = end.y * 1.5;
-  if (x1 == 0) {
-      x1 = start.x + 0.5;
-  } else {
-      x1 = start.x - 0.5;
-  }
-  if (y1 == 0) {
-      y1 = start.y + 0.5;
-  } else {
-    y1 = start.y - 0.5;
-  }
+  float x1 = start.x + 0.5;
+  float y1 = start.y + 0.5;
+  float x2 = end.x + 0.5;
+  float y2 = end.y + 0.5;
+
   x1 *= x_size, y1 *= y_size;
   for (auto& direction : answer) {
     if (direction == LEFT) {
