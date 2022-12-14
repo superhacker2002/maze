@@ -14,9 +14,9 @@ namespace s21 {
     bool correctCoordinates(AnswerData& data, Coordinates& current, Coordinates& next, int shift);
     void findPaths(AnswerData& data);
     void changeNeighboursCoordinates(AnswerData& data, Coordinates& current);
-    bool checkDownDirection(AnswerData& data, Coordinates& current, Coordinates& next, int rows);
+    bool checkDownDirection(AnswerData& data, Coordinates& current, int rows);
     bool checkUpDirection(AnswerData& data, Coordinates& current, Coordinates& next);
-    bool checkRightDirection(AnswerData& data, Coordinates& current, Coordinates& next, int cols);
+    bool checkRightDirection(AnswerData& data, Coordinates& current, int cols);
     bool checkLeftDirection(AnswerData& data, Coordinates& current, Coordinates& next);
     std::vector<int> reestablishPath(s21::Matrix<Coordinates> answer_path, Coordinates& end);
     std::vector<int> normalizeAnswerPath(std::vector<Coordinates>& path);

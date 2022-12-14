@@ -21,10 +21,6 @@ namespace s21 {
         int y;
     };
 
-    constexpr int UNUSED_CELL = -1;
-
-    constexpr std::array<Coordinates, 4> DELTA = {{ {0, -1}, {0, 1}, {1, 0}, {-1, 0} }};
-
     enum Directions {
         UP = 0,
         DOWN,

@@ -1,6 +1,10 @@
 #include "maze_answer.h"
 #include <algorithm>
 
+constexpr int UNUSED_CELL = -1;
+constexpr int START_CELL = -2;
+constexpr std::array<s21::Coordinates, 4> DELTA = {{ {0, -1}, {0, 1}, {1, 0}, {-1, 0} }};
+
 namespace s21 {
     std::vector<int> getMazeAnswer(const s21::Maze& maze, Coordinates start, Coordinates end) {
         int rows = maze.GetRows();
@@ -17,6 +21,7 @@ namespace s21 {
         plan.push(start);
 
         AnswerData data = {plan, maze, distances, answer_path};
+        data.answer_path(start.y, start.x) = {START_CELL, START_CELL};
         findPaths(data);
         return reestablishPath(data.answer_path, end);
     }
@@ -32,11 +37,12 @@ namespace s21 {
     }
 
     void changeNeighboursCoordinates(AnswerData& data, Coordinates& current) {
-        for (int shift = 0; shift < DELTA.size(); ++shift) {
+        for (size_t shift = 0; shift < DELTA.size(); ++shift) {
             int nx = current.x + DELTA[shift].x;
             int ny = current.y + DELTA[shift].y;
             Coordinates neighbours = {nx, ny};
-            if (correctCoordinates(data, current, neighbours, shift)) {
+            if (correctCoordinates(data, current, neighbours, shift) && 
+                                    data.answer_path(ny, nx).x != START_CELL) {
                 data.distances(ny, nx) = data.distances(current.y, current.x) + 1;
                 data.answer_path(ny, nx) = current;
                 data.plan.push({nx, ny});
@@ -49,11 +55,11 @@ namespace s21 {
         int cols = data.maze_matrix.GetCols();
         bool is_correct = false;
         if (shift == DOWN) {
-            is_correct = checkDownDirection(data, current, next, rows);
+            is_correct = checkDownDirection(data, current, rows);
         } else if (shift == UP) {
             is_correct = checkUpDirection(data, current, next);
         } else if (shift == RIGHT) {
-            is_correct = checkRightDirection(data, current, next, cols);
+            is_correct = checkRightDirection(data, current, cols);
         } else if (shift == LEFT) {
             is_correct = checkLeftDirection(data, current, next);
         }
@@ -64,7 +70,7 @@ namespace s21 {
         return is_correct;
     }
 
-    bool checkDownDirection(AnswerData& data, Coordinates& current, Coordinates& next, int rows) {
+    bool checkDownDirection(AnswerData& data, Coordinates& current, int rows) {
         return current.y < rows - 1 && !data.maze_matrix.GetValue(current.y, current.x).bottom_wall;
     }
 
@@ -72,7 +78,7 @@ namespace s21 {
         return current.y > 0 && !data.maze_matrix.GetValue(next.y, next.x).bottom_wall;
     }
 
-    bool checkRightDirection(AnswerData& data, Coordinates& current, Coordinates& next, int cols) {
+    bool checkRightDirection(AnswerData& data, Coordinates& current, int cols) {
         return current.x < cols - 1 && !data.maze_matrix.GetValue(current.y, current.x).right_wall;
     }
 
@@ -83,8 +89,7 @@ namespace s21 {
     std::vector<int> reestablishPath(s21::Matrix<Coordinates> answer_path, Coordinates& end) {
         Coordinates current = end;
         std::vector<Coordinates> path;
-
-        while (current.x != UNUSED_CELL && current.y != UNUSED_CELL) {
+        while (current.x != START_CELL && current.x != UNUSED_CELL) {
             path.push_back(current);
             current = answer_path(current.y, current.x);
         }
@@ -95,7 +100,7 @@ namespace s21 {
     std::vector<int> normalizeAnswerPath(std::vector<Coordinates>& path) {
         std::vector<int> normalized_answer;
         Coordinates prev = path[0];
-        for (int next = 1; next < path.size(); ++next) {
+        for (size_t next = 1; next < path.size(); ++next) {
             if (path[next].y > prev.y) {
                 normalized_answer.push_back(DOWN);
             } else if (path[next].y < prev.y) {
@@ -109,12 +114,4 @@ namespace s21 {
         }
         return normalized_answer;
     }
-
-
-
-
-
-
-
-
 }
