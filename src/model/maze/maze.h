@@ -5,6 +5,7 @@
 #include "fstream"
 
 namespace s21 {
+constexpr int EMPTY = 0;
 class Maze {
  public:
   using MazeMatrix = s21::Matrix<Walls>;

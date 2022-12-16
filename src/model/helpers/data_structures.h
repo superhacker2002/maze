@@ -5,7 +5,6 @@
 #include "matrix.h"
 
 namespace s21 {
-    constexpr int EMPTY = 0;
     struct Limits {
         int birth_limit;
         int death_limit;

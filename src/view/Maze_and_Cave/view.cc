@@ -81,16 +81,6 @@ void s21::View::SetCoordinatesLimits_() {
     m_ui_->y2_spinbox->setMaximum(m_ui_->maze_rows->value() - 1);
     m_ui_->x1_spinbox->setMaximum(m_ui_->x2_spinbox->value() - 1);
     m_ui_->y1_spinbox->setMaximum(m_ui_->x2_spinbox->value() - 1);
-  
-    auto line_edit = m_ui_->x2_spinbox->findChild<QLineEdit*>();
-    line_edit->setReadOnly(true);
-    line_edit = m_ui_->y2_spinbox->findChild<QLineEdit*>();
-    line_edit->setReadOnly(true);
-    line_edit = m_ui_->x1_spinbox->findChild<QLineEdit*>();
-    line_edit->setReadOnly(true);
-    line_edit = m_ui_->y1_spinbox->findChild<QLineEdit*>();
-    line_edit->setReadOnly(true);
-
 }
 
 void s21::View::RandomMaze_() {
@@ -192,7 +182,16 @@ void s21::View::StartSettings_() {
   m_ui_->draw_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_ui_->draw_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_ui_->draw_area->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-  m_ui_->x1_spinbox->setFocusPolicy(Qt::NoFocus);
+  m_ui_->maze_rows->setMaximum(50);
+  m_ui_->maze_cols->setMaximum(50);
+  auto line_edit = m_ui_->x2_spinbox->findChild<QLineEdit*>();
+  line_edit->setReadOnly(true);
+  line_edit = m_ui_->y2_spinbox->findChild<QLineEdit*>();
+  line_edit->setReadOnly(true);
+  line_edit = m_ui_->x1_spinbox->findChild<QLineEdit*>();
+  line_edit->setReadOnly(true);
+  line_edit = m_ui_->y1_spinbox->findChild<QLineEdit*>();
+  line_edit->setReadOnly(true);
 
   ConnectButtons_();
 }

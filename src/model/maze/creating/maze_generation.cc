@@ -29,7 +29,7 @@ void Maze::generateMaze() {
 void Maze::fillEmptyValues() {
     int cols = m_maze_.GetCols();
     for (int i = 0; i < cols; i++) {
-        m_side_line_.push_back(EMPTY);
+        m_side_line_.push_back(s21::EMPTY);
     }
 }
 
@@ -40,7 +40,7 @@ void Maze::fillEmptyValues() {
 void Maze::assignUniqueSet() {
     int cols = m_maze_.GetCols();
     for (int i = 0; i < cols; i++) {
-        if (m_side_line_[i] == EMPTY) {
+        if (m_side_line_[i] == s21::EMPTY) {
             m_side_line_[i] = m_counter_;
             ++m_counter_;
         }
@@ -163,7 +163,7 @@ void Maze::prepareNewLine(int row) {
     int cols = m_maze_.GetCols();
     for (int i = 0; i < cols; i++) {
         if ((m_maze_(row, i)).bottom_wall) {
-            m_side_line_[i] = EMPTY;
+            m_side_line_[i] = s21::EMPTY;
         }
     }
 }

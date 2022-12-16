@@ -1,4 +1,4 @@
-#include "model/maze/maze.h"
+#include "../src/model/maze/maze.h"
 #include "gtest/gtest.h"
 #include "maze_test_class.h"
 
@@ -70,9 +70,9 @@ TEST(maze_tests, prepare_new_line) {
     auto prev_cell = prev_line.begin();
     for (auto& res_cell : result) {
         if (*prev_cell) {
-            EXPECT_EQ(res_cell, s21::kEMPTY);
+            EXPECT_EQ(res_cell, s21::EMPTY);
         } else {
-            EXPECT_TRUE(res_cell != s21::kEMPTY);
+            EXPECT_TRUE(res_cell != s21::EMPTY);
         }
         ++prev_cell;
     }

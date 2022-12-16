@@ -1,4 +1,4 @@
-#include "model/maze/maze.h"
+#include "../src/model/maze/maze.h"
 
 class MazeTest : public s21::Maze {
  public:
