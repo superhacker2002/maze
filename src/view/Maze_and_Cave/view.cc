@@ -1,5 +1,6 @@
 #include "view.h"
 #include "ui_view.h"
+#include <QLineEdit>  
 
 s21::View::View(QWidget *parent)
     : QMainWindow(parent) , m_ui_(std::make_unique<s21::Ui::View>()),
@@ -47,7 +48,7 @@ void s21::View::CaveInit_() {
 }
 
 void s21::View::GetCaveFromFile_() {
-    QString filepath = QFileDialog::getOpenFileName(0, "Выбрать файл", "", "*.txt");
+    QString filepath = QFileDialog::getOpenFileName(0, tr("Выбрать файл"), qApp->applicationDirPath(), tr("*.txt"));
     if (filepath != "") {
         m_controller_->GetCaveFromFile(
             filepath.toStdString(),
@@ -63,19 +64,38 @@ void s21::View::GetCaveFromFile_() {
 }
 
 void s21::View::MazeInit_() {
-  QString filepath = QFileDialog::getOpenFileName(0, "Выбрать файл", "", "*.txt");
+  QString filepath = QFileDialog::getOpenFileName(0, tr("Выбрать файл"), qApp->applicationDirPath(), tr("*.txt"));
   if (filepath != "") {
     m_controller_->GetMazeFromFile(filepath.toStdString());
+    m_ui_->maze_rows->setValue(m_controller_->GetMazeRows());
+    m_ui_->maze_cols->setValue(m_controller_->GetMazeCols());
+    SetCoordinatesLimits_();
     PaintMaze_();
   } else {
     ClearDrawArea_();
   }
 }
 
-void s21::View::RandomMaze_() {
-    m_controller_->GenerateMaze(m_ui_->maze_rows->value(), m_ui_->maze_cols->value());
+void s21::View::SetCoordinatesLimits_() {
     m_ui_->x2_spinbox->setMaximum(m_ui_->maze_cols->value() - 1);
     m_ui_->y2_spinbox->setMaximum(m_ui_->maze_rows->value() - 1);
+    m_ui_->x1_spinbox->setMaximum(m_ui_->x2_spinbox->value() - 1);
+    m_ui_->y1_spinbox->setMaximum(m_ui_->x2_spinbox->value() - 1);
+  
+    auto line_edit = m_ui_->x2_spinbox->findChild<QLineEdit*>();
+    line_edit->setReadOnly(true);
+    line_edit = m_ui_->y2_spinbox->findChild<QLineEdit*>();
+    line_edit->setReadOnly(true);
+    line_edit = m_ui_->x1_spinbox->findChild<QLineEdit*>();
+    line_edit->setReadOnly(true);
+    line_edit = m_ui_->y1_spinbox->findChild<QLineEdit*>();
+    line_edit->setReadOnly(true);
+
+}
+
+void s21::View::RandomMaze_() {
+    m_controller_->GenerateMaze(m_ui_->maze_rows->value(), m_ui_->maze_cols->value());
+    SetCoordinatesLimits_();
     PaintMaze_();
 }
 
@@ -109,7 +129,6 @@ void s21::View::PaintCave_() {
 void s21::View::PaintMaze_() {
   ClearDrawArea_();
   if (m_controller_->MazeExists()) {
-//    PaintBorders_();
     auto data = m_controller_->GetMazeDrawData();
     for (auto it : data) {
       m_scene_->addLine(it, *m_pen_);
@@ -142,7 +161,7 @@ void s21::View::PaintAnswer_() {
 }
 
 void s21::View::SaveMaze_() {
-QString str = QFileDialog::getSaveFileName(0, "Сохранить файл как", "", "*.txt");
+    QString str = QFileDialog::getSaveFileName(0, "Сохранить файл как", "", "*.txt");
     if (!str.isEmpty()) {
         m_controller_->SaveMaze(str.toStdString());
     }
@@ -173,5 +192,7 @@ void s21::View::StartSettings_() {
   m_ui_->draw_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_ui_->draw_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_ui_->draw_area->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+  m_ui_->x1_spinbox->setFocusPolicy(Qt::NoFocus);
+
   ConnectButtons_();
 }
