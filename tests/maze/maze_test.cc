@@ -1,4 +1,3 @@
-#include "../src/model/maze/maze.h"
 #include "gtest/gtest.h"
 #include "maze_test_class.h"
 
