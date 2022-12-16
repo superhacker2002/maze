@@ -36,7 +36,7 @@ bool s21::Controller::CaveExists() {
 }
 
 std::vector<QRectF> s21::Controller::GetCaveDrawData() {
-  return m_cave_->GetDrawData();
+  return s21::GetCaveDrawData(*m_cave_);
 }
 
 // Maze
