@@ -15,5 +15,6 @@ clean:
 build: clean
 	$(CC) $(MAZE_TEST_SRC) $(MAZE_SRC) $(MAZE_TEST_CLASS) $(SRC) $(COMP_FLAGS) $(TEST_FLAGS) -o $(MAZE_TESTS)
 
-test: build
+tests: build
 	./$(MAZE_TESTS)
+	rm -rf $(MAZE_TESTS)
