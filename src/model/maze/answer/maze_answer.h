@@ -11,6 +11,7 @@ namespace s21 {
         Matrix<Coordinates> answer_path;
     };
     std::vector<int> getMazeAnswer(const s21::Maze& maze, Coordinates start, Coordinates end);
+    void checkCoordinates(int rows, int cols, Coordinates& coordinates);
     bool correctCoordinates(AnswerData& data, Coordinates& current, Coordinates& next, int shift);
     void findPaths(AnswerData& data);
     void changeNeighboursCoordinates(AnswerData& data, Coordinates& current);

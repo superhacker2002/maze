@@ -17,6 +17,8 @@ namespace s21 {
 std::vector<int> getMazeAnswer(const s21::Maze& maze, Coordinates start, Coordinates end) {
     int rows = maze.GetRows();
     int cols = maze.GetCols();
+    checkCoordinates(rows, cols, start);
+    checkCoordinates(rows, cols, end);
     s21::Matrix<int> distances(rows, cols);
     initializeMatrix<int> (distances, UNUSED_CELL);
 
@@ -32,6 +34,13 @@ std::vector<int> getMazeAnswer(const s21::Maze& maze, Coordinates start, Coordin
     data.answer_path(start.y, start.x) = {START_CELL, START_CELL};
     findPaths(data);
     return reestablishPath(data.answer_path, end);
+}
+
+void checkCoordinates(int rows, int cols, Coordinates& coordinates) {
+    if (coordinates.x < 0 || coordinates.y < 0 ||
+         coordinates.x > cols || coordinates.y > rows) {
+        throw std::invalid_argument("Invalid start or end coordinates.");
+    }
 }
 
 /**
