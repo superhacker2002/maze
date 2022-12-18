@@ -48,7 +48,6 @@ void checkCoordinates(int rows, int cols, Coordinates& coordinates) {
  * start point by checking all the 
  * neighbours of current cell.
 */
-
 void findPaths(AnswerData& data) {
     while (!data.plan.empty()) {
         int x = data.plan.front().x;
