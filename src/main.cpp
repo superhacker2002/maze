@@ -1,5 +1,4 @@
 #include "view/view.h"
-
 #include <QApplication>
 
 int main(int argc, char *argv[]) {
