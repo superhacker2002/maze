@@ -27,7 +27,7 @@ std::vector<int> getMazeAnswer(const s21::Maze& maze, Coordinates start, Coordin
     initializeMatrix<Coordinates> (answer_path, undefined_cells);
 
     std::queue<Coordinates> plan;
-    distances(start.x, start.y) = 0;
+    distances(start.y, start.x) = 0;
     plan.push(start);
 
     AnswerData data = {plan, maze, distances, answer_path};
