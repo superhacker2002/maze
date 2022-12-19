@@ -109,18 +109,30 @@ TEST(maze_answer_tests, get_answer_usual_1) {
 }
 
 TEST(maze_answer_tests, get_answer_usual_2) {
-    // std::vector<int> correct_answer = {s21::RIGHT, s21::RIGHT, s21::RIGHT, 
-    //                                     s21::DOWN, s21::DOWN, s21::LEFT,
-    //                                     s21::DOWN, s21::RIGHT};
-    // auto it = correct_answer.begin();
+    std::vector<int> correct_answer = {s21::RIGHT, s21::UP, s21::UP, 
+                                        s21::RIGHT, s21::RIGHT, s21::DOWN,
+                                        s21::DOWN, s21::LEFT, s21::DOWN,
+                                        s21::LEFT, s21::LEFT};
+    auto it = correct_answer.begin();
+    
     std::vector<int> result = s21::getMazeAnswer(test_answer_maze, {0, 2}, {0, 3});
-    std::cout << result.size();
     for (auto& cell : result) {
-        // EXPECT_EQ(cell, *it);
-        // it++;
-        std::cout << cell << " ";
+        EXPECT_EQ(cell, *it);
+        it++;
     }
-    std::cout << std::endl;
+}
+
+TEST(maze_answer_tests, get_answer_usual_3) {
+    std::vector<int> correct_answer = {s21::RIGHT, s21::UP, s21::UP, 
+                                        s21::LEFT, s21::LEFT, s21::DOWN,
+                                        s21::DOWN, s21::LEFT, s21::UP};
+    auto it = correct_answer.begin();
+    
+    std::vector<int> result = s21::getMazeAnswer(test_answer_maze, {2, 2}, {0, 1});
+    for (auto& cell : result) {
+        EXPECT_EQ(cell, *it);
+        it++;
+    }
 }
 
 int main(int argc, char **argv) {
