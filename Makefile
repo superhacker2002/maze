@@ -13,7 +13,8 @@ clean:
 	rm -rf ./$(MAZE_TESTS)
 
 build: clean
-	$(CC) $(MAZE_TEST_SRC) $(MAZE_SRC) $(MAZE_TEST_CLASS) $(SRC) $(COMP_FLAGS) $(TEST_FLAGS) -o $(MAZE_TESTS)
+	$(CC) $(MAZE_TEST_SRC) $(MAZE_SRC) $(MAZE_TEST_CLASS) $(SRC) \
+	$(DEBUG_FLAGS) $(COMP_FLAGS) $(TEST_FLAGS) -o $(MAZE_TESTS)
 
 tests: build
 	./$(MAZE_TESTS)
