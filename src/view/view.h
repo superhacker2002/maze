@@ -7,7 +7,7 @@
 #include <QFileDialog>
 #include <QTimer>
 
-#include "../../controller/controller.h"
+#include "../controller/controller.h"
 
 namespace s21 {
 namespace Ui { class View; }

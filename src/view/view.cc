@@ -79,8 +79,8 @@ void s21::View::MazeInit_() {
 void s21::View::SetCoordinatesLimits_() {
     m_ui_->x2_spinbox->setMaximum(m_ui_->maze_cols->value() - 1);
     m_ui_->y2_spinbox->setMaximum(m_ui_->maze_rows->value() - 1);
-    m_ui_->x1_spinbox->setMaximum(m_ui_->x2_spinbox->value() - 1);
-    m_ui_->y1_spinbox->setMaximum(m_ui_->x2_spinbox->value() - 1);
+    m_ui_->x1_spinbox->setMaximum(m_ui_->maze_rows->value() - 1);
+    m_ui_->y1_spinbox->setMaximum(m_ui_->maze_rows->value() - 1);
 }
 
 void s21::View::RandomMaze_() {
