@@ -5,6 +5,7 @@
 #include "matrix.h"
 
 namespace s21 {
+
     struct Limits {
         int birth_limit;
         int death_limit;
