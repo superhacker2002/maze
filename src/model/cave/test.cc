@@ -1,13 +1,13 @@
 #include "cave.h"
+#include "../helpers/randomizer/generator.h"
+#include <memory>
 
 int main() {
-  // s21::Cave cave1(500, 500, {2, 5}, 10);  // красиво копетс
-  s21::Cave cave1(10, 10, {4, 3}, 20);
-  cave1.GetCaveFromFile("cave2.txt");
+  RandomGenerator generator;
+  s21::Cave cave1(10, 10, {4, 3}, 20, std::make_unique<RandomGenerator>());
+  // cave1.GetCaveFromFile("../../../datasets/cave2.txt");
   // cave1.InitializeCave();
 
-  cave1.OutputCave();
-  cave1.TransformCycle();
   std::cout << "\n";
   cave1.OutputCave();
 

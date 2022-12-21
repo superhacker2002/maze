@@ -1,4 +1,4 @@
-SRC:=cave.cc
+SRC:=cave.cc ../helpers/randomizer/generator.cc
 CC:=gcc
 COMP_FLAGS:=-lstdc++ -std=c++17 -Wall -Werror -Wextra -lm
 DEBUG_FLAGS:=-g
@@ -7,13 +7,13 @@ clean:
 	rm -rf a.out*
 
 build: clean
-	$(CC) $(COMP_FLAGS) $(SRC) test.cc
+	$(CC) $(SRC) test.cc $(COMP_FLAGS)
 
 test: build
 	./a.out
 
 debug:
-	$(CC) $(COMP_FLAGS) $(DEBUG_FLAGS) $(SRC) test.cc
+	$(CC) $(SRC) test.cc $(COMP_FLAGS) $(DEBUG_FLAGS)
 
 leaks: build
 	leaks -atExit -- ./a.out
