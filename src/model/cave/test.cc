@@ -4,7 +4,7 @@
 
 int main() {
   RandomGenerator generator;
-  s21::Cave cave1(10, 10, {4, 3}, 20, std::make_unique<RandomGenerator>());
+  s21::Cave cave1(10, 10, {3, 5}, 70, std::make_unique<RandomGenerator>());
   // cave1.GetCaveFromFile("../../../datasets/cave2.txt");
   // cave1.InitializeCave();
 

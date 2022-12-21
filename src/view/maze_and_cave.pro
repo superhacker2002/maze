@@ -17,6 +17,7 @@ SOURCES += \
     ../model/maze/answer/maze_answer.cc \
     ../model/drawing/maze_drawing.cc \
     ../model/drawing/cave_drawing.cc \
+    ../model/helpers/randomizer/generator.cc \
     ../main.cpp \
     view.cc
 
@@ -27,7 +28,8 @@ HEADERS += \
     ../model/maze/maze.h \
     ../model/maze/answer/maze_answer.h \
     ../model/drawing/maze_drawing.h \
-    ../model/drawing/cave_drawing.cc \
+    ../model/drawing/cave_drawing.h \
+    ../model/helpers/randomizer/generator.h \
     view.h
 
 FORMS += \
