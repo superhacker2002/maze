@@ -6,6 +6,9 @@
 CMakeLists.txt
 cmake-build-debug
 build*
+*user*
+*autosave*
+
 
 # Object files
 *.o

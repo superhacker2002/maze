@@ -1,4 +1,6 @@
-#include "model/maze/maze.h"
+#ifndef TESTS_MAZE_MAZE_TEST_CLASS_H_
+#define TESTS_MAZE_MAZE_TEST_CLASS_H_
+#include "../../src/model/maze/maze.h"
 
 class MazeTest : public s21::Maze {
  public:
@@ -12,3 +14,5 @@ class MazeTest : public s21::Maze {
   void testPrepareNewLine(int row);
   void testCheckEndLine();
 };
+
+#endif  // TESTS_MAZE_MAZE_TEST_CLASS_H_

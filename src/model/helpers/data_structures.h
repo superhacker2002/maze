@@ -1,35 +1,26 @@
 #ifndef SRC_MODEL_HELPERS_DATA_STRUCTURES_H_
 #define SRC_MODEL_HELPERS_DATA_STRUCTURES_H_
-#include <queue>
 #include <array>
+#include <queue>
 #include "matrix.h"
 
 namespace s21 {
-    constexpr int EMPTY = 0;
-    struct Limits {
-        int birth_limit;
-        int death_limit;
-    };
 
-    struct Walls {
-        bool right_wall;
-        bool bottom_wall;
-    };
+struct Limits {
+  int birth_limit;
+  int death_limit;
+};
 
-    struct Coordinates {
-        int x;
-        int y;
-    };
+struct Walls {
+  bool right_wall;
+  bool bottom_wall;
+};
 
-    constexpr int UNUSED_CELL = -1;
+struct Coordinates {
+  int x;
+  int y;
+};
 
-    constexpr std::array<Coordinates, 4> DELTA = {{ {0, -1}, {0, 1}, {1, 0}, {-1, 0} }};
-
-    enum Directions {
-        UP = 0,
-        DOWN,
-        RIGHT,
-        LEFT
-    };
-}
+enum Directions { UP = 0, DOWN, RIGHT, LEFT };
+}  // namespace s21
 #endif  // SRC_MODEL_HELPERS_DATA_STRUCTURES_H_

@@ -4,7 +4,7 @@
 #include "../model/cave/cave.h"
 #include "../model/maze/maze.h"
 #include "../model/drawing/maze_drawing.h"
-#include "../model/maze/answer/maze_answer.h"
+#include "../model/drawing/cave_drawing.h"
 
 namespace s21 {
 class Controller {
@@ -19,8 +19,8 @@ class Controller {
   public:
     Controller() {;}
     ~Controller() = default;
-    void GetRandomCave(size_t rows, size_t cols, s21::Limits limit, int birth_chance);
-    void GetCaveFromFile(const std::string& file_path, s21::Limits limit);
+    void GetRandomCave(size_t rows, size_t cols, std::pair<int, int> limit, int birth_chance);
+    void GetCaveFromFile(const std::string& file_path, std::pair<int, int> limit);
     int GetCaveRows();
     int GetCaveCols();
     bool GetPixel(int i, int j);

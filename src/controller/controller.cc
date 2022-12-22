@@ -1,13 +1,21 @@
 #include "controller.h"
+#include "../model/maze/answer/maze_answer.h"
+#include "../model/helpers/randomizer/generator.h"
+#include "../model/helpers/matrix.h"
+#include <iostream>
+#include <memory>
 
 // Cave
 void s21::Controller::GetRandomCave(size_t rows, size_t cols,
-          s21::Limits limit, int birth_chance) {
-  m_cave_ = std::make_unique<s21::Cave>(rows, cols, limit, birth_chance);
+          std::pair<int, int> limit, int birth_chance) {
+  s21::Limits limits = {limit.first, limit.second};
+  m_cave_ = std::make_unique<s21::Cave>(rows, cols, limits, birth_chance, 
+                                      std::make_unique<RandomGenerator>());
 }
 
-void s21::Controller::GetCaveFromFile(const std::string& file_path, s21::Limits limit) {
-  m_cave_ = std::make_unique<s21::Cave>(file_path, limit);
+void s21::Controller::GetCaveFromFile(const std::string& file_path, std::pair<int, int> limit) {
+  s21::Limits limits = {limit.first, limit.second};
+  m_cave_ = std::make_unique<s21::Cave>(file_path, limits, std::make_unique<RandomGenerator>());
 }
 
 int s21::Controller::GetCaveRows() {
@@ -35,7 +43,7 @@ bool s21::Controller::CaveExists() {
 }
 
 std::vector<QRectF> s21::Controller::GetCaveDrawData() {
-  return m_cave_->GetDrawData();
+  return s21::GetCaveDrawData(*m_cave_);
 }
 
 // Maze
@@ -60,8 +68,8 @@ s21::Walls s21::Controller::GetWall(int i, int j) {
 }
 
 std::vector<QLineF> s21::Controller::GetAnswer(std::pair<int, int> p1, std::pair<int, int> p2) {
-  s21::Coordinates start = {p1.second, p1.first};
-  s21::Coordinates end = {p2.second, p2.first};
+  s21::Coordinates start = {p1.first, p1.second};
+  s21::Coordinates end = {p2.first, p2.second};
   auto answer = s21::getMazeAnswer(*m_maze_, start, end);
   return s21::GetAnswerDrawData(*m_maze_, answer, start, end);
 }
