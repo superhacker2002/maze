@@ -3,8 +3,10 @@
 #include <QLineEdit>  
 
 s21::View::View(QWidget *parent)
-    : QMainWindow(parent) , m_ui_(std::make_unique<s21::Ui::View>()),
-    m_scene_(std::make_unique<QGraphicsScene>()), m_pen_(std::make_unique<QPen>(Qt::SolidPattern, 2)),
+    : QMainWindow(parent) ,
+    m_ui_(std::make_unique<s21::Ui::View>()),
+    m_scene_(std::make_unique<QGraphicsScene>()),
+    m_pen_(std::make_unique<QPen>(Qt::SolidPattern, 2)),
     m_controller_(std::make_unique<s21::Controller>()) {
   m_ui_->setupUi(this);
   StartSettings_();

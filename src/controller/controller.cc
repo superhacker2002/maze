@@ -2,16 +2,22 @@
 #include "../model/maze/answer/maze_answer.h"
 #include "../model/helpers/randomizer/generator.h"
 #include <memory>
+#include "../model/helpers/matrix.h"
+#include <iostream>
 
 // Cave
 void s21::Controller::GetRandomCave(size_t rows, size_t cols,
-          s21::Limits limit, int birth_chance) {
-  m_cave_ = std::make_unique<s21::Cave>(rows, cols, limit, birth_chance, 
+          std::pair<int, int> limit, int birth_chance) {
+  s21::Limits limits = {limit.first, limit.second};
+  printf("%d %d %d %d %d", rows, cols, limit.first, limit.second, birth_chance);
+  m_cave_ = std::make_unique<s21::Cave>(rows, cols, limits, birth_chance, 
                                       std::make_unique<RandomGenerator>());
+  m_cave_->OutputCave();
 }
 
-void s21::Controller::GetCaveFromFile(const std::string& file_path, s21::Limits limit) {
-  m_cave_ = std::make_unique<s21::Cave>(file_path, limit, std::make_unique<RandomGenerator>());
+void s21::Controller::GetCaveFromFile(const std::string& file_path, std::pair<int, int> limit) {
+  s21::Limits limits = {limit.first, limit.second};
+  m_cave_ = std::make_unique<s21::Cave>(file_path, limits, std::make_unique<RandomGenerator>());
 }
 
 int s21::Controller::GetCaveRows() {
