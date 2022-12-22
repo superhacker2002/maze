@@ -3,7 +3,6 @@
 #include "moc_generator.h"
 #include <memory>
 
-
 TEST(cave_generation_tests, random_generation) {
     s21::Cave cave(5, 5, {3, 4}, 50, std::make_unique<MocRandomGenerator>());
     int rows = cave.GetRows();
@@ -22,7 +21,7 @@ TEST(cave_generation_tests, random_generation) {
     }
 }
 
-TEST(cave_generation_tests, random_generation_empty) {
+TEST(cave_generation_tests, random_generation_full) {
     s21::Cave cave(5, 5, {3, 4}, 40, std::make_unique<MocRandomGenerator>());
     int rows = cave.GetRows();
     int cols = cave.GetCols();

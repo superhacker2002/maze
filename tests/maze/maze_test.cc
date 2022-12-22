@@ -3,7 +3,6 @@
 #include "../../src/model/maze/answer/maze_answer.h"
 
 MazeTest test_maze(5, 5);
-s21::Maze test_answer_maze("datasets/maze_files/maze1.txt");
 
 TEST(maze_generation_tests, fill_empty_values) {
     test_maze.testFillEmptyValues();
@@ -88,47 +87,55 @@ TEST(maze_generation_tests, check_end_line) {
     }
 }
 
-TEST(maze_answer_tests, get_answer_invalid) {
-    s21::Maze test_answer_maze("datasets/maze_files/maze1.txt");
-    EXPECT_ANY_THROW(s21::getMazeAnswer(test_answer_maze, {0, 0}, {10, 10}));
-    EXPECT_ANY_THROW(s21::getMazeAnswer(test_answer_maze, {10, 10}, {0, 0}));
-    EXPECT_ANY_THROW(s21::getMazeAnswer(test_answer_maze, {0, 0}, {-1, -1}));
-    EXPECT_ANY_THROW(s21::getMazeAnswer(test_answer_maze, {-1, -1}, {0, 0}));
+struct CaveAnswerTest : public testing::Test {
+ protected:
+  s21::Maze *test_answer_maze;
+  void SetUp() {
+    test_answer_maze = new s21::Maze("datasets/maze_files/maze1.txt");
+  }
+  void TearDown() { delete test_answer_maze; }
+};
+
+TEST_F(CaveAnswerTest, get_answer_invalid) {
+    EXPECT_ANY_THROW(s21::getMazeAnswer(*test_answer_maze, {0, 0}, {10, 10}));
+    EXPECT_ANY_THROW(s21::getMazeAnswer(*test_answer_maze, {10, 10}, {0, 0}));
+    EXPECT_ANY_THROW(s21::getMazeAnswer(*test_answer_maze, {0, 0}, {-1, -1}));
+    EXPECT_ANY_THROW(s21::getMazeAnswer(*test_answer_maze, {-1, -1}, {0, 0}));
 }
 
-TEST(maze_answer_tests, get_answer_usual_1) {
+TEST_F(CaveAnswerTest, get_answer_usual_1) {
     std::vector<int> correct_answer = {s21::RIGHT, s21::RIGHT, s21::RIGHT, 
                                         s21::DOWN, s21::DOWN, s21::LEFT,
                                         s21::DOWN, s21::RIGHT};
     auto it = correct_answer.begin();
-    std::vector<int> result = s21::getMazeAnswer(test_answer_maze, {0, 0}, {3, 3});
+    std::vector<int> result = s21::getMazeAnswer(*test_answer_maze, {0, 0}, {3, 3});
     for (auto& cell : result) {
         EXPECT_EQ(cell, *it);
         it++;
     }
 }
 
-TEST(maze_answer_tests, get_answer_usual_2) {
+TEST_F(CaveAnswerTest, get_answer_usual_2) {
     std::vector<int> correct_answer = {s21::RIGHT, s21::UP, s21::UP, 
                                         s21::RIGHT, s21::RIGHT, s21::DOWN,
                                         s21::DOWN, s21::LEFT, s21::DOWN,
                                         s21::LEFT, s21::LEFT};
     auto it = correct_answer.begin();
     
-    std::vector<int> result = s21::getMazeAnswer(test_answer_maze, {0, 2}, {0, 3});
+    std::vector<int> result = s21::getMazeAnswer(*test_answer_maze, {0, 2}, {0, 3});
     for (auto& cell : result) {
         EXPECT_EQ(cell, *it);
         it++;
     }
 }
 
-TEST(maze_answer_tests, get_answer_usual_3) {
+TEST_F(CaveAnswerTest, get_answer_usual_3) {
     std::vector<int> correct_answer = {s21::RIGHT, s21::UP, s21::UP, 
                                         s21::LEFT, s21::LEFT, s21::DOWN,
                                         s21::DOWN, s21::LEFT, s21::UP};
     auto it = correct_answer.begin();
     
-    std::vector<int> result = s21::getMazeAnswer(test_answer_maze, {2, 2}, {0, 1});
+    std::vector<int> result = s21::getMazeAnswer(*test_answer_maze, {2, 2}, {0, 1});
     for (auto& cell : result) {
         EXPECT_EQ(cell, *it);
         it++;
