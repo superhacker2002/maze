@@ -9,10 +9,8 @@
 void s21::Controller::GetRandomCave(size_t rows, size_t cols,
           std::pair<int, int> limit, int birth_chance) {
   s21::Limits limits = {limit.first, limit.second};
-  printf("%d %d %d %d %d", rows, cols, limit.first, limit.second, birth_chance);
   m_cave_ = std::make_unique<s21::Cave>(rows, cols, limits, birth_chance, 
                                       std::make_unique<RandomGenerator>());
-  m_cave_->OutputCave();
 }
 
 void s21::Controller::GetCaveFromFile(const std::string& file_path, std::pair<int, int> limit) {
