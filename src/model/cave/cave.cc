@@ -50,13 +50,15 @@ void Cave::FlipCave() { m_cave_.Transpose(); }
 void Cave::InitializeCave_() {
     int rows = m_cave_.GetRows();
     int cols = m_cave_.GetCols();
-    for (int i = 0; i < rows; ++i)
+    for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            if (m_random_generator_->GetRandomPercent() <= m_birth_chance_)
+            if (m_random_generator_->GetRandomPercent() <= m_birth_chance_) {
                 m_cave_(i, j) = ALIVE;
-            else
+            } else {
                 m_cave_(i, j) = DEAD;
+            }
         }
+    }
 }
 
 

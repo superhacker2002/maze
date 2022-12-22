@@ -1,9 +1,9 @@
 #include "controller.h"
 #include "../model/maze/answer/maze_answer.h"
 #include "../model/helpers/randomizer/generator.h"
-#include <memory>
 #include "../model/helpers/matrix.h"
 #include <iostream>
+#include <memory>
 
 // Cave
 void s21::Controller::GetRandomCave(size_t rows, size_t cols,
