@@ -1,5 +1,4 @@
 #include "controller.h"
-#include "../model/maze/maze_answer.h"
 
 // Cave
 void s21::Controller::GetRandomCave(size_t rows, size_t cols,

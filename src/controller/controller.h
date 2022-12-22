@@ -4,6 +4,7 @@
 #include "../model/cave/cave.h"
 #include "../model/maze/maze.h"
 #include "../model/drawing/maze_drawing.h"
+#include "../model/maze/answer/maze_answer.h"
 
 namespace s21 {
 class Controller {
