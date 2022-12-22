@@ -1,4 +1,4 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "maze_test_class.h"
 #include "../../src/model/maze/answer/maze_answer.h"
 
