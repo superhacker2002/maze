@@ -51,5 +51,7 @@ style_test:
 					src/model/helpers/randomizer/* \
 					src/model/helpers/*.h \
 					src/view/*.cc \
-					src/view/*.h
+					src/view/*.h \
+					tests/maze/* \
+					tests/cave/*
 	rm -rf .clang-format
