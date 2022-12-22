@@ -22,6 +22,29 @@ TEST(cave_generation_tests, random_generation) {
     }
 }
 
+TEST(cave_generation_tests, random_generation_empty) {
+    s21::Cave cave(5, 5, {3, 4}, 40, std::make_unique<MocRandomGenerator>());
+    int rows = cave.GetRows();
+    int cols = cave.GetCols();
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            bool value = cave.GetValue(i, j);
+            EXPECT_EQ(value, false);
+        }
+    }
+}
+
+TEST(cave_generation_tests, random_generation_empty) {
+    s21::Cave cave(5, 5, {3, 4}, 60, std::make_unique<MocRandomGenerator>());
+    int rows = cave.GetRows();
+    int cols = cave.GetCols();
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            bool value = cave.GetValue(i, j);
+            EXPECT_EQ(value, true);
+        }
+    }
+}
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
