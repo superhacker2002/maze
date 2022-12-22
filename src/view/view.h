@@ -47,6 +47,7 @@ class View : public QMainWindow {
   void CaveInit_();
   void FlipCave_();
   void TransformCycling_();
+  void StopTransformCycle_();
 
   void MazeInit_();
   void RandomMaze_();
