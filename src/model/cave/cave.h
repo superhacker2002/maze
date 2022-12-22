@@ -3,9 +3,9 @@
 
 #include <ctime>
 #include <fstream>
+#include <memory>
 #include "../helpers/data_structures.h"
 #include "../helpers/matrix.h"
-#include <memory>
 #include "../helpers/randomizer/interface.h"
 
 namespace s21 {
@@ -17,10 +17,10 @@ class Cave {
  public:
   using CaveMatrix = s21::Matrix<bool>;
 
-  Cave(size_t rows, size_t cols, Limits limit, 
-      int birth_chance, std::unique_ptr<IRandomizer> generator);
-  Cave(const std::string& file_path, Limits limit, 
-                        std::unique_ptr<IRandomizer> generator);
+  Cave(size_t rows, size_t cols, Limits limit, int birth_chance,
+       std::unique_ptr<IRandomizer> generator);
+  Cave(const std::string& file_path, Limits limit,
+       std::unique_ptr<IRandomizer> generator);
   ~Cave() = default;
   bool Transform();
   void TransformCycle();

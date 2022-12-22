@@ -44,13 +44,13 @@ class Maze {
   MazeMatrix getMazeFromFile(const std::string& file_path);
 
   std::pair<int, int> getMazeSize(std::fstream& file);
-  MazeMatrix fillMazeMatrix(const std::string &file_path);
+  MazeMatrix fillMazeMatrix(const std::string& file_path);
   void fillRightWall(std::fstream& file, std::vector<Walls>& maze);
   void fillBottomWall(std::fstream& file, std::vector<Walls>& maze);
   bool isWall(const int& state);
   void removePrevState(std::string& buffer);
   void getError() const;
-  
+
 };  // class Maze
 }  // namespace s21
 

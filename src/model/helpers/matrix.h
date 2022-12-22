@@ -134,7 +134,6 @@ class Matrix {
     return this->matrix_[i][j];
   }
 
-
   void SetRows(int new_rows) {
     if (new_rows <= 0) throw std::out_of_range("Out of range");
     if (new_rows != this->rows_) {

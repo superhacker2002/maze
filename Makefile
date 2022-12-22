@@ -32,3 +32,24 @@ tests: build_maze_tests build_cave_tests
 	./$(CAVE_TESTS)
 	rm -rf $(MAZE_TESTS)
 	rm -rf $(CAVE_TESTS)
+
+leaks: build
+	leaks -atExit -- ./$(MAZE_TESTS)
+	leaks -atExit -- ./$(CAVE_TESTS)
+
+docker:
+	cd materials/build && bash run.sh
+
+style_test:
+	cp materials/linters/.clang-format .
+	clang-format -i src/model/cave/* \
+					src/model/drawing/* \
+	 				src/model/maze/answer/* \
+					src/model/maze/creating/* \
+					src/model/maze/*.cc \
+					src/model/maze/*.h \
+					src/model/helpers/randomizer/* \
+					src/model/helpers/*.h \
+					src/view/*.cc \
+					src/view/*.h
+	rm -rf .clang-format

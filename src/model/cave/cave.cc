@@ -11,12 +11,12 @@ namespace s21 {
  * at the moment of initialization.
  */
 Cave::Cave(size_t rows, size_t cols, Limits limit, int birth_chance,
-                                std::unique_ptr<IRandomizer> generator)
+           std::unique_ptr<IRandomizer> generator)
     : m_cave_(Cave::CaveMatrix(rows, cols)),
       m_limits_(limit),
       m_birth_chance_(birth_chance),
       m_random_generator_(std::move(generator)) {
-    InitializeCave_();
+  InitializeCave_();
 }
 
 /**
@@ -26,10 +26,13 @@ Cave::Cave(size_t rows, size_t cols, Limits limit, int birth_chance,
  * @param limit Struct with birth and death limits of the
  * cells in cave.
  */
-Cave::Cave(const std::string &file_path, Limits limit, std::unique_ptr<IRandomizer> generator)
+Cave::Cave(const std::string &file_path, Limits limit,
+           std::unique_ptr<IRandomizer> generator)
     : m_cave_(Cave::CaveMatrix(GetCaveFromFile_(file_path))),
       m_limits_(limit),
-      m_random_generator_(std::move(generator)) { ; }
+      m_random_generator_(std::move(generator)) {
+  ;
+}
 
 void Cave::OutputCave() { m_cave_.OutputMatrix(); }
 
@@ -48,19 +51,18 @@ void Cave::FlipCave() { m_cave_.Transpose(); }
  * "alive" or "dead".
  */
 void Cave::InitializeCave_() {
-    int rows = m_cave_.GetRows();
-    int cols = m_cave_.GetCols();
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            if (m_random_generator_->GetRandomPercent() <= m_birth_chance_) {
-                m_cave_(i, j) = ALIVE;
-            } else {
-                m_cave_(i, j) = DEAD;
-            }
-        }
+  int rows = m_cave_.GetRows();
+  int cols = m_cave_.GetCols();
+  for (int i = 0; i < rows; ++i) {
+    for (int j = 0; j < cols; ++j) {
+      if (m_random_generator_->GetRandomPercent() <= m_birth_chance_) {
+        m_cave_(i, j) = ALIVE;
+      } else {
+        m_cave_(i, j) = DEAD;
+      }
     }
+  }
 }
-
 
 /**
  * Transforms current matrix according to the
@@ -69,26 +71,26 @@ void Cave::InitializeCave_() {
  *         false - transformation is impossible.
  */
 bool Cave::Transform() {
-    bool changed = false;
-    int rows = m_cave_.GetRows();
-    int cols = m_cave_.GetCols();
-    Cave::CaveMatrix tmp_cave(rows, cols);
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            int alive_count = GetAliveNeighboursCount_(i, j);
-            if (m_cave_(i, j) == ALIVE && alive_count < m_limits_.death_limit) {
-                tmp_cave(i, j) = DEAD;
-                changed = true;
-            } else if (m_cave_(i, j) == DEAD && alive_count > m_limits_.birth_limit) {
-                tmp_cave(i, j) = ALIVE;
-                changed = true;
-            } else {
-                tmp_cave(i, j) = m_cave_(i, j);
-            }
-        }
+  bool changed = false;
+  int rows = m_cave_.GetRows();
+  int cols = m_cave_.GetCols();
+  Cave::CaveMatrix tmp_cave(rows, cols);
+  for (int i = 0; i < rows; ++i) {
+    for (int j = 0; j < cols; ++j) {
+      int alive_count = GetAliveNeighboursCount_(i, j);
+      if (m_cave_(i, j) == ALIVE && alive_count < m_limits_.death_limit) {
+        tmp_cave(i, j) = DEAD;
+        changed = true;
+      } else if (m_cave_(i, j) == DEAD && alive_count > m_limits_.birth_limit) {
+        tmp_cave(i, j) = ALIVE;
+        changed = true;
+      } else {
+        tmp_cave(i, j) = m_cave_(i, j);
+      }
     }
-    m_cave_ = tmp_cave;
-    return changed;
+  }
+  m_cave_ = tmp_cave;
+  return changed;
 }
 
 /**
@@ -96,8 +98,9 @@ bool Cave::Transform() {
  * while the transformation is allowed.
  */
 void Cave::TransformCycle() {
-    // пока поле меняется, запускаем трансформацию
-    while (Transform()) {}
+  // пока поле меняется, запускаем трансформацию
+  while (Transform()) {
+  }
 }
 
 /**
@@ -108,20 +111,19 @@ void Cave::TransformCycle() {
  * @return The number of alive neighbours.
  */
 int Cave::GetAliveNeighboursCount_(int i, int j) {
-    int counter = 0;
-    for (int buf_i = i - 1; buf_i < i + 2; ++buf_i) {
-        for (int buf_j = j - 1; buf_j < j + 2; ++buf_j) {
-            if (buf_i != i || buf_j != j) {
-                try {
-                    if (m_cave_(buf_i, buf_j) == ALIVE)
-                        counter++;
-                } catch (std::out_of_range &err) {  // если клетки нет, считаем ее живой
-                    counter++;
-                }
-            }
+  int counter = 0;
+  for (int buf_i = i - 1; buf_i < i + 2; ++buf_i) {
+    for (int buf_j = j - 1; buf_j < j + 2; ++buf_j) {
+      if (buf_i != i || buf_j != j) {
+        try {
+          if (m_cave_(buf_i, buf_j) == ALIVE) counter++;
+        } catch (std::out_of_range &err) {  // если клетки нет, считаем ее живой
+          counter++;
         }
+      }
     }
-    return counter;
+  }
+  return counter;
 }
 
 /**
@@ -131,21 +133,21 @@ int Cave::GetAliveNeighboursCount_(int i, int j) {
  * @return Cave matrix filled with data from file.
  */
 Cave::CaveMatrix Cave::GetCaveFromFile_(const std::string &file_path) {
-    std::string buffer;
-    std::vector<bool> cave;
-    std::fstream file;
-    file.open(file_path);
-    if (file.is_open()) {
-        while (getline(file, buffer)) {
-            while (buffer.size() > 0) {
-                cave.push_back(stoi(buffer));
-                buffer.erase(0, buffer.find_first_of(' ') + 1);
-            }
-        }
+  std::string buffer;
+  std::vector<bool> cave;
+  std::fstream file;
+  file.open(file_path);
+  if (file.is_open()) {
+    while (getline(file, buffer)) {
+      while (buffer.size() > 0) {
+        cave.push_back(stoi(buffer));
+        buffer.erase(0, buffer.find_first_of(' ') + 1);
+      }
     }
-    cave.erase(cave.begin());
-    cave.erase(cave.begin());
-    return Cave::CaveMatrix::VectorToMatrix(cave);
+  }
+  cave.erase(cave.begin());
+  cave.erase(cave.begin());
+  return Cave::CaveMatrix::VectorToMatrix(cave);
 }
 
 }  // namespace s21

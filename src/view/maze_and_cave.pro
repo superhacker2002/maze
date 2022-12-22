@@ -18,7 +18,7 @@ SOURCES += \
     ../model/drawing/maze_drawing.cc \
     ../model/drawing/cave_drawing.cc \
     ../model/helpers/randomizer/generator.cc \
-    ../main.cpp \
+    ../main.cc \
     view.cc
 
 HEADERS += \
