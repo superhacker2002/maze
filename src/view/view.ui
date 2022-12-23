@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="maze_tab">
      <attribute name="title">
@@ -435,6 +435,19 @@
       </property>
       <property name="text">
        <string>Transform Cave Cycle</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="stop_transform_cycle_button">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>160</y>
+        <width>221</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Emergency stop :D</string>
       </property>
      </widget>
     </widget>

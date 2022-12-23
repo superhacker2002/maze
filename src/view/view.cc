@@ -103,6 +103,10 @@ void s21::View::TransformCycling_() {
   PaintCave_();
 }
 
+void s21::View::StopTransformCycle_() {
+  m_timer_->stop();
+}
+
 void s21::View::PaintCave_() {
   ClearDrawArea_();
   if (m_controller_->CaveExists()) {
@@ -169,12 +173,11 @@ void s21::View::ConnectButtons_() {
   connect(m_ui_->choose_cave_file_button, SIGNAL(clicked()), this,
           SLOT(GetCaveFromFile_()));
   connect(m_ui_->save_maze_button, SIGNAL(clicked()), this, SLOT(SaveMaze_()));
+  connect(m_ui_->stop_transform_cycle_button, SIGNAL(clicked()), this, SLOT(StopTransformCycle_()));
 }
 
 void s21::View::StartSettings_() {
   m_ui_->draw_area->setScene(m_scene_.get());
-  //  m_ui_->draw_area->centerOn(0, 0);
-  //  m_scene_->setSceneRect(0, 0, 510, 510);
   m_ui_->draw_area->setStyleSheet("background-color:white;");
   m_ui_->draw_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_ui_->draw_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
