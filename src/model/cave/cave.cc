@@ -12,7 +12,8 @@ namespace s21 {
  */
 Cave::Cave(size_t rows, size_t cols, Limits limit, int birth_chance,
            std::unique_ptr<IRandomizer> generator)
-    : m_cave_(Cave::CaveMatrix(rows, cols)),
+    : m_reading_error_(false),
+      m_cave_(Cave::CaveMatrix(rows, cols)),
       m_limits_(limit),
       m_birth_chance_(birth_chance),
       m_random_generator_(std::move(generator)) {
@@ -28,7 +29,8 @@ Cave::Cave(size_t rows, size_t cols, Limits limit, int birth_chance,
  */
 Cave::Cave(const std::string &file_path, Limits limit,
            std::unique_ptr<IRandomizer> generator)
-    : m_cave_(Cave::CaveMatrix(GetCaveFromFile_(file_path))),
+    : m_reading_error_(false),
+      m_cave_(Cave::CaveMatrix(GetCaveFromFile_(file_path))),
       m_limits_(limit),
       m_random_generator_(std::move(generator)) {
   ;
@@ -133,21 +135,75 @@ int Cave::GetAliveNeighboursCount_(int i, int j) {
  * @return Cave matrix filled with data from file.
  */
 Cave::CaveMatrix Cave::GetCaveFromFile_(const std::string &file_path) {
-  std::string buffer;
-  std::vector<bool> cave;
   std::fstream file;
   file.open(file_path);
-  if (file.is_open()) {
-    while (getline(file, buffer)) {
-      while (buffer.size() > 0) {
-        cave.push_back(stoi(buffer));
-        buffer.erase(0, buffer.find_first_of(' ') + 1);
+  if (!file.is_open()) {
+    m_reading_error_ = true;
+    GetError_();
+  }
+  auto cave_matrix = FillCaveMatrix_(file);
+  file.close();
+  return cave_matrix;
+}
+
+bool Cave::CorrectState_(const int &state) {
+  if (!(state == 0 || state == 1)) {
+    m_reading_error_ = true;
+    GetError_();
+  }
+  return state == 1;
+}
+
+Cave::CaveMatrix Cave::FillCaveMatrix_(std::fstream &file) {
+  std::vector<bool> cave;
+  std::string buffer;
+  std::pair<int, int> size = GetCaveSize_(file);
+  int rows = size.first;
+  int cols = size.second;
+  for (int i = 0; i < rows; ++i) {
+    if (getline(file, buffer) && !buffer.empty()) {
+      for (int i = 0; i < cols; ++i) {
+        int state = stoi(buffer);
+        cave.push_back(CorrectState_(state));
+        RemovePrevState_(buffer);
       }
+    } else {
+      m_reading_error_ = true;
     }
   }
-  cave.erase(cave.begin());
-  cave.erase(cave.begin());
+  GetError_();
   return Cave::CaveMatrix::VectorToMatrix(cave);
 }
 
+void Cave::RemovePrevState_(std::string &buffer) {
+  if (buffer.size() == 1) {
+    buffer.erase(0, 1);
+  } else {
+    buffer.erase(0, buffer.find_first_of(' ') + 1);
+  }
+}
+
+std::pair<int, int> Cave::GetCaveSize_(std::fstream &file) {
+  std::string buffer;
+  std::pair<int, int> size;
+  if (getline(file, buffer)) {
+    try {
+      size.first = stoi(buffer);
+      buffer.erase(0, buffer.find_first_of(' ') + 1);
+      size.second = stoi(buffer);
+    } catch (...) {
+      m_reading_error_ = true;
+    }
+  } else {
+    m_reading_error_ = true;
+  }
+  GetError_();
+  return size;
+}
+
+void Cave::GetError_() const {
+  if (m_reading_error_) {
+    throw std::invalid_argument("Parsing failed.");
+  }
+}
 }  // namespace s21

@@ -31,14 +31,20 @@ class Cave {
   void FlipCave();
 
  private:
+  bool m_reading_error_;
   CaveMatrix m_cave_;  // матрица, представляющая пещеру
   Limits m_limits_;  // {зарождения, смерти}
   int m_birth_chance_;  // шанс живой клетки при инициализации [0-100]%
   std::unique_ptr<IRandomizer> m_random_generator_;
+
   int GetAliveNeighboursCount_(int i, int j);
   CaveMatrix GetCaveFromFile_(const std::string& file_path);
   void InitializeCave_();
-
+  void GetError_() const;
+  std::pair<int, int> GetCaveSize_(std::fstream &file);
+  CaveMatrix FillCaveMatrix_(std::fstream &file);
+  void RemovePrevState_(std::string &buffer);
+  bool CorrectState_(const int &state);
 };  // class Cave
 }  // namespace s21
 #endif  // SRC_MODEL_CAVE_CAVE_H_

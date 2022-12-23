@@ -86,32 +86,4 @@ std::ofstream &operator<<(std::ofstream &file, const Maze &maze) {
   file << maze_str;
   return file;
 }
-
-void Maze::outputMaze() {
-  std::cout << " - - - - - - - - \n";
-  int rows = m_maze_.GetRows();
-  int cols = m_maze_.GetCols();
-
-  for (int i = 0; i < rows; ++i) {
-    for (int j = 0; j < cols; ++j) {
-      if (j == 0) {
-        std::cout << "|";
-      }
-      bool right_wall = (m_maze_(i, j)).right_wall;
-      bool bottom_wall = (m_maze_(i, j)).bottom_wall;
-      if (bottom_wall) {
-        std::cout << "_";
-      } else {
-        std::cout << " ";
-      }
-      if (right_wall) {
-        std::cout << " |";
-      } else {
-        std::cout << "  ";
-      }
-    }
-    std::cout << "\n";
-  }
-}
-
 }  // namespace s21
