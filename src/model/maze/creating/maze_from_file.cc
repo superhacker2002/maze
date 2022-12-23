@@ -35,7 +35,7 @@ std::pair<int, int> Maze::getMazeSize(std::fstream &file) {
   if (getline(file, buffer)) {
     try {
       size.first = stoi(buffer);
-      buffer.erase(0, buffer.find_first_of(' ') + 1);
+      removePrevState(buffer);
       size.second = stoi(buffer);
     } catch (...) {
       m_reading_error_ = true;

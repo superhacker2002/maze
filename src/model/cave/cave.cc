@@ -189,7 +189,7 @@ std::pair<int, int> Cave::GetCaveSize_(std::fstream &file) {
   if (getline(file, buffer)) {
     try {
       size.first = stoi(buffer);
-      buffer.erase(0, buffer.find_first_of(' ') + 1);
+      RemovePrevState_(buffer);
       size.second = stoi(buffer);
     } catch (...) {
       m_reading_error_ = true;
