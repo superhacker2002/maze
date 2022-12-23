@@ -53,6 +53,8 @@ void s21::View::GetCaveFromFile_() {
         filepath.toStdString(),
         {m_ui_->birth_spinbox->value(), m_ui_->death_spinbox->value()});
     PaintCave_();
+    m_ui_->rows_spinbox->setValue(m_controller_->GetCaveRows());
+    m_ui_->cols_spinbox->setValue(m_controller_->GetCaveCols());
   } else {
     ClearDrawArea_();
   }
