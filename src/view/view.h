@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QPen>
 #include <QTimer>
+#include <QErrorMessage>
 
 #include "../controller/controller.h"
 

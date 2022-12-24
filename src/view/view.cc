@@ -49,12 +49,16 @@ void s21::View::GetCaveFromFile_() {
   QString filepath = QFileDialog::getOpenFileName(
       0, tr("Выбрать файл"), qApp->applicationDirPath(), tr("*.txt"));
   if (filepath != "") {
-    m_controller_->GetCaveFromFile(
-        filepath.toStdString(),
-        {m_ui_->birth_spinbox->value(), m_ui_->death_spinbox->value()});
-    PaintCave_();
-    m_ui_->rows_spinbox->setValue(m_controller_->GetCaveRows());
-    m_ui_->cols_spinbox->setValue(m_controller_->GetCaveCols());
+    try {
+      m_controller_->GetCaveFromFile(
+              filepath.toStdString(),
+              {m_ui_->birth_spinbox->value(), m_ui_->death_spinbox->value()});
+      PaintCave_();
+      m_ui_->rows_spinbox->setValue(m_controller_->GetCaveRows());
+      m_ui_->cols_spinbox->setValue(m_controller_->GetCaveCols());
+    } catch(const std::invalid_argument& err) {
+      (new QErrorMessage(this))->showMessage("Incorrect file. Parsing error.");
+    }
   } else {
     ClearDrawArea_();
   }
@@ -64,11 +68,15 @@ void s21::View::MazeInit_() {
   QString filepath = QFileDialog::getOpenFileName(
       0, tr("Выбрать файл"), qApp->applicationDirPath(), tr("*.txt"));
   if (filepath != "") {
-    m_controller_->GetMazeFromFile(filepath.toStdString());
-    m_ui_->maze_rows->setValue(m_controller_->GetMazeRows());
-    m_ui_->maze_cols->setValue(m_controller_->GetMazeCols());
-    SetCoordinatesLimits_();
-    PaintMaze_();
+    try {
+          m_controller_->GetMazeFromFile(filepath.toStdString());
+          m_ui_->maze_rows->setValue(m_controller_->GetMazeRows());
+          m_ui_->maze_cols->setValue(m_controller_->GetMazeCols());
+          SetCoordinatesLimits_();
+          PaintMaze_();
+    } catch (const std::exception& err) {
+          (new QErrorMessage(this))->showMessage("Incorrect file. Parsing error.");
+    }
   } else {
     ClearDrawArea_();
   }
@@ -106,7 +114,7 @@ void s21::View::TransformCycling_() {
 }
 
 void s21::View::StopTransformCycle_() {
-  m_timer_->stop();
+  if (m_timer_) m_timer_->stop();
 }
 
 void s21::View::PaintCave_() {
