@@ -1,0 +1,66 @@
+<meta charset="UTF-8" />
+<p><span style="font-family:Courier New,Courier,monospace"><strong><span style="font-size:14px">В данном проекте мы познакомились с&nbsp;лабиринтами и пещерами, а также основными алгоритмами их обработки, такими как: генерация, отрисовка, поиск решения.</span></strong></span></p>
+
+<h1><strong><span style="font-size:18px"><span style="font-family:Courier New,Courier,monospace">Информация об алгоритмах:</span></span></strong></h1>
+
+<p><span style="font-size:16px"><span style="font-family:Courier New,Courier,monospace"><strong>Лабиринт </strong></span></span><span style="font-size:14px"><span style="font-family:Courier New,Courier,monospace">с &quot;тонкими стенками&quot; представляет собой таблицу размером <em>n</em> строк на <em>m</em> столбцов. Между ячейками таблицы могут находиться &quot;стены&quot;. Также &quot;стенами&quot; окружена вся таблица в целом.</span></span></p>
+
+<p><span style="font-size:14px"><span style="font-family:Courier New,Courier,monospace">Далее приведён пример такого лабиринта:</span></span><br />
+<img alt="maze" src="misc/images/maze.jpg" /></p>
+
+<p><span style="font-size:14px"><span style="font-family:Courier New,Courier,monospace">Решением лабиринта считается кратчайший путь от заданной начальной точки (ячейки таблицы) до конечной. При прохождении лабиринта можно передвигаться к соседним ячейкам, не отделенным &quot;стеной&quot; от текущей ячейки и находящимся сверху, снизу, справа или слева. Кратчайшим маршрут считается, если он проходит через наименьшее число ячеек.</span></span></p>
+
+<p><span style="font-size:14px"><span style="font-family:Courier New,Courier,monospace">Пример лабиринта с его решением:</span></span><br />
+<img alt="solution" src="misc/images/solution.jpg" /></p>
+
+<p><span style="font-size:14px"><span style="font-family:Courier New,Courier,monospace">В этом примере начальная точка задана, как 10; 1, а конечная, как 6; 10.</span></span></p>
+
+<h2><strong><span style="font-size:14px"><span style="font-family:Courier New,Courier,monospace">Описание лабиринта</span></span></strong></h2>
+
+<p><span style="font-size:14px"><span style="font-family:Courier New,Courier,monospace">Лабиринт может храниться в файле в виде количества строк и столбцов, а также двух матриц, содержащих положение вертикальных и горизонтальных стен соответственно. В первой матрице отображается наличие стены справа от каждой ячейки, а во второй - снизу.</span></span></p>
+
+<p><span style="font-size:14px"><span style="font-family:Courier New,Courier,monospace">Пример подобного файла:</span></span></p>
+
+<pre>
+<code>4 4
+0 0 0 1
+1 0 1 1
+0 1 0 1
+0 0 0 1
+
+1 0 1 0
+0 0 1 0
+1 1 0 1
+1 1 1 1</code></pre>
+
+<h2><strong><span style="font-family:Courier New,Courier,monospace"><span style="font-size:14px">Генерация пещер с использованием клеточного автомата</span></span></strong></h2>
+
+<p><span style="font-family:Courier New,Courier,monospace"><span style="font-size:14px">Во многих играх есть необходимость в ветвящихся локациях, например пещерах. Такие локации могут быть созданы генерацией с использованием клеточного автомата. При подобной генерации используется идея, схожая с игрой &quot;Жизнь&quot;. Суть предложенного алгоритма состоит в реализации всего двух шагов: сначала все поле заполняется случайным образом стенами &mdash; т.е. для каждой клетки случайным образом определяется, будет ли она свободной или непроходимой &mdash; а затем несколько раз происходит обновление состояния карты в соответствии с условиями, похожими на условия рождения/смерти в &laquo;Жизни&raquo;.</span></span></p>
+
+<p><span style="font-family:Courier New,Courier,monospace"><span style="font-size:14px">Правила проще, чем в &quot;Жизни&quot; - есть две специальные переменные, одна для &quot;рождения&quot; &quot;мертвых&quot; клеток (предел &quot;рождения&quot;) и одна для уничтожения &quot;живых&quot; клеток (предел &quot;смерти&quot;). Если &quot;живые&quot; клетки окружены &quot;живыми&quot; клетками, количество которых меньше, чем предел &quot;смерти&quot;, они &quot;умирают&quot;. Аналогично если &quot;мертвые&quot; клетки находятся рядом с &quot;живыми&quot;, количество которых больше, чем предел &quot;рождения&quot;, они становятся &quot;живыми&quot;.</span></span></p>
+
+<p><span style="font-family:Courier New,Courier,monospace"><span style="font-size:14px">Пример результата работы алгоритма (на первой картинке только инициализированный лабиринт, а на второй лабиринт, в котором при последующих шагах больше не происходит изменений:</span></span><br />
+<img src="misc/images/cave1.jpg" /><span style="font-family:Courier New,Courier,monospace"><span style="font-size:14px">&nbsp;</span></span><img src="misc/images/cave2.jpg" /></p>
+
+<h2><strong><span style="font-family:Courier New,Courier,monospace"><span style="font-size:14px">Описание пещер</span></span></strong></h2>
+
+<p><span style="font-family:Courier New,Courier,monospace"><span style="font-size:14px">Пещера, прошедшая 0 шагов симуляции (только инициализированная), может храниться в файле в виде количества строк и столбцов, а также матрицы, содержащей положение &quot;живых&quot; и &quot;мертвых&quot; клеток.</span></span></p>
+
+<p><span style="font-family:Courier New,Courier,monospace"><span style="font-size:14px">Пример подобного файла:</span></span></p>
+
+<pre>
+<code>4 4
+0 1 0 1
+1 0 0 1
+0 1 0 0
+0 0 1 1</code></pre>
+
+<h1><span style="font-size:18px"><span style="font-family:Courier New,Courier,monospace"><strong>Сборка и использование:</strong></span></span></h1>
+
+<p><strong><span style="font-family:Courier New,Courier,monospace"><span style="font-size:14px">1. Выполнить цело make install, чтобы программа установилась в директорию build.</span></span></strong></p>
+
+<p><strong><span style="font-family:Courier New,Courier,monospace"><span style="font-size:14px">2. Открыть программу и использовать gui для того, чтобы сгенерировать идеальный лабиринт по алгоритму Эллера и найти его решение или пещеру с использованием клеточного автомата.</span></span></strong></p>
+
+<p><strong><span style="font-family:Courier New,Courier,monospace"><span style="font-size:14px">3. Для удаления программы выполнить цель make uninstall.&nbsp;</span></span></strong></p>
+
+<p>&nbsp;</p>

@@ -50,6 +50,9 @@ dist:
 distclean:
 	rm -rf maze.tar.gz
 
+dvi:
+	open dvi.html
+
 leaks: build
 	leaks -atExit -- ./$(MAZE_TESTS)
 	leaks -atExit -- ./$(CAVE_TESTS)
