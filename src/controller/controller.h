@@ -12,10 +12,6 @@ class Controller {
     using CavePtr = std::unique_ptr<Cave>;
     using MazePtr = std::unique_ptr<Maze>;
 
-  private:
-    CavePtr m_cave_;
-    MazePtr m_maze_;
-
   public:
     Controller() {;}
     ~Controller() = default;
@@ -38,6 +34,10 @@ class Controller {
     bool MazeExists();
     std::vector<QLineF> GetMazeDrawData();
     void SaveMaze(const std::string& file_path);
+
+  private:
+    CavePtr m_cave_;
+    MazePtr m_maze_;
 
 };  // class Controller
 }  // namespace s21
