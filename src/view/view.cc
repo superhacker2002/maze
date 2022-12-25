@@ -57,7 +57,9 @@ void s21::View::GetCaveFromFile_() {
       m_ui_->rows_spinbox->setValue(m_controller_->GetCaveRows());
       m_ui_->cols_spinbox->setValue(m_controller_->GetCaveCols());
     } catch(const std::invalid_argument& err) {
-      (new QErrorMessage(this))->showMessage("Incorrect file. Parsing error.");
+      auto msg = QErrorMessage(this);
+      msg.showMessage("Incorrect file. Parsing error.");
+      msg.exec();
     }
   } else {
     ClearDrawArea_();
@@ -75,7 +77,9 @@ void s21::View::MazeInit_() {
           SetCoordinatesLimits_();
           PaintMaze_();
     } catch (const std::exception& err) {
-          (new QErrorMessage(this))->showMessage("Incorrect file. Parsing error.");
+          auto msg = QErrorMessage(this);
+          msg.showMessage("Incorrect file. Parsing error.");
+          msg.exec();
     }
   } else {
     ClearDrawArea_();
