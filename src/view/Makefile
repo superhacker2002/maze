@@ -352,6 +352,7 @@ first: all clean
 ####### Build rules
 
 $(TARGET): ui_view.h $(OBJECTS)
+	@test -d $(TARGET_PATH) || mkdir -p $(TARGET_PATH)
 	$(LINK) $(LFLAGS) -o $(TARGET_PATH)$(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 	
 all: install
