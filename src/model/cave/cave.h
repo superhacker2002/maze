@@ -4,6 +4,7 @@
 #include <ctime>
 #include <fstream>
 #include <memory>
+
 #include "../helpers/data_structures.h"
 #include "../helpers/matrix.h"
 #include "../helpers/randomizer/interface.h"
@@ -19,12 +20,10 @@ class Cave {
 
   Cave(size_t rows, size_t cols, Limits limit, int birth_chance,
        std::unique_ptr<IRandomizer> generator);
-  Cave(const std::string& file_path, Limits limit,
+  Cave(const std::string &file_path, Limits limit,
        std::unique_ptr<IRandomizer> generator);
   ~Cave() = default;
   bool Transform();
-  void TransformCycle();
-  void OutputCave();
   int GetRows();
   int GetCols();
   bool GetValue(int i, int j);
@@ -38,7 +37,7 @@ class Cave {
   std::unique_ptr<IRandomizer> m_random_generator_;
 
   int GetAliveNeighboursCount_(int i, int j);
-  CaveMatrix GetCaveFromFile_(const std::string& file_path);
+  CaveMatrix GetCaveFromFile_(const std::string &file_path);
   void InitializeCave_();
   void GetError_() const;
   std::pair<int, int> GetCaveSize_(std::fstream &file);

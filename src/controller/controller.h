@@ -20,17 +20,16 @@ class Controller {
     Controller() {;}
     ~Controller() = default;
     void GetRandomCave(size_t rows, size_t cols, std::pair<int, int> limit, int birth_chance);
-    void GetCaveFromFile(const std::string& file_path, std::pair<int, int> limit);
+    bool GetCaveFromFile(const std::string& file_path, std::pair<int, int> limit);
     int GetCaveRows();
     int GetCaveCols();
-    bool GetPixel(int i, int j);
     bool TransformOnce();
     void FlipCave();
     bool CaveExists();
     std::vector<QRectF> GetCaveDrawData();
 
 
-    void GetMazeFromFile(const std::string& file_path);
+    bool GetMazeFromFile(const std::string& file_path);
     void GenerateMaze(int rows, int cols);
     int GetMazeRows();
     int GetMazeCols();

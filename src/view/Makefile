@@ -18,7 +18,7 @@ CXXFLAGS      = -pipe -stdlib=libc++ -O2 -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysr
 INCPATH       = -I. -I/usr/local/lib/QtWidgets.framework/Headers -I/usr/local/lib/QtGui.framework/Headers -I/usr/local/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/AGL.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/AGL.framework/Headers -I/usr/local/share/qt/mkspecs/macx-clang -F/usr/local/lib
 QMAKE         = /usr/local/bin/qmake
 DEL_FILE      = rm -f
-DEL_DIR       = rmdir
+DEL_DIR       = rm -rf
 COPY          = cp -f
 COPY_FILE     = cp -f
 MOVE          = mv -f
@@ -333,7 +333,7 @@ DIST          = /usr/local/share/qt/mkspecs/features/spec_pre.prf \
 		../model/helpers/randomizer/generator.cc \
 		../main.cc \
 		view.cc
-TARGET        = maze_and_cave
+TARGET        = maze_and_cave.app
 TARGET_PATH   = ../../build/
 
 ####### Custom Variables
@@ -375,7 +375,7 @@ clean: compiler_clean
 
 
 distclean: clean 
-	-$(DEL_FILE) $(DISTDIR)*tar*
+	-$(DEL_FILE) ../../*tar*
 	-$(DEL_DIR) $(DISTDIR)
 
 

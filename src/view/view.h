@@ -1,12 +1,12 @@
 #ifndef SRC_VIEW_VIEW_H_
 #define SRC_VIEW_VIEW_H_
 
+#include <QErrorMessage>
 #include <QFileDialog>
 #include <QGraphicsScene>
 #include <QMainWindow>
 #include <QPen>
 #include <QTimer>
-#include <QErrorMessage>
 
 #include "../controller/controller.h"
 

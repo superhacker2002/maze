@@ -4,8 +4,8 @@ namespace s21 {
 std::vector<QLineF> GetAnswerDrawData(s21::Maze maze, std::vector<int>& answer,
                                       Coordinates& start, Coordinates& end) {
   std::vector<QLineF> lines;
-  int x_size = 500 / maze.GetRows();
-  int y_size = 500 / maze.GetCols();
+  int y_size = 500 / maze.GetRows();
+  int x_size = 500 / maze.GetCols();
   float x1 = start.x + 0.5;
   float y1 = start.y + 0.5;
   float x2 = end.x + 0.5;
@@ -36,21 +36,21 @@ std::vector<QLineF> GetMazeDrawData(s21::Maze& maze) {
   std::vector<QLineF> data;
   int rows = maze.GetRows();
   int cols = maze.GetCols();
-  int x_size = 500 / rows, y_size = 500 / cols;
+  float x_size = 500 / cols, y_size = 500 / rows;
   for (int i = 0; i < rows; ++i) {
     for (int j = 0; j < cols; ++j) {
       if (maze.GetValue(i, j).bottom_wall) {
-        int x1 = j * x_size;
-        int y1 = (i + 1) * y_size;
-        int x2 = x1 + x_size;
-        int y2 = y1;
+        float x1 = j * x_size;
+        float y1 = (i + 1) * y_size;
+        float x2 = x1 + x_size;
+        float y2 = y1;
         data.push_back(QLineF(x1, y1, x2, y2));
       }
       if (maze.GetValue(i, j).right_wall) {
-        int x1 = (j + 1) * x_size;
-        int y1 = i * y_size;
-        int x2 = x1;
-        int y2 = y1 + y_size;
+        float x1 = (j + 1) * x_size;
+        float y1 = i * y_size;
+        float x2 = x1;
+        float y2 = y1 + y_size;
         data.push_back(QLineF(x1, y1, x2, y2));
       }
     }

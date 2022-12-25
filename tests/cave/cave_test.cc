@@ -1,6 +1,9 @@
 #include "../../src/model/cave/cave.h"
+
 #include <gtest/gtest.h>
+
 #include <memory>
+
 #include "moc_generator.h"
 
 TEST(cave_generation_tests, random_generation) {

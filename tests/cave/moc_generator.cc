@@ -1,4 +1,5 @@
 #include "moc_generator.h"
+
 #include <iostream>
 
 int MocRandomGenerator::GetRandomPercent() {

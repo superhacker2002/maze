@@ -13,9 +13,15 @@ void s21::Controller::GetRandomCave(size_t rows, size_t cols,
                                       std::make_unique<RandomGenerator>());
 }
 
-void s21::Controller::GetCaveFromFile(const std::string& file_path, std::pair<int, int> limit) {
+bool s21::Controller::GetCaveFromFile(const std::string& file_path, std::pair<int, int> limit) {
+  bool result = true;
   s21::Limits limits = {limit.first, limit.second};
-  m_cave_ = std::make_unique<s21::Cave>(file_path, limits, std::make_unique<RandomGenerator>());
+  try {
+    m_cave_ = std::make_unique<s21::Cave>(file_path, limits, std::make_unique<RandomGenerator>());  
+  } catch (...) {
+    result = false;
+  }
+  return result;
 }
 
 int s21::Controller::GetCaveRows() {
@@ -24,10 +30,6 @@ int s21::Controller::GetCaveRows() {
 
 int s21::Controller::GetCaveCols() {
   return m_cave_->GetCols();
-}
-
-bool s21::Controller::GetPixel(int i, int j) {
-  return m_cave_->GetValue(i, j);
 }
 
 bool s21::Controller::TransformOnce() {
@@ -47,8 +49,14 @@ std::vector<QRectF> s21::Controller::GetCaveDrawData() {
 }
 
 // Maze
-void s21::Controller::GetMazeFromFile(const std::string& file_path) {
-  m_maze_ = std::make_unique<s21::Maze>(file_path);
+bool s21::Controller::GetMazeFromFile(const std::string& file_path) {
+  bool result = true;
+  try {
+    m_maze_ = std::make_unique<s21::Maze>(file_path);
+  } catch (...) {
+    result = false;
+  }
+  return result;
 }
 
 void s21::Controller::GenerateMaze(int rows, int cols) {
@@ -56,15 +64,15 @@ void s21::Controller::GenerateMaze(int rows, int cols) {
 }
 
 int s21::Controller::GetMazeRows() {
-  return m_maze_.get()->GetRows();
+  return m_maze_->GetRows();
 }
 
 int s21::Controller::GetMazeCols() {
-  return  m_maze_.get()->GetCols();
+  return  m_maze_->GetCols();
 }
 
 s21::Walls s21::Controller::GetWall(int i, int j) {
-  return m_maze_.get()->GetValue(i, j);
+  return m_maze_->GetValue(i, j);
 }
 
 std::vector<QLineF> s21::Controller::GetAnswer(std::pair<int, int> p1, std::pair<int, int> p2) {

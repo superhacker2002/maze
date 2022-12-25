@@ -1,4 +1,5 @@
 #include <QLineF>
+
 #include "../maze/maze.h"
 
 namespace s21 {

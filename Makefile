@@ -45,7 +45,10 @@ uninstall:
 	make -C src/view uninstall
 
 dist:
-	make -C src/view dist
+	cd build && tar -zcf ../maze.tar.gz maze_and_cave.app
+
+distclean:
+	rm -rf maze.tar.gz
 
 leaks: build
 	leaks -atExit -- ./$(MAZE_TESTS)
@@ -56,7 +59,7 @@ docker:
 
 style_test:
 	cp materials/linters/.clang-format .
-	clang-format -i src/model/cave/* \
+	clang-format -n src/model/cave/* \
 					src/model/drawing/* \
 	 				src/model/maze/answer/* \
 					src/model/maze/creating/* \

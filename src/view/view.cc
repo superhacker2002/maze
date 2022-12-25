@@ -1,5 +1,7 @@
 #include "view.h"
+
 #include <QLineEdit>
+
 #include "ui_view.h"
 
 s21::View::View(QWidget* parent)
@@ -49,14 +51,13 @@ void s21::View::GetCaveFromFile_() {
   QString filepath = QFileDialog::getOpenFileName(
       0, tr("Выбрать файл"), qApp->applicationDirPath(), tr("*.txt"));
   if (filepath != "") {
-    try {
-      m_controller_->GetCaveFromFile(
-              filepath.toStdString(),
-              {m_ui_->birth_spinbox->value(), m_ui_->death_spinbox->value()});
+    if (m_controller_->GetCaveFromFile(
+          filepath.toStdString(),
+          {m_ui_->birth_spinbox->value(), m_ui_->death_spinbox->value()})) {
       PaintCave_();
       m_ui_->rows_spinbox->setValue(m_controller_->GetCaveRows());
       m_ui_->cols_spinbox->setValue(m_controller_->GetCaveCols());
-    } catch(const std::invalid_argument& err) {
+    } else {
       auto msg = QErrorMessage(this);
       msg.showMessage("Incorrect file. Parsing error.");
       msg.exec();
@@ -70,16 +71,15 @@ void s21::View::MazeInit_() {
   QString filepath = QFileDialog::getOpenFileName(
       0, tr("Выбрать файл"), qApp->applicationDirPath(), tr("*.txt"));
   if (filepath != "") {
-    try {
-          m_controller_->GetMazeFromFile(filepath.toStdString());
-          m_ui_->maze_rows->setValue(m_controller_->GetMazeRows());
-          m_ui_->maze_cols->setValue(m_controller_->GetMazeCols());
-          SetCoordinatesLimits_();
-          PaintMaze_();
-    } catch (const std::exception& err) {
-          auto msg = QErrorMessage(this);
-          msg.showMessage("Incorrect file. Parsing error.");
-          msg.exec();
+    if (m_controller_->GetMazeFromFile(filepath.toStdString())) {
+      m_ui_->maze_rows->setValue(m_controller_->GetMazeRows());
+      m_ui_->maze_cols->setValue(m_controller_->GetMazeCols());
+      SetCoordinatesLimits_();
+      PaintMaze_();
+    } else {
+      auto msg = QErrorMessage(this);
+      msg.showMessage("Incorrect file. Parsing error.");
+      msg.exec();
     }
   } else {
     ClearDrawArea_();
@@ -154,7 +154,6 @@ void s21::View::PaintAnswer_() {
     for (auto& line : lines_vec) {
       m_scene_->addLine(line, *m_pen_);
     }
-
     m_pen_->setColor(QColor::fromRgbF(0.0, 0.0, 0.0));  // back to black
   }
 }
@@ -187,7 +186,8 @@ void s21::View::ConnectButtons_() {
   connect(m_ui_->choose_cave_file_button, SIGNAL(clicked()), this,
           SLOT(GetCaveFromFile_()));
   connect(m_ui_->save_maze_button, SIGNAL(clicked()), this, SLOT(SaveMaze_()));
-  connect(m_ui_->stop_transform_cycle_button, SIGNAL(clicked()), this, SLOT(StopTransformCycle_()));
+  connect(m_ui_->stop_transform_cycle_button, SIGNAL(clicked()), this,
+          SLOT(StopTransformCycle_()));
 }
 
 void s21::View::StartSettings_() {

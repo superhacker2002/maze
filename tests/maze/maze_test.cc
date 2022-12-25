@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include "../../src/model/maze/answer/maze_answer.h"
 #include "maze_test_class.h"
 

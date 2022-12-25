@@ -1,4 +1,5 @@
 #include "generator.h"
+
 #include <random>
 
 int RandomGenerator::GetRandomPercent() {

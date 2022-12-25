@@ -36,8 +36,6 @@ Cave::Cave(const std::string &file_path, Limits limit,
   ;
 }
 
-void Cave::OutputCave() { m_cave_.OutputMatrix(); }
-
 int Cave::GetRows() { return m_cave_.GetRows(); }
 
 int Cave::GetCols() { return m_cave_.GetCols(); }
@@ -93,16 +91,6 @@ bool Cave::Transform() {
   }
   m_cave_ = tmp_cave;
   return changed;
-}
-
-/**
- * Transforms current cave matrix
- * while the transformation is allowed.
- */
-void Cave::TransformCycle() {
-  // пока поле меняется, запускаем трансформацию
-  while (Transform()) {
-  }
 }
 
 /**

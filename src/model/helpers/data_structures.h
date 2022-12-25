@@ -2,6 +2,7 @@
 #define SRC_MODEL_HELPERS_DATA_STRUCTURES_H_
 #include <array>
 #include <queue>
+
 #include "matrix.h"
 
 namespace s21 {

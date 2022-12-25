@@ -1,4 +1,5 @@
 #include "maze_answer.h"
+
 #include <algorithm>
 
 constexpr int UNUSED_CELL = -1;
