@@ -1,3 +1,4 @@
+# maze testing
 MAZE_TEST_SRC:=tests/maze/maze_test.cc
 MAZE_TEST_CLASS:=tests/maze/maze_test_class.cc
 MAZE_SRC:=src/model/maze/maze.cc \
@@ -7,6 +8,7 @@ MAZE_SRC:=src/model/maze/maze.cc \
 	src/model/helpers/randomizer/generator.cc
 MAZE_TESTS:=maze_tests
 
+# cave testing
 CAVE_TEST_SRC:=tests/cave/cave_test.cc
 CAVE_SRC:=src/model/cave/cave.cc tests/cave/moc_generator.cc
 CAVE_TESTS:=cave_tests
@@ -16,7 +18,10 @@ COMP_FLAGS:=-lstdc++ -std=c++17 -Wall -Werror -Wextra -lm
 TEST_FLAGS:=-lgtest -pthread
 DEBUG_FLAGS:=-g
 
+all: install clean
+
 clean:
+	make -C src/view clean
 	rm -rf ./$(MAZE_TESTS)
 	rm -rf ./$(CAVE_TESTS)
 
@@ -32,6 +37,12 @@ tests: build_maze_tests build_cave_tests
 	./$(CAVE_TESTS)
 	rm -rf $(MAZE_TESTS)
 	rm -rf $(CAVE_TESTS)
+
+install:
+	make -C src/view install
+
+uninstall:
+	make -C src/view uninstall
 
 leaks: build
 	leaks -atExit -- ./$(MAZE_TESTS)
