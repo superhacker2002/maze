@@ -36,7 +36,7 @@ FORMS += \
     view.ui
 
 # Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
+qnx: target.path = ../../build/
 !isEmpty(target.path): INSTALLS += target
 
 

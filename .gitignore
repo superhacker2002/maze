@@ -8,6 +8,9 @@ cmake-build-debug
 build*
 *user*
 *autosave*
+a.out
+test.cc
+datasets/broken_files/
 
 
 # Object files
