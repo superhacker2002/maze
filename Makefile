@@ -44,6 +44,9 @@ install:
 uninstall:
 	make -C src/view uninstall
 
+dist:
+	make -C src/view dist
+
 leaks: build
 	leaks -atExit -- ./$(MAZE_TESTS)
 	leaks -atExit -- ./$(CAVE_TESTS)
