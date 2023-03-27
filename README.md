@@ -1,56 +1,7 @@
+
 # Maze
 
-Implementation of the Maze project.
-
-The russian version of the task can be found in the repository.
-
-## Contents
-
-1. [Chapter I](#chapter-i) \
-   1.1. [Introduction](#introduction)
-2. [Chapter II](#chapter-ii) \
-   2.1. [Information](#information)
-3. [Chapter III](#chapter-iii) \
-   3.1. [Part 1](#part-1-implementation-of-the-maze-project) \
-   3.2. [Part 2](#part-2-generation-of-a-perfect-maze) \
-   3.3. [Part 3](#part-3-solving-the-maze) \
-   3.4. [Part 4](#part-4-cave-generation)
-
-
-## Chapter I
-
-![Maze](misc/images/A1_Maze.JPG)
-
-Eve approached the head's office just as the familiar, muted shouting emerged out of it:
-
-`-` How…think of opening …cess to the INTERNET to thes..vers?! And most importantly why …ns?!
-
-Going into the office now was clearly not the best idea, so Eve decided to wait out the obviously unpleasant conversation in the hallway. \
-After an unintelligible answer, the boss's outrages continued:
-
-`-` You clearly don't understand the importance of this project to our... This is... And now go fix all these screw-ups!
-
-The door opened, and Alice and Charlie hurried out of the office, looking downcast.
-
-`-` And God help us if something gets leaked! – he shouted after.
-
-Alice and Charlie walked away in the opposite direction, not paying attention to Eve standing nearby. She waited a few minutes, then braced herself and knocked on the door.
-
-`-` Come in. Oh, Eve, yes, come in, - the boss said. The spacious room with wide windows was full of various books on algorithms, mathematics, and programming. In the middle of the room was a table with a plastic sign that said "Robert M."
-
-`-` Bob, about the experiments for the task...''
-
-`-` With the mazes, yes, I know. They tested your developments. They are interesting, but too simple. We sent generation examples to our partners, but their brainchild went through the mazes in an embarrassingly short period of time. And in our case we need something much more complicated. \
-Try to reduce the number of correct ways. Browse the Internet again, look in the direction of caves and cellular automata, and then back to tests and experiments again. And remember: the more complicated the better!
-
-Eve left the office and went to her workplace, wondering what other algorithms she could try. On the way, she was looking for Alice or Charlie to find out what had happened but couldn't find them, so she sat down at her computer and continued the work.
-
-## Introduction
-
-In this project you’ll learn about mazes and caves, including the basic algorithms of their handling, such as: generation, rendering, solving.
-
-
-## Chapter II
+Implementation of basic algorithms of maze and cave handling, such as: generation, rendering, solving.
 
 ## Information
 
@@ -91,8 +42,6 @@ An example of such a file:
 
 The maze described in this file:  \
 ![maze4](misc/images/maze4.jpg)
-
-See materials for more examples of maze descriptions.
 
 ## Flaws in mazes
 
@@ -136,55 +85,9 @@ The cave described in this file: \
 See materials for more examples of cave descriptions.
 
 
-## Chapter III
-
-## Part 1. Implementation of the Maze project
-
-You need to implement a Maze program that can generate and render perfect mazes and caves:
-- The program must be developed in C++ language of C++17 standard
-- The program code must be located in the src folder
-- When writing code it is necessary to follow the Google style
-- The program must be built with Makefile which contains standard set of targets for GNU-programs: all, install, uninstall, clean, dvi, dist, tests. Installation directory could be arbitrary, except the building one
-- GUI implementation, based on any GUI library with API for C++17: Qt, SFML, GTK+, Nanogui, Nngui, etc.
-- The program has a button to load the maze from a file, which is set in the format described [above](#maze-description)
-- Maximum size of the maze is
-  50x50
-- The loaded maze must be rendered on the screen in a field of 500 x 500 pixels
-- "Wall" thickness is 2 pixels
-- The size of the maze cells themselves is calculated so that the maze occupies the entire field allotted to it.
-
-## Part 2. Generation of a perfect maze
-
-Add the ability to automatically generate a perfect maze. \
-A maze is considered perfect if it is possible to get from each point to any other point in exactly one way.
-- You must generate the maze according to **Eller's algorithm**
-- The generated maze must not have isolations and loops
-- Prepare full coverage of the perfect maze generation module with unit-tests
-- The user enters only the dimensionality of the maze: the number of rows and columns
-- The generated maze must be saved in the file format described [above] (#maze-description)
-- The created maze should be displayed on the screen as specified in the [first part](#part-1-implementation-of-the-maze-project)
-
-## Part 3. Solving the maze
-
-Add the ability to show the solution to _any_ maze currently shown on the screen:
-- The user sets the starting and ending points
-- The route, which is the solution, must be displayed with a line 2 pixel thick, passing through the middle of all the cells in the maze through which the solution runs.
-- The color of the solution line must be different from the color of the walls, and the field
-- Prepare full coverage of the maze solving module with unit-tests
-
-## Part 4. Cave Generation
-
-Add cave generation [using a cellular automaton](#generation-using-a-cellular-automaton):
-- The user selects the file that describes the cave according to the format described [above](#caves-description)
-- Use a separate window or tab in the user interface to display the caves
-- Maximum size of the cave is 50 x 50
-- The loaded cave must be rendered on the screen in a field of 500 x 500 pixels
-- The user sets the limits for "birth" and "death" of a cell, as well as the chance for the starting initialization of the cell
-- The "birth" and "death" limits can have values from 0 to 7
-- There should be a step-by-step mode for rendering the results of the algorithm in two variants:
-    - Pressing the next step button will lead to rendering the next iteration of the algorithm
-    - Pressing the automatic work button starts rendering iterations of the algorithm with a frequency of 1 step in `N` milliseconds, where the number of milliseconds `N` is set through a special field in the user interface
-- The size of cells in pixels is calculated so that the cave occupies the entire field allotted to it
-- Prepare full coverage of the cave generation module with unit-tests
-
-💡 [Tap here](https://forms.yandex.ru/u/635a9e43068ff01f4d20bfc9/) **to leave your feedback on the project**. Pedago Team really tries to make your educational experience better.
+## Usage
+Install the program by using Makefile target `install` or downloading project to a QtCreator application. 
+App has such options:
+1. Generating cave using a cellular automaton (or downloading it from a file).
+2. Generating a perfect maze (or downloading it from a file).
+3. Solving generated or downloaded maze
